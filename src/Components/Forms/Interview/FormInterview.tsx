@@ -3,10 +3,6 @@ import { Form } from 'react-bootstrap';
 import { FormInformation } from '../InformationInterview/informationInterview';
 
 export const FormInterview = () => {
-    interface props {
-        date: Date | null
-    }
-
     return (
         <div>
             <Form.Label>Rango salarial</Form.Label>
