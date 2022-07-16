@@ -3,8 +3,11 @@ import { Button, Form } from "react-bootstrap";
 import { addInterView } from "../../../Services/RequestService";
 import { FormInterview } from "../Interview/FormInterview";
 
+interface props {
+    action: any;
+}
 
-export const CompanyEmptyForm = () => {
+export const CompanyEmptyForm = ({action} : props) => {
     let id = useId();
     return (
         <div> <div className="modal fade" data-bs-backdrop="false" id={"NewCompanyModal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
@@ -17,10 +20,10 @@ export const CompanyEmptyForm = () => {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <Form key={id} onSubmit={addInterView}>
+                        <Form key={id} onSubmit={action}>
                             <Form.Label >Nombre Compañia</Form.Label>
                             <Form.Control name="companyName" placeholder="Nombre de compañia" required={true} />
-                            <FormInterview idCompany={0} />
+                            <FormInterview />
                             <Button type="submit">Añadir nueva entrevista</Button>
                         </Form>
                     </div>

@@ -1,19 +1,14 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import "react-datepicker/dist/react-datepicker.css";
-import { FormLabelInformation } from '../InformationInterview/informationInterview';
+import { FormInformation } from '../InformationInterview/informationInterview';
 
-interface props {
-    idCompany: number
-}
-
-export const FormInterview = ({ idCompany }: props) => {
+export const FormInterview = () => {
     return (
         <div>
             <Form.Label>Rango salarial</Form.Label>
             <Form.Control name="rangeSalarial" placeholder="Rango Salarial Ej: 30-35k" required={true} />
-            <FormLabelInformation />
-            <input type="hidden" value={idCompany} defaultValue={idCompany} name="idCompany"></input>
+            <FormInformation action={null}/>
         </div>
     );
 }

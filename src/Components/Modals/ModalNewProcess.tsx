@@ -1,31 +1,30 @@
 import { useId } from "react";
-import { Button, Form } from "react-bootstrap";
-import { FormInformation } from "../Forms/InformationInterview/informationInterview";
+import { Button, Form } from "react-bootstrap"
+import { FormInterview } from "../Forms/Interview/FormInterview";
 
 interface propsProcess {
     companyName: string,
-    idInterview: number,
+    idCompany: number,
     submit: any
 }
 
-export const NewInterViewProcessSelection = ({ companyName, submit, idInterview }: propsProcess) => {
+export const NewProcessSelection = ({ companyName, submit, idCompany }: propsProcess) => {
     let id = useId();
 
     return (
-        <div className="modal fade" data-bs-backdrop="false" id={"interview"+ idInterview + companyName + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
+        <div className="modal fade" data-bs-backdrop="false" id={companyName + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
             <div className="modal-dialog" >
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Recuerda estas añadiendo una entrevista en este proceso de selección en la empresa {companyName}</h5>
+                        <h5 className="modal-title">Recuerda estas añadiendo un nuevo proceso de selección en la empresa {companyName}</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div className="modal-body">
                         <Form key={id} onSubmit={submit}>
-                            <FormInformation action={submit}/>
-                            <input type="hidden" value={idInterview} name="idInterview"></input>
-                            <input type="hidden" value={companyName} name="companyName"></input>
+                            <FormInterview />
+                            <input type="hidden" value={companyName} defaultValue={idCompany} name="companyName"></input>
                             <Button type="submit">Añadir entrevista </Button>
                         </Form>
                     </div>

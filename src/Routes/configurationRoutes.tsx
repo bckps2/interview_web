@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../Components/Home/Home";
 import { CompanyControl } from "../Components/Forms/Company/companyControl";
-import { CompanyInterviews } from "../Components/InterView/CompanyInterviews";
+import { CompanyViewControl } from "../Components/InterView/CompanyViewControl";
 
 const ConfigRoutes = () => {
   return (
@@ -10,7 +10,7 @@ const ConfigRoutes = () => {
       <Route path="/" element={<Home />} />
       {/* <Route path="/RegisterInterView" element={<CompanyControl />} /> */}
       <Route path="/InterViews" element={<CompanyControl  />} />
-      <Route path="/InterViews/:id" element={<CompanyInterviews />} />
+      <Route path="/InterViews/:id" element={<CompanyViewControl />} />
     </Routes>
   );
 };

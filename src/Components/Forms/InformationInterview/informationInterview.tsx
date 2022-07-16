@@ -1,18 +1,11 @@
 import { useId } from "react";
-import { Button, Col, Form } from "react-bootstrap";
+import { Col, Form } from "react-bootstrap";
 
 interface propsForm {
-    action: (e: React.FormEvent<HTMLFormElement>) => {}
+    action: any
 }
 
-export const FormInformation = ({ action }: propsForm) => {
-    return (<Form onSubmit={action} name="informationInterview">
-        <FormLabelInformation />
-        <Button type="submit">Añadir Form Information</Button>
-    </Form>)
-}
-
-export function FormLabelInformation() {
+export function FormInformation({action} : propsForm) {
     let id = useId();
     
     return (

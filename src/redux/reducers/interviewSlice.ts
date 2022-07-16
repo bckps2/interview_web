@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Company, Interview } from "../../Models/InterviewModel";
+import { Company, InformationInterview, Interview } from "../../Models/InterviewModel";
 
 interface interviewState{
     companies : Company[],
@@ -17,17 +17,19 @@ const companyInterviewSlice = createSlice({
     name:'interviews',
     initialState,
     reducers: {
+        addNewCompany:(state, action: PayloadAction<Company>) => {
+            state.companies.push(action.payload);
+        },
         AllInterviews:(state, action: PayloadAction<Company[]>) => {
             state.companies = action.payload;
         },
         AddInterView:(state, action:PayloadAction<Interview>) => {  
-            state.company?.interViews?.push(action.payload);
-            // state.companies.forEach((company) => {
-            //     if(company.idCompany === action.payload.companyIdCompany){
-            //         company?.interViews.push(action.payload);
-            //         state.company = company;
-            //     }
-            // })        
+            state.company?.interViews?.push(action.payload);      
+        },
+        setStateInformation:(state, action: PayloadAction<InformationInterview>)=>{
+            state.company.interViews.find((interview) => {
+                return interview.idInterView === action.payload.interViewIdInterView
+            })?.informationInterViews.push(action.payload);
         },
         setStateCompany:(state, action:PayloadAction<Company>) => {
             state.company = action.payload;
@@ -35,6 +37,6 @@ const companyInterviewSlice = createSlice({
     }
 })
 
-export const { AllInterviews, AddInterView, setStateCompany } = companyInterviewSlice.actions
+export const { AllInterviews, AddInterView, setStateCompany,setStateInformation,addNewCompany } = companyInterviewSlice.actions
 
 export default companyInterviewSlice.reducer

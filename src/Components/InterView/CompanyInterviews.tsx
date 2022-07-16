@@ -1,58 +1,17 @@
-import { useEffect } from "react";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { Company, Interview } from "../../Models/InterviewModel";
-import { AddInterView, setStateCompany } from "../../redux/reducers/interviewSlice";
-import { RootState } from "../../redux/store/store";
-import { submitInterviewSameCompany } from "../../Services/RequestService";
-import { NewProcessOfSelection } from "../Modals/ModalNewinterView";
+import { Company } from "../../Models/InterviewModel";
+import { NewInterViewProcessSelection } from "../Modals/ModalNewinterView";
+import { NewProcessSelection } from "../Modals/ModalNewProcess";
 
-export const CompanyInterviews = () => {
-    
-    let location = useLocation();
-    let state = location.state as Company;
-    const dispatch = useDispatch();
-    const companySlice = useSelector((state: RootState) => state.companyInterview);
+interface props {
+    company: Company,
+    submitProcessSelection: any,
+    SubmitInterview:any
+}
 
-    useEffect(() => {
-        if(companySlice.company.companyName){
-            localStorage.setItem('company', JSON.stringify(companySlice.company));
-        }
-    }, [companySlice]);
+export const CompanyInterviews = ({ company, submitProcessSelection,SubmitInterview }: props) => {
 
-    useEffect(() => {
-        var fff = localStorage.getItem('company');
-        if(!fff){
-            dispatch(setStateCompany(state));
-        }else{
-            var com = JSON.parse(fff) as Company;
-            if(com.companyName === state.companyName){
-                dispatch(setStateCompany(com));
-            }else{
-                localStorage.setItem('company', JSON.stringify(state));
-                dispatch(setStateCompany(state));
-            }
-        }
-    }, [dispatch])
-
-    function submitSameCompany(e: React.FormEvent<HTMLFormElement>) {
-        submitInterviewSameCompany(e)
-            .then((res: Interview) => {
-                dispatch(AddInterView(res));
-            });
-        hideModal(e);
-    }
-
-    function hideModal(e: React.FormEvent<HTMLFormElement>) {
-        var myModalAddProcess = document.getElementById(e.currentTarget.companyName.value + "Modal");
-        if (myModalAddProcess) {
-            document.getElementsByClassName('modal-backdrop')[0].remove();
-            myModalAddProcess.hidden = true;
-        } 
-    }
-
-    if (companySlice.company.companyName === undefined) {
+    if (company.companyName === undefined) {
         return <div><p>No hay entrevistas</p></div>
     }
 
@@ -60,12 +19,12 @@ export const CompanyInterviews = () => {
         <div>
             <ListGroup>
                 <p>Nombre de compañia</p>
-                <ListGroup.Item>{companySlice.company.companyName}</ListGroup.Item>
+                <ListGroup.Item>{company.companyName}</ListGroup.Item>
                 {/* <ListGroup.Item>{company.dateCreated.toString()}</ListGroup.Item> */}
             </ListGroup>
             <Accordion >
                 {/* Start Accordion */}
-                {companySlice.company.interViews.map((interview, index) => {
+                {company.interViews.map((interview, index) => {
                     return (
                         <Accordion.Item eventKey={index.toString()}>
                             <Accordion.Header aria-expanded={false} >Proceso de selección {index + 1}</Accordion.Header>
@@ -97,17 +56,20 @@ export const CompanyInterviews = () => {
                                         </div>
                                     );
                                 })}
+                                <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#interview" + interview.idInterView+ company.companyName + "Modal"} >
+                                    Añadir entrevista
+                                </Button>
+                                <NewInterViewProcessSelection submit={SubmitInterview} idInterview={interview.idInterView} companyName={company.companyName}/>
                             </Accordion.Body>
                         </Accordion.Item>
                     );
                 })};
-                <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#" + companySlice.company.companyName + "Modal"} >
+                <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#" + company.companyName + "Modal"} >
                     Añadir nuevo proceso de selección
                 </Button>
-                <NewProcessOfSelection submit={submitSameCompany} companyName={companySlice.company.companyName} idCompany={companySlice.company.idCompany} />
+                <NewProcessSelection submit={submitProcessSelection} companyName={company.companyName} idCompany={company.idCompany} />
                 {/* finish Accordion */}
             </Accordion>
-
-        </div >
+        </div>
     );
 }
