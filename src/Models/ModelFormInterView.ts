@@ -60,14 +60,14 @@ export function informationInterViewCompany(eventTarget: EventTarget | null): In
   return interview;
 };
 
+interface company {
+  companyName: { value: string };
+}
+
 interface interview {
   rangeSalarial: { value: string };
   idCompany: { value: number };
   dateInterview: { value: Date };
-}
-
-interface company {
-  companyName: { value: string };
 }
 
 interface informationInterview {
