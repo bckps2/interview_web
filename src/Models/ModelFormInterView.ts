@@ -18,7 +18,8 @@ export function createFormInterView(eventTarget: EventTarget | null): Company {
   company.interViews[0].informationInterViews[0].nameInterViewers.push(target.entrevistador3.value);
   company.interViews[0].informationInterViews[0].email = target.email.value;
   company.interViews[0].informationInterViews[0].observations = target.observations.value;
-
+  company.interViews[0].informationInterViews[0].dateInterView = target.dateInterview.value;
+  
   return company;
 
 };
@@ -32,9 +33,10 @@ export function informationInterView(eventTarget: EventTarget | null): Informati
   informationInterView.nameInterViewers.push(target.entrevistador2.value);
   informationInterView.nameInterViewers.push(target.entrevistador3.value);
   informationInterView.email = target.email.value;
+  informationInterView.dateInterView = target.dateInterview.value;
   informationInterView.observations = target.observations.value;
   informationInterView.interViewIdInterView = target.idInterview.value;
-  
+
   return informationInterView;
 };
 
@@ -46,12 +48,12 @@ export function informationInterViewCompany(eventTarget: EventTarget | null): In
   interview.informationInterViews = [] as InformationInterview[];
   interview.informationInterViews[0] = {} as InformationInterview;
   interview.informationInterViews[0].nameInterViewers = [] as string[];
-
   interview.rangeSalarial = target.rangeSalarial.value;
   interview.companyIdCompany = target.idCompany.value;
   interview.informationInterViews[0].nameInterViewers.push(target.entrevistador1.value);
   interview.informationInterViews[0].nameInterViewers.push(target.entrevistador2.value);
   interview.informationInterViews[0].nameInterViewers.push(target.entrevistador3.value);
+  interview.informationInterViews[0].dateInterView = target.dateInterview.value;
   interview.informationInterViews[0].email = target.email.value;
   interview.informationInterViews[0].observations = target.observations.value;
 
@@ -61,10 +63,11 @@ export function informationInterViewCompany(eventTarget: EventTarget | null): In
 interface interview {
   rangeSalarial: { value: string };
   idCompany: { value: number };
+  dateInterview: { value: Date };
 }
 
 interface company {
-  companyName:{value:string};
+  companyName: { value: string };
 }
 
 interface informationInterview {
@@ -73,6 +76,7 @@ interface informationInterview {
   entrevistador3: { value: string };
   typeInterView: { value: string };
   email: { value: string };
-  idInterview: { value: number }
+  dateInterview: { value: Date }
+  idInterview: { value: number };
   observations: { value: string };
 }

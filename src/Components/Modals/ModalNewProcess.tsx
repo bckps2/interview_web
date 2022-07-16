@@ -24,7 +24,8 @@ export const NewProcessSelection = ({ companyName, submit, idCompany }: propsPro
                     <div className="modal-body">
                         <Form key={id} onSubmit={submit}>
                             <FormInterview />
-                            <input type="hidden" value={companyName} defaultValue={idCompany} name="companyName"></input>
+                            <input type="hidden" value={idCompany} name="idCompany"></input>
+                            <input type="hidden" value={companyName} name="companyName"></input>
                             <Button type="submit">Añadir entrevista </Button>
                         </Form>
                     </div>

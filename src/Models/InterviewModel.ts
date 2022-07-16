@@ -15,8 +15,7 @@ export interface Interview {
     idInterView : number,
     companyIdCompany: number,
     informationInterViews: InformationInterview[],
-    rangeSalarial: string,
-    dateCreated: Date
+    rangeSalarial: string
 }
 
 export interface InformationInterview {
@@ -25,6 +24,5 @@ export interface InformationInterview {
     nameInterViewers: string[],
     dateInterView:Date,
     email:string,
-    observations:string,
-    dateCreated:Date
+    observations:string
 }

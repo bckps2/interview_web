@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.1.12"
+    "@types/bootstrap": "^5.1.12",
+    "@types/react-datepicker": "^4.4.2"
   }
 }

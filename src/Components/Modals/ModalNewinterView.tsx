@@ -23,7 +23,7 @@ export const NewInterViewProcessSelection = ({ companyName, submit, idInterview 
                     </div>
                     <div className="modal-body">
                         <Form key={id} onSubmit={submit}>
-                            <FormInformation action={submit}/>
+                            <FormInformation />
                             <input type="hidden" value={idInterview} name="idInterview"></input>
                             <input type="hidden" value={companyName} name="companyName"></input>
                             <Button type="submit">Añadir entrevista </Button>
