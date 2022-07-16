@@ -1,33 +1,30 @@
-import { Company, InformationInterview, Interview } from "./InterviewModel";
+import { CompanyDto, InformationInterviewDto, InterviewDto } from "./interviewDto";
 
-export function createFormInterView(eventTarget: EventTarget | null): Company {
+export function createFormInterView(eventTarget: EventTarget | null): CompanyDto {
 
   const target = eventTarget as typeof eventTarget & company & informationInterview & interview
 
-  let company = {} as Company;
-  company.interViews = [] as Interview[];
-  company.interViews[0] = {} as Interview;
-  company.interViews[0].informationInterViews = [] as InformationInterview[];
-  company.interViews[0].informationInterViews[0] = {} as InformationInterview;
-  company.interViews[0].informationInterViews[0].nameInterViewers = [] as string[];
+  let company = {} as CompanyDto;
+  company.interView = {} as InterviewDto;
+  company.interView.informationInterView = {} as InformationInterviewDto;
+  company.interView.informationInterView.nameInterViewers = [] as string[];
 
   company.companyName = target.companyName.value;
-  company.interViews[0].rangeSalarial = target.rangeSalarial.value;
-  company.interViews[0].informationInterViews[0].nameInterViewers.push(target.entrevistador1.value);
-  company.interViews[0].informationInterViews[0].nameInterViewers.push(target.entrevistador2.value);
-  company.interViews[0].informationInterViews[0].nameInterViewers.push(target.entrevistador3.value);
-  company.interViews[0].informationInterViews[0].email = target.email.value;
-  company.interViews[0].informationInterViews[0].observations = target.observations.value;
-  company.interViews[0].informationInterViews[0].dateInterView = target.dateInterview.value;
-  
-  return company;
+  company.interView.rangeSalarial = target.rangeSalarial.value;
+  company.interView.informationInterView.nameInterViewers.push(target.entrevistador1.value);
+  company.interView.informationInterView.nameInterViewers.push(target.entrevistador2.value);
+  company.interView.informationInterView.nameInterViewers.push(target.entrevistador3.value);
+  company.interView.informationInterView.email = target.email.value;
+  company.interView.informationInterView.observations = target.observations.value;
+  company.interView.informationInterView.dateInterView = target.dateInterview.value;
 
+  return company;
 };
 
-export function informationInterView(eventTarget: EventTarget | null): InformationInterview {
+export function informationInterView(eventTarget: EventTarget | null): InformationInterviewDto {
 
   const target = eventTarget as typeof eventTarget & informationInterview;
-  var informationInterView = {} as InformationInterview;
+  var informationInterView = {} as InformationInterviewDto;
   informationInterView.nameInterViewers = [] as string[];
   informationInterView.nameInterViewers.push(target.entrevistador1.value);
   informationInterView.nameInterViewers.push(target.entrevistador2.value);
@@ -36,27 +33,22 @@ export function informationInterView(eventTarget: EventTarget | null): Informati
   informationInterView.dateInterView = target.dateInterview.value;
   informationInterView.observations = target.observations.value;
   informationInterView.interViewIdInterView = target.idInterview.value;
-
   return informationInterView;
 };
 
-export function informationInterViewCompany(eventTarget: EventTarget | null): Interview {
-
+export function informationInterViewCompany(eventTarget: EventTarget | null): InterviewDto {
   const target = eventTarget as typeof eventTarget & informationInterview & interview;
-
-  let interview = {} as Interview;
-  interview.informationInterViews = [] as InformationInterview[];
-  interview.informationInterViews[0] = {} as InformationInterview;
-  interview.informationInterViews[0].nameInterViewers = [] as string[];
+  let interview = {} as InterviewDto;
+  interview.informationInterView = {} as InformationInterviewDto;
+  interview.informationInterView.nameInterViewers = [] as string[];
   interview.rangeSalarial = target.rangeSalarial.value;
   interview.companyIdCompany = target.idCompany.value;
-  interview.informationInterViews[0].nameInterViewers.push(target.entrevistador1.value);
-  interview.informationInterViews[0].nameInterViewers.push(target.entrevistador2.value);
-  interview.informationInterViews[0].nameInterViewers.push(target.entrevistador3.value);
-  interview.informationInterViews[0].dateInterView = target.dateInterview.value;
-  interview.informationInterViews[0].email = target.email.value;
-  interview.informationInterViews[0].observations = target.observations.value;
-
+  interview.informationInterView.nameInterViewers.push(target.entrevistador1.value);
+  interview.informationInterView.nameInterViewers.push(target.entrevistador2.value);
+  interview.informationInterView.nameInterViewers.push(target.entrevistador3.value);
+  interview.informationInterView.dateInterView = target.dateInterview.value;
+  interview.informationInterView.email = target.email.value;
+  interview.informationInterView.observations = target.observations.value;
   return interview;
 };
 
