@@ -1,15 +1,14 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../Components/Home/Home";
-import { CompanyControl } from "../Components/Forms/Company/companyControl";
-import { CompanyViewControl } from "../Components/InterView/CompanyViewControl";
+import { CompanyCardControl } from "../Components/Cards/companyCardControl";
+import { CompanyViewControl } from "../Components/InterView/companyViewControl";
 
 const ConfigRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      {/* <Route path="/RegisterInterView" element={<CompanyControl />} /> */}
-      <Route path="/InterViews" element={<CompanyControl  />} />
+      <Route path="/InterViews" element={<CompanyCardControl  />} />
       <Route path="/InterViews/:id" element={<CompanyViewControl />} />
     </Routes>
   );

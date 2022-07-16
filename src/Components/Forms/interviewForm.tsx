@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { FormInformation } from '../InformationInterview/informationInterview';
+import { FormInformation } from './informationInterview';
 
 export const FormInterview = () => {
     return (

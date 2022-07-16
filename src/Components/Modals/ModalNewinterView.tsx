@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { Button, Form } from "react-bootstrap";
-import { FormInformation } from "../Forms/InformationInterview/informationInterview";
+import { FormInformation } from "../Forms/informationInterview";
 
 interface propsProcess {
     companyName: string,

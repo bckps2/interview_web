@@ -1,6 +1,6 @@
 import React, { useId } from "react";
 import { Button, Form } from "react-bootstrap";
-import { FormInterview } from "../Interview/FormInterview";
+import { FormInterview } from "./interviewForm";
 
 interface props {
     action: any;

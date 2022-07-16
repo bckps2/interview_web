@@ -1,15 +1,15 @@
 import React from "react";
-import { addInterView, GetAllInterViews } from "../../../Services/RequestService";
-import { CompanyEmptyForm } from "./companyViewForm";
+import { addInterView, GetAllInterViews } from "../../Services/RequestService";
+import { CompanyEmptyForm } from "../Forms/companyForm";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/store/store";
-import { Company } from "../../../Models/InterviewModel";
-import { addNewCompany, AllInterviews } from "../../../redux/reducers/interviewSlice";
+import { RootState } from "../../redux/store/store";
+import { Company } from "../../Models/InterviewModel";
+import { addNewCompany, AllInterviews } from "../../redux/reducers/interviewSlice";
 import { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { CompanyCard } from "../../Cards/companyCard";
+import { CompanyCard } from "./companyCard";
 
-export function CompanyControl() {
+export function CompanyCardControl() {
     return <Companies />
 }
 

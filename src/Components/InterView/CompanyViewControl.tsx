@@ -5,7 +5,7 @@ import { Company, InformationInterview, Interview } from "../../Models/Interview
 import { AddInterView, setStateCompany, setStateInformation } from "../../redux/reducers/interviewSlice";
 import { RootState } from "../../redux/store/store";
 import { submitAddInformation, submitInterviewSameCompany } from "../../Services/RequestService";
-import { CompanyInterviews } from "./CompanyInterviews";
+import { CompanyInterviews } from "./companyInterviews";
 
 export function CompanyViewControl() {
     let location = useLocation();
