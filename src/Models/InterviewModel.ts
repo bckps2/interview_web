@@ -1,9 +1,5 @@
 import { TypeInterView } from "./TypeInterView";
 
-export interface Companies {
-    companies: Company[]
-}
-
 export interface Company {
     companyName : string,
     dateCreated : Date,
