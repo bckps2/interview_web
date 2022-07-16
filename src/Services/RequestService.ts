@@ -21,7 +21,8 @@ export async function GetAllInterViews(): Promise<Company[]> {
 export async function addInterView(event: React.FormEvent<HTMLFormElement>): Promise<Company> {
   event?.preventDefault();
   let register = createFormInterView(event?.target ?? null);
-  return await HttpPost(endpoints.AddInterView, register).then((response) => response.json())
+  return await HttpPost(endpoints.AddInterView, register)
+  .then((response) => response.json())
   .then((response: Company) => response)
   .catch((rsjx) => {
     alert(rsjx);
@@ -50,5 +51,9 @@ export async function submitAddInformation(event: React.FormEvent<HTMLFormElemen
   return await HttpPut(endpoints.urlUpdateInterViewInformation, register)
     .then((response) => response.json())
     .then((response: InformationInterview) => response)
+    .catch((rsjx) => {
+      alert(rsjx);
+      return rsjx.message;
+    })
     .finally(() => (event.target as HTMLFormElement).reset());
 }
