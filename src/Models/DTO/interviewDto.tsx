@@ -1,4 +1,4 @@
-import { TypeInterView } from "./TypeInterView";
+import { TypeInterView } from "../TypeInterView";
 
 export interface CompanyDto {
     companyName : string,

@@ -16,7 +16,7 @@ export const CompanyInterviews = ({ company, submitProcessSelection,SubmitInterv
     }
 
     return (
-        <div>
+        <div  id="groupInterview" className="subBody">
             <ListGroup>
                 <p>Nombre de compañia</p>
                 <ListGroup.Item>{company.companyName}</ListGroup.Item>
@@ -26,7 +26,7 @@ export const CompanyInterviews = ({ company, submitProcessSelection,SubmitInterv
                 {/* Start Accordion */}
                 {company.interViews.map((interview, index) => {
                     return (
-                        <Accordion.Item eventKey={index.toString()}>
+                        <Accordion.Item eventKey={index.toString()} key={"companys"+index}>
                             <Accordion.Header aria-expanded={false} >Proceso de selección {index + 1}</Accordion.Header>
                             <Accordion.Body>
                                 <p>Rango salarial</p>
@@ -62,8 +62,8 @@ export const CompanyInterviews = ({ company, submitProcessSelection,SubmitInterv
                                 <NewInterViewProcessSelection submit={SubmitInterview} idInterview={interview.idInterView} companyName={company.companyName}/>
                             </Accordion.Body>
                         </Accordion.Item>
-                    );
-                })};
+                    )
+                })}
                 <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#" + company.companyName + "Modal"} >
                     Añadir nuevo proceso de selección
                 </Button>

@@ -1,4 +1,4 @@
-import { CompanyDto, InformationInterviewDto, InterviewDto } from "./interviewDto";
+import { CompanyDto, InformationInterviewDto, InterviewDto } from "./DTO/interviewDto";
 
 export function createFormInterView(eventTarget: EventTarget | null): CompanyDto {
 
@@ -26,6 +26,7 @@ export function informationInterView(eventTarget: EventTarget | null): Informati
   const target = eventTarget as typeof eventTarget & informationInterview;
   var informationInterView = {} as InformationInterviewDto;
   informationInterView.nameInterViewers = [] as string[];
+
   informationInterView.nameInterViewers.push(target.entrevistador1.value);
   informationInterView.nameInterViewers.push(target.entrevistador2.value);
   informationInterView.nameInterViewers.push(target.entrevistador3.value);

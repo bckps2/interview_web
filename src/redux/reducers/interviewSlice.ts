@@ -24,7 +24,7 @@ const companyInterviewSlice = createSlice({
             state.companies = action.payload;
         },
         AddInterView:(state, action:PayloadAction<Interview>) => {  
-            state.company?.interViews?.push(action.payload);      
+            state.company.interViews.push(action.payload);      
         },
         setStateInformation:(state, action: PayloadAction<InformationInterview>)=>{
             state.company.interViews.find((interview) => {

@@ -2,11 +2,12 @@ import { useId, useState } from "react";
 import { Col, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { TypeInterView } from "../../Models/TypeInterView";
 
 export function FormInformation() {
     let id = useId();
     const [startDate, setStartDate] = useState(new Date());
-    
+    var typeInterviews = Object.keys(TypeInterView);
     return (
         <Col key={id} xs={5}>
             <Form.Label>Entrevistador 1</Form.Label>
@@ -17,7 +18,9 @@ export function FormInformation() {
             <Form.Control name="entrevistador3" placeholder="Entrevistador 3" required={false} />
             <Form.Label>Tipoe de entrevista</Form.Label>
             <Form.Select name="typeInterView" >
-                {/* <option value={}></option> */}
+                {typeInterviews.filter((v) => isNaN(Number(v))).map((typeInterview, index) => {
+                    return <option value={typeInterview} key={index}>{typeInterview}</option>
+                })}
             </Form.Select>
             <Form.Label>Email</Form.Label>
             <Form.Control name="email" placeholder="Email" required={true} />

@@ -15,12 +15,12 @@ export function CompanyViewControl() {
 
     useEffect(() => {
         if (companySlice.company.companyName) {
-            localStorage.setItem('company', JSON.stringify(companySlice.company));
+            sessionStorage.setItem('company', JSON.stringify(companySlice.company));
         }
     }, [companySlice]);
 
     useEffect(() => {
-        var company = localStorage.getItem('company');
+        var company = sessionStorage.getItem('company');
         if (!company) {
             dispatch(setStateCompany(state));
         } else {
@@ -28,7 +28,7 @@ export function CompanyViewControl() {
             if (com.companyName === state.companyName) {
                 dispatch(setStateCompany(com));
             } else {
-                localStorage.setItem('company', JSON.stringify(state));
+                sessionStorage.setItem('company', JSON.stringify(state));
                 dispatch(setStateCompany(state));
             }
         }
