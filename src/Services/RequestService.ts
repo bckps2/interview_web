@@ -1,7 +1,7 @@
 import {
   createFormInterView,
-  informationInterView,
-  informationInterViewCompany
+  createInformationDto,
+  createInterViewDto
 } from "../Models/modelFormInterview";
 
 import { HttpGet, HttpPost, HttpPut } from "./HttpService";
@@ -33,7 +33,7 @@ export async function addInterView(event: React.FormEvent<HTMLFormElement>): Pro
 
 export async function submitInterviewSameCompany(event: React.FormEvent<HTMLFormElement>): Promise<Interview> {
   event.preventDefault();
-  let register = informationInterViewCompany(event.target);
+  let register = createInterViewDto(event.target);
 
   return await HttpPut(endpoints.AddInterViewCompany, register)
     .then((response) => response.json())
@@ -47,7 +47,7 @@ export async function submitInterviewSameCompany(event: React.FormEvent<HTMLForm
 
 export async function submitAddInformation(event: React.FormEvent<HTMLFormElement>): Promise<InformationInterview> {
   event.preventDefault();
-  let register = informationInterView(event.target);
+  let register = createInformationDto(event.target);
   return await HttpPut(endpoints.urlUpdateInterViewInformation, register)
     .then((response) => response.json())
     .then((response: InformationInterview) => response)

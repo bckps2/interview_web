@@ -1,11 +1,12 @@
 import { useId } from "react";
 import { Button, Form } from "react-bootstrap"
+import { FormInformation } from "../Forms/informationForm";
 import { FormInterview } from "../Forms/interviewForm";
 
 interface propsProcess {
     companyName: string,
     idCompany: number,
-    submit: any
+    submit: (e: React.FormEvent<HTMLFormElement>) => void
 }
 
 export const NewProcessSelection = ({ companyName, submit, idCompany }: propsProcess) => {
@@ -23,7 +24,8 @@ export const NewProcessSelection = ({ companyName, submit, idCompany }: propsPro
                     </div>
                     <div className="modal-body">
                         <Form key={id} onSubmit={submit}>
-                            <FormInterview />
+                            <FormInterview interview={null}/>
+                            <FormInformation information={null}/>
                             <input type="hidden" value={idCompany} name="idCompany"></input>
                             <input type="hidden" value={companyName} name="companyName"></input>
                             <Button type="submit">Añadir entrevista </Button>

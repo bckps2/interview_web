@@ -22,7 +22,7 @@ export const CompanyEmptyForm = ({action} : props) => {
                         <Form key={id} onSubmit={action}>
                             <Form.Label >Nombre Compañia</Form.Label>
                             <Form.Control name="companyName" placeholder="Nombre de compañia" required={true} />
-                            <FormInterview />
+                            <FormInterview interview={null}/>
                             <Button type="submit">Añadir nueva entrevista</Button>
                         </Form>
                     </div>

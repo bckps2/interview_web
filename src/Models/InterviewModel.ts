@@ -8,10 +8,12 @@ export interface Company {
 }
 
 export interface Interview {
+    externalCompany:string,
     idInterView : number,
     companyIdCompany: number,
     informationInterViews: InformationInterview[],
-    rangeSalarial: string
+    rangeSalarial: string,
+    jobPosition: string
 }
 
 export interface InformationInterview {

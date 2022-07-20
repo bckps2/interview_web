@@ -5,14 +5,13 @@ import { FormInformation } from "../Forms/informationForm";
 interface propsProcess {
     companyName: string,
     idInterview: number,
-    submit: any
+    submit: (e: React.FormEvent<HTMLFormElement>) => void
 }
 
 export const NewInterViewProcessSelection = ({ companyName, submit, idInterview }: propsProcess) => {
-    let id = useId();
 
     return (
-        <div className="modal fade" data-bs-backdrop="false" id={"interview"+ idInterview + companyName + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
+        <div className="modal fade" data-bs-backdrop="false" id={"interview"+ idInterview + companyName + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} >
             <div className="modal-dialog" >
                 <div className="modal-content">
                     <div className="modal-header">
@@ -22,8 +21,8 @@ export const NewInterViewProcessSelection = ({ companyName, submit, idInterview 
                         </button>
                     </div>
                     <div className="modal-body">
-                        <Form key={id} onSubmit={submit}>
-                            <FormInformation />
+                        <Form  onSubmit={submit}>
+                            <FormInformation information={null}/>
                             <input type="hidden" value={idInterview} name="idInterview"></input>
                             <input type="hidden" value={companyName} name="companyName"></input>
                             <Button type="submit">Añadir entrevista </Button>

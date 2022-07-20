@@ -5,11 +5,14 @@ import { Company, InformationInterview, Interview } from "../../Models/Interview
 import { AddInterView, setStateCompany, setStateInformation } from "../../redux/reducers/interviewSlice";
 import { RootState } from "../../redux/store/store";
 import { submitAddInformation, submitInterviewSameCompany } from "../../Services/RequestService";
+import { hideModal } from "../../Utils/utilsModal";
 import { CompanyInterviews } from "./companyInterviews";
 
 export function CompanyViewControl() {
     let location = useLocation();
     let state = location.state as Company;
+    let nameModal = "";
+
     const dispatch = useDispatch();
     const companySlice = useSelector((state: RootState) => state.companyInterview);
 
@@ -38,25 +41,19 @@ export function CompanyViewControl() {
         submitInterviewSameCompany(e)
             .then((res: Interview) => {
                 dispatch(AddInterView(res));
-            });
-        hideModal(e, e.currentTarget.companyName.value + "Modal");
+                hideModal(nameModal);
+            })
+            nameModal = e.currentTarget.companyName.value + "Modal";
     }
 
     function submitInformation(e: React.FormEvent<HTMLFormElement>) {
         submitAddInformation(e)
             .then((res: InformationInterview) => {
+                hideModal(nameModal);
                 dispatch(setStateInformation(res));
-            });
-        hideModal(e,"interview" +e.currentTarget.idInterview.value + e.currentTarget.companyName.value + "Modal");
+            })
+            nameModal = "interview" + e.currentTarget.idInterview.value + e.currentTarget.companyName.value + "Modal";
+            
     }
-
-    function hideModal(e: React.FormEvent<HTMLFormElement>, nameModal : string) {
-        var myModalAddProcess = document.getElementById(nameModal);
-        if (myModalAddProcess) {
-            document.getElementsByClassName('modal-backdrop')[0].remove();
-            myModalAddProcess.hidden = true;
-        }
-    }
-
     return (<CompanyInterviews company={companySlice.company} submitProcessSelection={submitSameCompany} SubmitInterview={submitInformation} />)
 }

@@ -6,6 +6,7 @@ import { Company } from "../../Models/InterviewModel";
 import { addNewCompany, AllInterviews } from "../../redux/reducers/interviewSlice";
 import { useEffect } from "react";
 import { CompanyCard } from "./companyCard";
+import { hideModal } from "../../Utils/utilsModal";
 
 export function CompanyCardControl() {
     return <Companies />
@@ -34,7 +35,7 @@ function Companies() {
                     sessionStorage.setItem('companies', JSON.stringify(companies));
                 }
             });
-        hideModal(e, "NewCompanyModal");
+        hideModal("NewCompanyModal");
     }
 
     useEffect(() => {
@@ -52,18 +53,10 @@ function Companies() {
                 dispatch(AllInterviews(companies))
             }
         }
-    }, [dispatch]);
+    }, [dispatch, canLoadInterviews]);
 
     return (
         <CompanyCard companies={companySlice?.companies} submit={submitCompany} />
     )
-}
-
-function hideModal(e: React.FormEvent<HTMLFormElement>, nameModal: string) {
-    var myModalAddProcess = document.getElementById(nameModal);
-    if (myModalAddProcess) {
-        document.getElementsByClassName('modal-backdrop')[0].remove();
-        myModalAddProcess.hidden = true;
-    }
 }
 
