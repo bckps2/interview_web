@@ -1,6 +1,6 @@
 import { Accordion, Button, ListGroup } from "react-bootstrap";
 import { Company } from "../../Models/InterviewModel";
-import { NewInterViewProcessSelection } from "../Modals/modalNewInterview";
+import { NewInterViewProcessSelection } from "../Modals/modalNewinterView";
 import { NewProcessSelection } from "../Modals/modalNewProcess";
 
 interface props {
