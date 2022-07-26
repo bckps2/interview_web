@@ -28,3 +28,12 @@ export function HttpPut(url: string, info : any) {
   });
 }
 
+export function HttpDelete(url: string, info : number) {
+  return fetch(url+'/'+info, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+}
+

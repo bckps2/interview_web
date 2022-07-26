@@ -18,9 +18,10 @@ export interface InterviewDto {
 
 export interface InformationInterviewDto {
     interViewIdInterView: number,
-    typeInterView: TypeInterView,
+    typeInterView: string,
     nameInterViewers: string[],
     dateInterView: Date,
     email: string,
-    observations: string
+    observations: string,
+    IdInformation:number
 }

@@ -7,10 +7,11 @@ import './interview.css';
 
 interface props {
     companies: Company[],
-    submit: any
+    submit: any,
+    deleteCompany:any
 }
 
-export const CompanyCard = ({ companies, submit }: props) => {
+export const CompanyCard = ({ companies, submit, deleteCompany }: props) => {
 
     return (
         <div id="cardContainer" className='subBody'>
@@ -40,6 +41,9 @@ export const CompanyCard = ({ companies, submit }: props) => {
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
+                                        <Button type="button" onClick={(e) => deleteCompany(e, company.idCompany)}>
+                                           Eliminar company
+                                        </Button>
                                     </Col>
                                     <Outlet />
                                 </div>)

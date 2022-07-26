@@ -20,6 +20,7 @@ interface informationInterview {
   email: { value: string };
   dateInterview: { value: Date }
   idInterview: { value: number };
+  idInformation: { value: number };
   observations: { value: string };
 }
 
@@ -61,6 +62,8 @@ export function createInformationDto(eventTarget: EventTarget | null): Informati
   informationInterView.email = target.email.value;
   informationInterView.dateInterView = target.dateInterview.value;
   informationInterView.observations = target.observations.value;
+  informationInterView.IdInformation = target.idInformation.value.toString().length > 0 ?  target.idInformation.value : 0;
   informationInterView.interViewIdInterView = target.idInterview?.value;
+  informationInterView.typeInterView = target.typeInterView.value;
   return informationInterView;
 };

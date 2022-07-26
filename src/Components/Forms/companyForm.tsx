@@ -1,6 +1,7 @@
 import React, { useId } from "react";
 import { Button, Form } from "react-bootstrap";
-import { FormInterview } from "./interviewForm";
+import { AddNewInformation } from "./informationForm";
+import { AddNewInterview } from "./interviewForm";
 
 interface props {
     action: any;
@@ -22,7 +23,8 @@ export const CompanyEmptyForm = ({action} : props) => {
                         <Form key={id} onSubmit={action}>
                             <Form.Label >Nombre Compañia</Form.Label>
                             <Form.Control name="companyName" placeholder="Nombre de compañia" required={true} />
-                            <FormInterview interview={null}/>
+                            <AddNewInterview interview={null}/>
+                            <AddNewInformation />
                             <Button type="submit">Añadir nueva entrevista</Button>
                         </Form>
                     </div>

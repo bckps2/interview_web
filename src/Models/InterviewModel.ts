@@ -22,5 +22,6 @@ export interface InformationInterview {
     nameInterViewers: string[],
     dateInterView:Date,
     email:string,
-    observations:string
+    observations:string,
+    idInformation:number
 }

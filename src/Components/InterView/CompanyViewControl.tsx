@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Company, InformationInterview, Interview } from "../../Models/InterviewModel";
-import { AddInterView, setStateCompany, setStateInformation } from "../../redux/reducers/interviewSlice";
+import { AddInterView, deleteInformation, deleteInterview, setStateCompany, setStateInformation } from "../../redux/reducers/interviewSlice";
 import { RootState } from "../../redux/store/store";
-import { submitAddInformation, submitInterviewSameCompany } from "../../Services/RequestService";
+import { deleteInformationInterview, deleteInterviewDb, submitAddInformation, submitInterviewSameCompany } from "../../Services/RequestService";
 import { hideModal } from "../../Utils/utilsModal";
 import { CompanyInterviews } from "./companyInterviews";
 
@@ -43,7 +43,7 @@ export function CompanyViewControl() {
                 dispatch(AddInterView(res));
                 hideModal(nameModal);
             })
-            nameModal = e.currentTarget.companyName.value + "Modal";
+        nameModal = e.currentTarget.companyName.value + "Modal";
     }
 
     function submitInformation(e: React.FormEvent<HTMLFormElement>) {
@@ -52,8 +52,45 @@ export function CompanyViewControl() {
                 hideModal(nameModal);
                 dispatch(setStateInformation(res));
             })
-            nameModal = "interview" + e.currentTarget.idInterview.value + e.currentTarget.companyName.value + "Modal";
-            
+        nameModal = "interview" + e.currentTarget.idInterview.value + e.currentTarget.companyName.value + "Modal";
     }
-    return (<CompanyInterviews company={companySlice.company} submitProcessSelection={submitSameCompany} SubmitInterview={submitInformation} />)
+
+    function DeleteInformation(event: any, idInformation: number) {
+        deleteInformationInterview(event, idInformation)
+            .then((response) => {
+                if (response.interViewIdInterView) {
+                    let companySession = sessionStorage.getItem('company');
+                    if (companySession) {
+                        let company = JSON.parse(companySession) as Company;
+                        sessionStorage.setItem('company', JSON.stringify(company));
+                        dispatch(deleteInformation(response));
+                    }
+                }
+            })
+    }
+
+    function DeleteInterView(event: any, idInterview: number) {
+        deleteInterviewDb(event, idInterview).then((response) => {
+            if (response.idInterView) {
+                let companySession = sessionStorage.getItem('company');
+                if (companySession) {
+                    let company = JSON.parse(companySession) as Company;
+                    sessionStorage.setItem('company', JSON.stringify(company));
+                    dispatch(deleteInterview(response));
+                }
+            }
+        })
+    }
+
+    const props = {
+        company: companySlice.company,
+        actions: {
+            deleteInformation: DeleteInformation,
+            deleteInterview: DeleteInterView,
+            SubmitInterview: submitInformation,
+            submitProcessSelection: submitSameCompany
+        }
+    }
+
+    return (<CompanyInterviews company={props.company} actions={props.actions} />)
 }
