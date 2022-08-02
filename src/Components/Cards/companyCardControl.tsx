@@ -1,9 +1,9 @@
 import React from "react";
-import { addInterView, deleteCompanyDb, GetAllInterViews } from "../../Services/RequestService";
+import { addInterView, deleteCompanyDb, GetAllICompanies } from "../../Services/RequestService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";
-import { addNewCompany, AllInterviews, deleteCompany } from "../../redux/reducers/interviewSlice";
+import { addNewCompany, AllInterviews } from "../../redux/reducers/interviewSlice";
 import { useEffect } from "react";
 import { CompanyCard } from "./companyCard";
 import { hideModal } from "../../Utils/utilsModal";
@@ -40,7 +40,7 @@ function Companies() {
 
     useEffect(() => {
         if (canLoadInterviews) {
-            GetAllInterViews()
+            GetAllICompanies()
                 .then((res: Company[]) => {
                     dispatch(AllInterviews(res))
                     sessionStorage.setItem('companies', JSON.stringify(res));
@@ -55,22 +55,22 @@ function Companies() {
         }
     }, [dispatch, canLoadInterviews]);
 
-    function DeleteInterView(event: any, idCompany: number) {
-        deleteCompanyDb(event, idCompany).then((response) => {
-            if (response.idCompany) {
-                let companySession = sessionStorage.getItem('companies');
-                if (companySession) {
-                    let companies = JSON.parse(companySession) as Company[];
-                    companies = companies.filter((company) => company.idCompany !== response.idCompany);
-                    sessionStorage.setItem('companies', JSON.stringify(companies));
-                    dispatch(deleteCompany(response));
-                }
-            }
-        })
-    }
+    // function DeleteInterView(event: any, idCompany: number) {
+    //     deleteCompanyDb(event, idCompany).then((response) => {
+    //         if (response.idCompany) {
+    //             let companySession = sessionStorage.getItem('companies');
+    //             if (companySession) {
+    //                 let companies = JSON.parse(companySession) as Company[];
+    //                 companies = companies.filter((company) => company.idCompany !== response.idCompany);
+    //                 sessionStorage.setItem('companies', JSON.stringify(companies));
+    //                 dispatch(deleteCompany(response));
+    //             }
+    //         }
+    //     })
+    // }
 
     return (
-        <CompanyCard deleteCompany={DeleteInterView} companies={companySlice?.companies} submit={submitCompany} />
+        <CompanyCard deleteCompany={null} companies={companySlice?.companies} submit={submitCompany} />
     )
 }
 

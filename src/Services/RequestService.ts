@@ -8,12 +8,32 @@ import { HttpDelete, HttpGet, HttpPost, HttpPut } from "./HttpService";
 import { endpoints } from "../Models/Url";
 import { Company, InformationInterview, Interview } from "../Models/InterviewModel";
 
-export async function GetAllInterViews(): Promise<Company[]> {
-  return await HttpGet(endpoints.GetAllInterViews).then((response) => {
+export async function GetAllICompanies(): Promise<Company[]> {
+  return await HttpGet(endpoints.GetAllCompanies).then((response) => {
     if (response.ok) {
       return response.json()
     }
   }).then((res: Company[]) => {
+    return res;
+  })
+}
+
+export async function GetAllProcessByCompany(idCompany:number): Promise<Interview[]> {
+  return await HttpGet(endpoints.GetAllProcessByIdCompany+'/'+idCompany).then((response) => {
+    if (response.ok) {
+      return response.json()
+    }
+  }).then((res: Interview[]) => {
+    return res;
+  })
+}
+
+export async function GetAllInterviewsByProcess(idInterview:number): Promise<InformationInterview[]> {
+  return await HttpGet(endpoints.GetAllInformationsByIdInterview+'/'+idInterview).then((response) => {
+    if (response.ok) {
+      return response.json()
+    }
+  }).then((res: InformationInterview[]) => {
     return res;
   })
 }

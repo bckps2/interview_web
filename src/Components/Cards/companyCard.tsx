@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Row, Col, Button } from 'react-bootstrap';
 import { Link, Outlet } from "react-router-dom";
 import { Company } from '../../Models/InterviewModel';
-import { CompanyEmptyForm } from '../Forms/companyForm';
+import { CompanyEmptyForm } from '../Forms/views/companyForm';
 import './interview.css';
 
 interface props {
@@ -15,7 +15,6 @@ export const CompanyCard = ({ companies, submit, deleteCompany }: props) => {
 
     return (
         <div id="cardContainer" className='subBody'>
-
             <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#NewCompanyModal"}>
                 Añade nueva entrevista con otra empresa
             </Button>

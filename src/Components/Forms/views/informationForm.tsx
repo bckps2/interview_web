@@ -3,15 +3,17 @@ import { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Company, InformationInterview } from "../../Models/InterviewModel";
-import { TypeInterView } from "../../Models/TypeInterView";
-import { setupdateInformation } from "../../redux/reducers/interviewSlice";
-import { updateInterviewInformation } from "../../Services/RequestService";
+import { Company, InformationInterview } from "../../../Models/InterviewModel";
+import { TypeInterView } from "../../../Models/TypeInterView";
+// import { setupdateInformation } from "../../../redux/reducers/interviewSlice";
+import { updateInterviewInformation } from "../../../Services/RequestService";
+import { NewInterViewProcessSelection } from "../../Modals/modalNewinterView";
 
 interface props {
     information: InformationInterview | null,
     showButton: boolean,
-    deleteInformation: any
+    deleteInformation: any,
+    id:number
 }
 
 var typeInterviews = Object.keys(TypeInterView);
@@ -43,10 +45,10 @@ export function AddNewInformation() {
     )
 }
 
-export function EditInformation({ information, showButton, deleteInformation }: props) {
+export function EditInformation({ information, showButton, deleteInformation, id }: props) {
 
     const [infor, setInformation] = useState(information);
-    const [readOnly, setReadOnly] = useState(showButton);
+    const [readOnly, setReadOnly] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
     const [valueName1, setValueName1] = useState(infor?.nameInterViewers[0]);
     const [valueName2, setValueName2] = useState(infor?.nameInterViewers[1]);
@@ -55,37 +57,38 @@ export function EditInformation({ information, showButton, deleteInformation }: 
     const [email, setEmail] = useState(infor?.email);
     const [typeInterView, setTypeInterview] = useState(infor?.typeInterView.toString());
 
-    function updateInformation(event: any) {
-        updateInterviewInformation(event).then((response) => {
-            if (response.idInformation) {
-                let companySession = sessionStorage.getItem('company');
-                if (companySession) {
-                    let company = JSON.parse(companySession) as Company;
+    // function updateInformation(event: any) {
+    //     updateInterviewInformation(event).then((response) => {
+    //         if (response.idInformation) {
+    //             let companySession = sessionStorage.getItem('company');
+    //             if (companySession) {
+    //                 let company = JSON.parse(companySession) as Company;
 
-                    company.interViews.forEach((interview) => {
-                        if (interview.idInterView === response.interViewIdInterView) {
-                            interview.informationInterViews.forEach((information) => {
-                                if (information.idInformation === response.idInformation) {
-                                    information.typeInterView = response.typeInterView;
-                                    information.email = response.email;
-                                    information.dateInterView = response.dateInterView;
-                                    information.nameInterViewers = response.nameInterViewers;
-                                    information.observations = response.observations;
-                                }
-                            })
-                        }
-                    });
+    //                 company.interViews.forEach((interview) => {
+    //                     if (interview.idInterView === response.interViewIdInterView) {
+    //                         interview.informationInterViews.forEach((information) => {
+    //                             if (information.idInformation === response.idInformation) {
+    //                                 information.typeInterView = response.typeInterView;
+    //                                 information.email = response.email;
+    //                                 information.dateInterView = response.dateInterView;
+    //                                 information.nameInterViewers = response.nameInterViewers;
+    //                                 information.observations = response.observations;
+    //                             }
+    //                         })
+    //                     }
+    //                 });
 
-                    sessionStorage.setItem('company', JSON.stringify(company));
-                    setInformation(response);
-                }
-            }
-        }).finally(() => setReadOnly(true))
-    }
+    //                 sessionStorage.setItem('company', JSON.stringify(company));
+    //                 setInformation(response);
+    //             }
+    //         }
+    //     }).finally(() => setReadOnly(true))
+    // }
 
     return (
         <Col xs={5}>
-            <Form onSubmit={updateInformation}>
+            <Form >
+                {/* <Form onSubmit={updateInformation}> */}
                 <Form.Label>Entrevistador 1</Form.Label>
                 <Form.Control name="entrevistador1" placeholder="Entrevistador 1" required={true} readOnly={readOnly} onChange={(e) => setValueName1(e.target.value)} defaultValue={valueName1} />
                 <Form.Label>Entrevistador 2</Form.Label>

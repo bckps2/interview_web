@@ -3,7 +3,6 @@ import { TypeInterView } from "./TypeInterView";
 export interface Company {
     companyName : string,
     dateCreated : Date,
-    interViews : Interview[],
     idCompany: number
 }
 
@@ -11,7 +10,6 @@ export interface Interview {
     externalCompany:string,
     idInterView : number,
     companyIdCompany: number,
-    informationInterViews: InformationInterview[],
     rangeSalarial: string,
     jobPosition: string
 }
