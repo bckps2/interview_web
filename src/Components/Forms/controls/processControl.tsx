@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
 import { Interview } from "../../../Models/InterviewModel";
 import { GetAllProcessByCompany } from "../../../Services/RequestService";
-import { NewProcessSelection } from "../../Modals/modalNewProcess";
-import { FormInterview } from "../views/interviewForm";
+import { NewProcessSelection } from "../../Modals/modalProcess";
+import { ProcessForm } from "../views/processForm";
 import { InterviewControl } from "./interviewControl";
 
 interface props {
@@ -21,7 +21,7 @@ export function ProcessControl({ idCompany, companyName }: props) {
                 setInterviews(res);
             })
 
-    }, [setInterviews]);
+    }, [setInterviews, idCompany]);
 
     return (
         <div>
@@ -32,7 +32,7 @@ export function ProcessControl({ idCompany, companyName }: props) {
                             <Accordion.Item eventKey={index.toString()} >
                                 <Accordion.Header aria-expanded={false} >Proceso de selección {index + 1}</Accordion.Header>
                                 <Accordion.Body>
-                                    <FormInterview companyName={companyName} idCompany={idCompany} interview={interview} submit={null} />
+                                    <ProcessForm companyName={companyName} idCompany={idCompany} interview={interview} />
                                     <InterviewControl companyName={companyName} idInterview={interview.idInterView} />
                                 </Accordion.Body>
                             </Accordion.Item>
@@ -40,7 +40,7 @@ export function ProcessControl({ idCompany, companyName }: props) {
                     )
                 })
             }
-            <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelection" + idCompany + "Modal"} >
+            <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"} >
                 Añadir nuevo proceso de selección
             </Button>
             <NewProcessSelection submit={null} companyName={companyName} idCompany={idCompany} />

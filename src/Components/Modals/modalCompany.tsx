@@ -5,7 +5,7 @@ interface props {
     action: any;
 }
 
-export const CompanyEmptyForm = ({action} : props) => {
+export const ModalCompanyform = ({ action }: props) => {
     let id = useId();
     return (
         <div> <div className="modal fade" data-bs-backdrop="false" id={"NewCompanyModal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
@@ -33,4 +33,3 @@ export const CompanyEmptyForm = ({action} : props) => {
         </div>
     )
 }
-

@@ -1,18 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Company, InformationInterview, Interview } from "../../Models/InterviewModel";
+import { Company } from "../../Models/InterviewModel";
 import { setStateCompany } from "../../redux/reducers/interviewSlice";
 // import { AddInterView, deleteInformation, deleteInterview, setStateCompany, setStateInformation } from "../../redux/reducers/interviewSlice";
 import { RootState } from "../../redux/store/store";
-import { deleteInformationInterview, deleteInterviewDb, submitAddInformation, submitInterviewSameCompany } from "../../Services/RequestService";
-import { hideModal } from "../../Utils/utilsModal";
 import { CompanyInterviews } from "./companyInterviews";
 
 export function CompanyViewControl() {
     let location = useLocation();
     let state = location.state as Company;
-    let nameModal = "";
 
     const dispatch = useDispatch();
     const companySlice = useSelector((state: RootState) => state.companyInterview);

@@ -1,5 +1,5 @@
 import React from "react";
-import { addInterView, deleteCompanyDb, GetAllICompanies } from "../../Services/RequestService";
+import { addInterView, GetAllICompanies } from "../../Services/RequestService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";

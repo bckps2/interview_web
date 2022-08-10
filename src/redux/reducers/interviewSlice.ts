@@ -1,5 +1,5 @@
-import { bindActionCreators, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Company, InformationInterview, Interview } from "../../Models/InterviewModel";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Company, Interview } from "../../Models/InterviewModel";
 
 interface interviewState {
     companies: Company[],

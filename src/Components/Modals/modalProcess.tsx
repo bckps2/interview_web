@@ -1,19 +1,15 @@
-import { useId } from "react";
-import { Button, Form } from "react-bootstrap"
-import { AddNewInformation } from "../Forms/views/informationForm";
-import { FormInterview } from "../Forms/views/interviewForm";
+import { Button, Form } from "react-bootstrap";
+import { ProcessForm } from "../Forms/views/processForm";
 
 interface propsProcess {
     companyName: string,
     idCompany: number,
-    submit:any
+    submit: any
 }
 
 export const NewProcessSelection = ({ companyName, submit, idCompany }: propsProcess) => {
-    let id = useId();
-
     return (
-        <div className="modal fade"  data-bs-toggle="modal" data-bs-backdrop="false" id={companyName + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
+        <div className="modal fade" data-bs-toggle="modal" data-bs-backdrop="false" id={"processSelectionModal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
             <div className="modal-dialog" >
                 <div className="modal-content">
                     <div className="modal-header">
@@ -23,7 +19,10 @@ export const NewProcessSelection = ({ companyName, submit, idCompany }: propsPro
                         </button>
                     </div>
                     <div className="modal-body">
-                            <FormInterview interview={null} submit={submit} companyName={companyName} idCompany={idCompany}/>
+                        <Form onSubmit={submit}>
+                            <ProcessForm interview={null} companyName={companyName} idCompany={idCompany} />
+                            <Button type="submit">Añadir</Button>
+                        </Form>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

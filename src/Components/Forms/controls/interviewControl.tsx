@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Accordion, Button } from "react-bootstrap";
-import { InformationInterview, Interview } from "../../../Models/InterviewModel";
+import { Button } from "react-bootstrap";
+import { InformationInterview } from "../../../Models/InterviewModel";
 import { GetAllInterviewsByProcess } from "../../../Services/RequestService";
-import { NewInterViewProcessSelection } from "../../Modals/modalNewinterView";
-import { EditInformation } from "../views/informationForm";
-import { FormInterview } from "../views/interviewForm";
+import { ModalInterview } from "../../Modals/modalInterview";
+import { EditInformation } from "../views/editInterviewForm";
 
 interface props {
     idInterview: number,
@@ -20,7 +19,7 @@ export function InterviewControl({ idInterview, companyName }: props) {
             .then((res: InformationInterview[]) => {
                 setInformations(res);
             })
-    }, [setInformations]);
+    }, [setInformations, idInterview]);
 
     return (
         <div>
@@ -34,7 +33,7 @@ export function InterviewControl({ idInterview, companyName }: props) {
             <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#interview" + idInterview + "Modal"} >
                 Añadir entrevista
             </Button>
-            <NewInterViewProcessSelection submit={null} idInterview={idInterview} />
+            <ModalInterview submit={null} idInterview={idInterview} />
         </div>
     )
 }

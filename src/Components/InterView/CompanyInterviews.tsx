@@ -1,11 +1,6 @@
-import { useState } from "react";
-import { Accordion, Button, Form, ListGroup } from "react-bootstrap";
+import { ListGroup } from "react-bootstrap";
 import { Company } from "../../Models/InterviewModel";
 import { ProcessControl } from "../Forms/controls/processControl";
-import { EditInformation } from "../Forms/views/informationForm";
-import { FormInterview } from "../Forms/views/interviewForm";
-import { NewInterViewProcessSelection } from "../Modals/modalNewinterView";
-import { NewProcessSelection } from "../Modals/modalNewProcess";
 
 interface props {
     company: Company,
