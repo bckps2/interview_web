@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
-import { Interview } from "../../../Models/InterviewModel";
-import { GetAllProcessByCompany } from "../../../Services/RequestService";
+import { Company, Interview, Process } from "../../../Models/InterviewModel";
+import { addProcess, GetAllProcessByCompany } from "../../../Services/RequestService";
+import { hideModal } from "../../../Utils/utilsModal";
 import { NewProcessSelection } from "../../Modals/modalProcess";
 import { ProcessForm } from "../views/processForm";
 import { InterviewControl } from "./interviewControl";
@@ -13,16 +14,29 @@ interface props {
 
 export function ProcessControl({ idCompany, companyName }: props) {
 
-    const [interviews, setInterviews] = useState({} as Interview[]);
+    const [interviews, setInterviews] = useState({} as Process[]);
 
     useEffect(() => {
         GetAllProcessByCompany(idCompany)
-            .then((res: Interview[]) => {
+            .then((res: Process[]) => {
                 setInterviews(res);
             })
 
     }, [setInterviews, idCompany]);
 
+    function submitProcess(e: React.FormEvent<HTMLFormElement>) {
+        addProcess(e)
+            .then((res: Company) => {
+                // dispatch(addNewCompany(res));
+                var companiesStorage = sessionStorage.getItem('companies');
+                if (companiesStorage) {
+                    var companies = JSON.parse(companiesStorage) as Company[];
+                    companies.push(res);
+                    sessionStorage.setItem('companies', JSON.stringify(companies));
+                }
+            });
+        hideModal("NewCompanyModal");
+    }
     return (
         <div>
             {interviews?.length > 0 &&
@@ -46,4 +60,8 @@ export function ProcessControl({ idCompany, companyName }: props) {
             <NewProcessSelection submit={null} companyName={companyName} idCompany={idCompany} />
         </div>
     )
+}
+
+function dispatch(arg0: any) {
+    throw new Error("Function not implemented.");
 }

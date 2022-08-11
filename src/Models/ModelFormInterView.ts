@@ -24,20 +24,14 @@ interface informationInterview {
   observations: { value: string };
 }
 
-export function createFormInterView(eventTarget: EventTarget | null): CompanyDto {
-
+export function createFormCompany(eventTarget: EventTarget | null): CompanyDto {
   const target = eventTarget as typeof eventTarget & company
-
   let company = {} as CompanyDto;
-  company.interView = {} as InterviewDto;
-  company.interView.informationInterView = {} as InformationInterviewDto;
-  company.interView.informationInterView.nameInterViewers = [] as string[];
   company.companyName = target.companyName.value;
-  company.interView = createInterViewDto(eventTarget);
   return company;
 };
 
-export function createInterViewDto(eventTarget: EventTarget | null): InterviewDto {
+export function createProcessDto(eventTarget: EventTarget | null): InterviewDto {
   const target = eventTarget as typeof eventTarget & interview;
   let interview = {} as InterviewDto;
   interview.informationInterView = {} as InformationInterviewDto;

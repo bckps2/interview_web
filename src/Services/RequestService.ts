@@ -1,12 +1,12 @@
 import {
-  createFormInterView,
+  createFormCompany,
   createInformationDto,
-  createInterViewDto
+  createProcessDto
 } from "../Models/modelFormInterView";
 
 import { HttpDelete, HttpGet, HttpPost, HttpPut } from "./HttpService";
 import { endpoints } from "../Models/Url";
-import { Company, InformationInterview, Interview } from "../Models/InterviewModel";
+import { Company, Process, Interview } from "../Models/InterviewModel";
 
 export async function GetAllICompanies(): Promise<Company[]> {
   return await HttpGet(endpoints.GetAllCompanies).then((response) => {
@@ -18,8 +18,18 @@ export async function GetAllICompanies(): Promise<Company[]> {
   })
 }
 
-export async function GetAllProcessByCompany(idCompany:number): Promise<Interview[]> {
+export async function GetAllProcessByCompany(idCompany:number): Promise<Process[]> {
   return await HttpGet(endpoints.GetAllProcessByIdCompany+'/'+idCompany).then((response) => {
+    if (response.ok) {
+      return response.json()
+    }
+  }).then((res: Process[]) => {
+    return res;
+  })
+}
+
+export async function GetAllInterviewsByProcess(idInterview:number): Promise<Interview[]> {
+  return await HttpGet(endpoints.GetAllInformationsByIdInterview+'/'+idInterview).then((response) => {
     if (response.ok) {
       return response.json()
     }
@@ -28,19 +38,22 @@ export async function GetAllProcessByCompany(idCompany:number): Promise<Intervie
   })
 }
 
-export async function GetAllInterviewsByProcess(idInterview:number): Promise<InformationInterview[]> {
-  return await HttpGet(endpoints.GetAllInformationsByIdInterview+'/'+idInterview).then((response) => {
-    if (response.ok) {
-      return response.json()
-    }
-  }).then((res: InformationInterview[]) => {
-    return res;
+export async function addCompany(event: React.FormEvent<HTMLFormElement>): Promise<Company> {
+  event?.preventDefault();
+  let register = createFormCompany(event?.target ?? null);
+  return await HttpPost(endpoints.AddCompany, register)
+  .then((response) => response.json())
+  .then((response: Company) => response)
+  .catch((rsjx) => {
+    alert(rsjx);
+    return rsjx.message;
   })
+  .finally(() => (event.target as HTMLFormElement).reset());
 }
 
-export async function addInterView(event: React.FormEvent<HTMLFormElement>): Promise<Company> {
+export async function addProcess(event: React.FormEvent<HTMLFormElement>): Promise<Company> {
   event?.preventDefault();
-  let register = createFormInterView(event?.target ?? null);
+  let register = createProcessDto(event?.target ?? null);
   return await HttpPost(endpoints.AddInterView, register)
   .then((response) => response.json())
   .then((response: Company) => response)
@@ -53,7 +66,7 @@ export async function addInterView(event: React.FormEvent<HTMLFormElement>): Pro
 
 export async function submitInterviewSameCompany(event: React.FormEvent<HTMLFormElement>): Promise<Interview> {
   event.preventDefault();
-  let register = createInterViewDto(event.target);
+  let register = createProcessDto(event.target);
 
   return await HttpPost(endpoints.AddInterViewCompany, register)
     .then((response) => response.json())
@@ -65,12 +78,12 @@ export async function submitInterviewSameCompany(event: React.FormEvent<HTMLForm
     .finally(() => (event.target as HTMLFormElement).reset());
 }
 
-export async function submitAddInformation(event: React.FormEvent<HTMLFormElement>): Promise<InformationInterview> {
+export async function submitAddInformation(event: React.FormEvent<HTMLFormElement>): Promise<Process> {
   event.preventDefault();
   let register = createInformationDto(event.target);
   return await HttpPost(endpoints.AddInterViewInformation, register)
     .then((response) => response.json())
-    .then((response: InformationInterview) => response)
+    .then((response: Process) => response)
     .catch((rsjx) => {
       alert(rsjx);
       return rsjx.message;
@@ -78,11 +91,11 @@ export async function submitAddInformation(event: React.FormEvent<HTMLFormElemen
     .finally(() => (event.target as HTMLFormElement).reset());
 }
 
-export async function deleteInformationInterview(event: any , idInformation: number): Promise<InformationInterview> {
+export async function deleteInformationInterview(event: any , idInformation: number): Promise<Process> {
   event.preventDefault();
   return await HttpDelete(endpoints.DeleteInformationInterview, idInformation)
     .then((response) => response.json())
-    .then((response: InformationInterview) => response)
+    .then((response: Process) => response)
     .catch((rsjx) => {
       alert(rsjx);
       return rsjx.message;
@@ -93,7 +106,7 @@ export async function deleteInterviewDb(event: any , idInterview: number): Promi
   event.preventDefault();
   return await HttpDelete(endpoints.DeleteInterview, idInterview)
     .then((response) => response.json())
-    .then((response: InformationInterview) => response)
+    .then((response: Process) => response)
     .catch((rsjx) => {
       alert(rsjx);
       return rsjx.message;
@@ -104,19 +117,19 @@ export async function deleteCompanyDb(event: any , idInterview: number): Promise
   event.preventDefault();
   return await HttpDelete(endpoints.DeleteCompany, idInterview)
     .then((response) => response.json())
-    .then((response: InformationInterview) => response)
+    .then((response: Process) => response)
     .catch((rsjx) => {
       alert(rsjx);
       return rsjx.message;
     })
 }
 
-export async function updateInterviewInformation(event: any): Promise<InformationInterview> {
+export async function updateInterviewInformation(event: any): Promise<Process> {
   event.preventDefault();
   let register = createInformationDto(event.target);
   return await HttpPut(endpoints.UpdateInterViewInformation, register)
     .then((response) => response.json())
-    .then((response: InformationInterview) => response)
+    .then((response: Process) => response)
     .catch((rsjx) => {
       alert(rsjx);
       return rsjx.message;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { Interview } from '../../../Models/InterviewModel';
+import { Process } from '../../../Models/InterviewModel';
 
 interface props {
-    interview: Interview | null,
+    interview: Process | null,
     idCompany: number,
     companyName: string
 }

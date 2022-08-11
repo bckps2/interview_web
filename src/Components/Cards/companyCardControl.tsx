@@ -1,5 +1,5 @@
 import React from "react";
-import { addInterView, GetAllICompanies } from "../../Services/RequestService";
+import { addCompany, GetAllICompanies } from "../../Services/RequestService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";
@@ -25,7 +25,7 @@ function Companies() {
     const companySlice = useSelector((state: RootState) => state.companyInterview);
 
     function submitCompany(e: React.FormEvent<HTMLFormElement>) {
-        addInterView(e)
+        addCompany(e)
             .then((res: Company) => {
                 dispatch(addNewCompany(res));
                 var companiesStorage = sessionStorage.getItem('companies');

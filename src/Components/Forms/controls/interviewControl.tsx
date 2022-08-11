@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { InformationInterview } from "../../../Models/InterviewModel";
+import { Interview } from "../../../Models/InterviewModel";
 import { GetAllInterviewsByProcess } from "../../../Services/RequestService";
 import { ModalInterview } from "../../Modals/modalInterview";
-import { EditInformation } from "../views/editInterviewForm";
+import { EditInterview } from "../views/editInterviewForm";
 
 interface props {
     idInterview: number,
@@ -12,11 +12,11 @@ interface props {
 
 export function InterviewControl({ idInterview, companyName }: props) {
 
-    const [informations, setInformations] = useState({} as InformationInterview[]);
+    const [informations, setInformations] = useState({} as Interview[]);
 
     useEffect(() => {
         GetAllInterviewsByProcess(idInterview)
-            .then((res: InformationInterview[]) => {
+            .then((res: Interview[]) => {
                 setInformations(res);
             })
     }, [setInformations, idInterview]);
@@ -26,7 +26,7 @@ export function InterviewControl({ idInterview, companyName }: props) {
             {informations?.length > 0 &&
                 informations?.map((information, index) => {
                     return (
-                        <EditInformation information={information} showButton={true} deleteInformation={undefined} id={information.idInformation} />
+                        <EditInterview information={information} showButton={true} deleteInformation={undefined} id={information.idInformation} />
                     )
                 })
             }

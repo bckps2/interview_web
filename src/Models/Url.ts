@@ -1,6 +1,7 @@
 const urlBaseInterView = 'https://interview.apireport.com/api/';
 const AddInterViewInformation = urlBaseInterView + 'AddInterViewInformation';
 const GetAllCompanies = urlBaseInterView + 'Company/GetAllCompanies';
+const AddCompany = urlBaseInterView + 'Company/AddCompany';
 const AddInterView = urlBaseInterView + 'AddInterView';
 const AddInterViewCompany = urlBaseInterView + 'AddInterViewCompany';
 const DeleteInformationInterview = urlBaseInterView + 'DeleteInformationInterview';
@@ -21,5 +22,6 @@ export const endpoints = {
    UpdateInterViewInformation: UpdateInterViewInformation,
    DeleteCompany: DeleteCompany,
    GetAllProcessByIdCompany : GetAllProcessByIdCompany,
-   GetAllInformationsByIdInterview : GetAllInformationsByIdInterview
+   GetAllInformationsByIdInterview : GetAllInformationsByIdInterview,
+   AddCompany : AddCompany
 }

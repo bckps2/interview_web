@@ -6,7 +6,7 @@ export interface Company {
     idCompany: number
 }
 
-export interface Interview {
+export interface Process {
     externalCompany:string,
     idInterView : number,
     companyIdCompany: number,
@@ -14,7 +14,7 @@ export interface Interview {
     jobPosition: string
 }
 
-export interface InformationInterview {
+export interface Interview {
     interViewIdInterView : number,
     typeInterView : TypeInterView,
     nameInterViewers: string[],

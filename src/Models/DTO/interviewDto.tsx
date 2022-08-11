@@ -3,7 +3,6 @@ import { TypeInterView } from "../TypeInterView";
 export interface CompanyDto {
     companyName: string,
     dateCreated: Date,
-    interView: InterviewDto,
     idCompany: number
 }
 

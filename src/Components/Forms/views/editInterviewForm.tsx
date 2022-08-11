@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
-import { InformationInterview } from "../../../Models/InterviewModel";
+import { Interview } from "../../../Models/InterviewModel";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { TypeInterView } from "../../../Models/TypeInterView";
 
 interface props {
-    information: InformationInterview | null,
+    information: Interview | null,
     showButton: boolean,
     deleteInformation: any,
     id:number
@@ -14,7 +14,7 @@ interface props {
 
 var typeInterviews = Object.keys(TypeInterView);
 
-export function EditInformation({ information, showButton, deleteInformation, id }: props) {
+export function EditInterview({ information, showButton, deleteInformation, id }: props) {
 
     const [infor, setInformation] = useState(information);
     const [readOnly, setReadOnly] = useState(true);
