@@ -7,20 +7,19 @@ export interface CompanyDto {
 }
 
 export interface InterviewDto {
-    externalCompany: string,
-    jobPosition: string;
-    idInterView: number,
-    companyIdCompany: number,
-    informationInterView: InformationInterviewDto,
-    rangeSalarial: string
-}
-
-export interface InformationInterviewDto {
     interViewIdInterView: number,
     typeInterView: string,
     nameInterViewers: string[],
     dateInterView: Date,
     email: string,
     observations: string,
-    IdInformation:number
+    IdInterview:number
+}
+
+export interface ProcessDto {
+    externalCompany: string,
+    jobPosition: string;
+    idProcess: number,
+    companyIdCompany: number,
+    rangeSalarial: string
 }

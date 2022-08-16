@@ -1,27 +1,24 @@
-const urlBaseInterView = 'https://interview.apireport.com/api/';
-const AddInterViewInformation = urlBaseInterView + 'AddInterViewInformation';
-const GetAllCompanies = urlBaseInterView + 'Company/GetAllCompanies';
-const AddCompany = urlBaseInterView + 'Company/AddCompany';
-const AddInterView = urlBaseInterView + 'AddInterView';
-const AddInterViewCompany = urlBaseInterView + 'AddInterViewCompany';
-const DeleteInformationInterview = urlBaseInterView + 'DeleteInformationInterview';
-const DeleteInterview = urlBaseInterView + 'DeleteInterview';
-const DeleteCompany = urlBaseInterView + 'DeleteCompany';
-const UpdateInterViewInformation = urlBaseInterView + 'UpdateInterViewInformation';
-const GetAllProcessByIdCompany = urlBaseInterView + 'Interview/GetAllInterviewsByIdCompany';
-const GetAllInformationsByIdInterview = urlBaseInterView + 'InformationInterview/GetAllInformationsByInterviewId';
+const urlBaseInterView = 'https://interview.apireport.com/api/Interview/';
+const urlBaseCompany = 'https://interview.apireport.com/api/Company/';
+const urlBaseProcess = 'https://interview.apireport.com/api/Process/';
 
-export const endpoints = {
-   urlBaseInterView: urlBaseInterView,
-   AddInterViewInformation: AddInterViewInformation,
-   GetAllCompanies: GetAllCompanies,
-   AddInterView: AddInterView,
-   AddInterViewCompany: AddInterViewCompany,
-   DeleteInformationInterview: DeleteInformationInterview,
-   DeleteInterview: DeleteInterview,
-   UpdateInterViewInformation: UpdateInterViewInformation,
-   DeleteCompany: DeleteCompany,
-   GetAllProcessByIdCompany : GetAllProcessByIdCompany,
-   GetAllInformationsByIdInterview : GetAllInformationsByIdInterview,
-   AddCompany : AddCompany
+export const endpointsCompany = {
+   GetAllCompanies: urlBaseCompany + 'GetAllCompanies',
+   AddCompany: urlBaseCompany + 'AddCompany',
+   DeleteCompany: urlBaseCompany + 'DeleteCompany'
+}
+
+export const endpointsProcess = {
+   AddProcess: urlBaseProcess + 'AddProcess',
+   GetAllProcess: urlBaseProcess + 'GetAllProcess',
+   GetByIdCompany: urlBaseProcess + 'GetByIdCompany',
+   DeleteProcess: urlBaseProcess + 'DeleteProcess'
+}
+
+export const endpointsInterview = {
+   GetAllInterviews: urlBaseInterView + 'GetInterviews',
+   GetByIdProcess: urlBaseInterView + 'GetByIdProcess',
+   AddInterview: urlBaseInterView + 'AddInterview',
+   DeleteInterview: urlBaseInterView + 'DeleteInterview',
+   UpdateInterview: urlBaseInterView + 'UpdateInterview'
 }

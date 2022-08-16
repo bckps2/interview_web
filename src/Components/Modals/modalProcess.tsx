@@ -20,7 +20,7 @@ export const NewProcessSelection = ({ companyName, submit, idCompany }: propsPro
                     </div>
                     <div className="modal-body">
                         <Form onSubmit={submit}>
-                            <ProcessForm interview={null} companyName={companyName} idCompany={idCompany} />
+                            <ProcessForm process={null} companyName={companyName} idCompany={idCompany} />
                             <Button type="submit">Añadir</Button>
                         </Form>
                     </div>

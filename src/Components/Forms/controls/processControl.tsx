@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
-import { Company, Interview, Process } from "../../../Models/InterviewModel";
+import { Company, Process } from "../../../Models/InterviewModel";
 import { addProcess, GetAllProcessByCompany } from "../../../Services/RequestService";
 import { hideModal } from "../../../Utils/utilsModal";
 import { NewProcessSelection } from "../../Modals/modalProcess";
@@ -26,13 +26,13 @@ export function ProcessControl({ idCompany, companyName }: props) {
 
     function submitProcess(e: React.FormEvent<HTMLFormElement>) {
         addProcess(e)
-            .then((res: Company) => {
+            .then((res: Process) => {
                 // dispatch(addNewCompany(res));
-                var companiesStorage = sessionStorage.getItem('companies');
-                if (companiesStorage) {
-                    var companies = JSON.parse(companiesStorage) as Company[];
-                    companies.push(res);
-                    sessionStorage.setItem('companies', JSON.stringify(companies));
+                var processStorage = sessionStorage.getItem('process');
+                if (processStorage) {
+                    var process = JSON.parse(processStorage) as Process[];
+                    process.push(res);
+                    sessionStorage.setItem('process', JSON.stringify(process));
                 }
             });
         hideModal("NewCompanyModal");
@@ -46,7 +46,7 @@ export function ProcessControl({ idCompany, companyName }: props) {
                             <Accordion.Item eventKey={index.toString()} >
                                 <Accordion.Header aria-expanded={false} >Proceso de selección {index + 1}</Accordion.Header>
                                 <Accordion.Body>
-                                    <ProcessForm companyName={companyName} idCompany={idCompany} interview={interview} />
+                                    <ProcessForm companyName={companyName} idCompany={idCompany} process={interview} />
                                     <InterviewControl companyName={companyName} idInterview={interview.idInterView} />
                                 </Accordion.Body>
                             </Accordion.Item>
@@ -57,11 +57,7 @@ export function ProcessControl({ idCompany, companyName }: props) {
             <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"} >
                 Añadir nuevo proceso de selección
             </Button>
-            <NewProcessSelection submit={null} companyName={companyName} idCompany={idCompany} />
+            <NewProcessSelection submit={submitProcess} companyName={companyName} idCompany={idCompany} />
         </div>
     )
-}
-
-function dispatch(arg0: any) {
-    throw new Error("Function not implemented.");
 }
