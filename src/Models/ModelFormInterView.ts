@@ -33,12 +33,12 @@ export function createFormCompany(eventTarget: EventTarget | null): CompanyDto {
 
 export function createProcessDto(eventTarget: EventTarget | null): ProcessDto {
   const target = eventTarget as typeof eventTarget & Process;
-  let interview = {} as ProcessDto;
-  interview.externalCompany = target.externalCompany.value;
-  interview.rangeSalarial = target.rangeSalarial.value;
-  interview.companyIdCompany = target.idCompany?.value;
-  interview.jobPosition = target.jobPosition.value;
-  return interview;
+  let process = {} as ProcessDto;
+  process.externalCompany = target.externalCompany.value;
+  process.rangeSalarial = target.rangeSalarial.value;
+  process.idCompany = target.idCompany?.value;
+  process.jobPosition = target.jobPosition.value;
+  return process;
 };
 
 export function createInformationDto(eventTarget: EventTarget | null): InterviewDto {

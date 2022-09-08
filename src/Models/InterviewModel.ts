@@ -9,7 +9,7 @@ export interface Company {
 export interface Process {
     externalCompany:string,
     idInterView : number,
-    companyIdCompany: number,
+    idCompany: number,
     rangeSalarial: string,
     jobPosition: string
 }

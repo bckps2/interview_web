@@ -15,10 +15,12 @@ export function InterviewControl({ idInterview, companyName }: props) {
     const [informations, setInformations] = useState({} as Interview[]);
 
     useEffect(() => {
-        GetAllInterviewsByProcess(idInterview)
+        if(!isNaN(idInterview)){
+            GetAllInterviewsByProcess(idInterview)
             .then((res: Interview[]) => {
                 setInformations(res);
             })
+        }
     }, [setInformations, idInterview]);
 
     return (

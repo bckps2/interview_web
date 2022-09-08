@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import { Company } from "../../Models/InterviewModel";
 import { setStateCompany } from "../../redux/reducers/interviewSlice";
 // import { AddInterView, deleteInformation, deleteInterview, setStateCompany, setStateInformation } from "../../redux/reducers/interviewSlice";
-import { RootState } from "../../redux/store/store";
 import { CompanyInterviews } from "./companyInterviews";
 
 export function CompanyViewControl() {
@@ -12,13 +11,12 @@ export function CompanyViewControl() {
     let state = location.state as Company;
 
     const dispatch = useDispatch();
-    const companySlice = useSelector((state: RootState) => state.companyInterview);
 
     useEffect(() => {
-        if (companySlice.company.companyName) {
-            sessionStorage.setItem('company', JSON.stringify(companySlice.company));
+        if (state.companyName) {
+            sessionStorage.setItem('company', JSON.stringify(state));
         }
-    }, [companySlice]);
+    }, [state]);
 
     useEffect(() => {
         var company = sessionStorage.getItem('company');
@@ -81,7 +79,7 @@ export function CompanyViewControl() {
     // }
 
     const props = {
-        company: companySlice.company,
+        company: state,
         actions: {
             deleteInformation: null,
             deleteInterview: null,

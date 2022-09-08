@@ -1,5 +1,3 @@
-import { TypeInterView } from "../TypeInterView";
-
 export interface CompanyDto {
     companyName: string,
     dateCreated: Date,
@@ -16,10 +14,10 @@ export interface InterviewDto {
     IdInterview:number
 }
 
-export interface ProcessDto {
+export interface ProcessDto { 
     externalCompany: string,
     jobPosition: string;
     idProcess: number,
-    companyIdCompany: number,
+    idCompany: number,
     rangeSalarial: string
 }

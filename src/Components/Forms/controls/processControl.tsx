@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
+import { isNumberObject } from "util/types";
 import { Company, Process } from "../../../Models/InterviewModel";
 import { addProcess, GetAllProcessByCompany } from "../../../Services/RequestService";
 import { hideModal } from "../../../Utils/utilsModal";
@@ -14,13 +15,19 @@ interface props {
 
 export function ProcessControl({ idCompany, companyName }: props) {
 
+    const refFecth = useRef(false);
+
     const [interviews, setInterviews] = useState({} as Process[]);
+    console.log("esta es la compañia :" + idCompany);
 
     useEffect(() => {
-        GetAllProcessByCompany(idCompany)
-            .then((res: Process[]) => {
-                setInterviews(res);
-            })
+        if (!refFecth.current && idCompany !== undefined && idCompany !== null && !isNaN(idCompany)) {
+            refFecth.current = true;
+            GetAllProcessByCompany(idCompany)
+                .then((res: Process[]) => {
+                    setInterviews(res);
+                })
+        }
 
     }, [setInterviews, idCompany]);
 

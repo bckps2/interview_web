@@ -13,6 +13,8 @@ interface props {
 }
 
 export const CompanyInterviews = ({ company, actions }: props) => {
+    var date = new Date();
+    console.log("esto es company interview y aqui tengo el id antes de enviarlo a processControl => : " + company.idCompany + "   Date:" + date + "MILISECS" +date.getMilliseconds());
     return (
         <div id="groupInterview" className="subBody">
             <ListGroup>
@@ -20,6 +22,8 @@ export const CompanyInterviews = ({ company, actions }: props) => {
                 <ListGroup.Item>{company.companyName}</ListGroup.Item>
             </ListGroup>
             <div>
+               
+                
                 <ProcessControl companyName={company.companyName} idCompany={company.idCompany} />
             </div>
         </div>
