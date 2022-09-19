@@ -2,7 +2,7 @@ import {
   createFormInterView,
   informationInterView,
   informationInterViewCompany
-} from "../Models/modelFormInterView";
+} from "../Models/ModelFormInterView";
 
 import { HttpGet, HttpPost, HttpPut } from "./HttpService";
 import { endpoints } from "../Models/Url";

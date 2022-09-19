@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../Components/Home/Home";
 import { CompanyCardControl } from "../Components/Cards/companyCardControl";
-import { CompanyViewControl } from "../Components/InterView/companyViewControl";
+import { CompanyViewControl } from "../Components/InterView/CompanyViewControl";
 
 const ConfigRoutes = () => {
   return (
