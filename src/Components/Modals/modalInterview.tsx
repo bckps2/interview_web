@@ -21,7 +21,6 @@ export const ModalInterview = ({ submit, idInterview }: propsProcess) => {
                     <div className="modal-body">
                         <Form  onSubmit={submit}>
                             <InterviewForm />
-                            <input type="hidden" value={idInterview} name="idInterview"></input>
                             <Button type="submit">Añadir entrevista </Button>
                         </Form>
                     </div>

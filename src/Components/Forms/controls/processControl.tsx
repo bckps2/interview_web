@@ -17,7 +17,7 @@ export function ProcessControl({ idCompany, companyName }: props) {
 
     const refFecth = useRef(false);
 
-    const [interviews, setInterviews] = useState({} as Process[]);
+    const [process, setProcess] = useState({} as Process[]);
     console.log("esta es la compañia :" + idCompany);
 
     useEffect(() => {
@@ -25,11 +25,11 @@ export function ProcessControl({ idCompany, companyName }: props) {
             refFecth.current = true;
             GetAllProcessByCompany(idCompany)
                 .then((res: Process[]) => {
-                    setInterviews(res);
+                    setProcess(res);
                 })
         }
 
-    }, [setInterviews, idCompany]);
+    }, [setProcess, idCompany]);
 
     function submitProcess(e: React.FormEvent<HTMLFormElement>) {
         addProcess(e)
@@ -37,17 +37,19 @@ export function ProcessControl({ idCompany, companyName }: props) {
                 // dispatch(addNewCompany(res));
                 var processStorage = sessionStorage.getItem('process');
                 if (processStorage) {
-                    var process = JSON.parse(processStorage) as Process[];
-                    process.push(res);
+                    var processEntity = JSON.parse(processStorage) as Process[];
+                    processEntity.push(res);
                     sessionStorage.setItem('process', JSON.stringify(process));
                 }
+                process.push(res);
+                setProcess(process);
             });
         hideModal("NewCompanyModal");
     }
     return (
         <div>
-            {interviews?.length > 0 &&
-                interviews?.map((interview, index) => {
+            {process?.length > 0 &&
+                process?.map((interview, index) => {
                     return (
                         <Accordion>
                             <Accordion.Item eventKey={index.toString()} >
