@@ -15,26 +15,21 @@ interface props {
 
 export function ProcessControl({ idCompany, companyName }: props) {
 
-    const refFecth = useRef(false);
-
     const [process, setProcess] = useState({} as Process[]);
-    console.log("esta es la compañia :" + idCompany);
 
     useEffect(() => {
-        if (!refFecth.current && idCompany !== undefined && idCompany !== null && !isNaN(idCompany)) {
-            refFecth.current = true;
+        if (idCompany !== undefined && idCompany !== null && !isNaN(idCompany)) {
             GetAllProcessByCompany(idCompany)
                 .then((res: Process[]) => {
                     setProcess(res);
                 })
         }
 
-    }, [setProcess, idCompany]);
+    }, [process, idCompany]);
 
     function submitProcess(e: React.FormEvent<HTMLFormElement>) {
         addProcess(e)
             .then((res: Process) => {
-                // dispatch(addNewCompany(res));
                 var processStorage = sessionStorage.getItem('process');
                 if (processStorage) {
                     var processEntity = JSON.parse(processStorage) as Process[];
@@ -44,8 +39,8 @@ export function ProcessControl({ idCompany, companyName }: props) {
                 process.push(res);
                 setProcess(process);
             });
-        hideModal("NewCompanyModal");
     }
+    
     return (
         <div>
             {process?.length > 0 &&

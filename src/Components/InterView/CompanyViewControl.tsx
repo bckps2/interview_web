@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Company } from "../../Models/InterviewModel";
 import { setStateCompany } from "../../redux/reducers/interviewSlice";
 // import { AddInterView, deleteInformation, deleteInterview, setStateCompany, setStateInformation } from "../../redux/reducers/interviewSlice";
-import { CompanyInterviews } from "./companyInterviews";
+import { CompanyInterviews } from "./CompanyInterviews";
 
 export function CompanyViewControl() {
     let location = useLocation();

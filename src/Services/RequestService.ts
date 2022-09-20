@@ -2,7 +2,7 @@ import {
   createFormCompany,
   createInformationDto,
   createProcessDto
-} from "../Models/modelFormInterView";
+} from "../Models/ModelFormInterView";
 
 import { HttpDelete, HttpGet, HttpPost, HttpPut } from "./HttpService";
 import { endpointsCompany, endpointsInterview, endpointsProcess } from "../Models/Url";

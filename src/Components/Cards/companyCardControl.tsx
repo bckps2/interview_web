@@ -1,5 +1,5 @@
 import React from "react";
-import { addCompany, GetAllICompanies } from "../../Services/RequestService";
+import { addCompany, deleteCompanyDb, GetAllICompanies } from "../../Services/RequestService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";
@@ -63,7 +63,7 @@ function Companies() {
     //                 let companies = JSON.parse(companySession) as Company[];
     //                 companies = companies.filter((company) => company.idCompany !== response.idCompany);
     //                 sessionStorage.setItem('companies', JSON.stringify(companies));
-    //                 dispatch(deleteCompany(response));
+    //                 dispatch(deleteCompanyDb(event, idCompany));
     //             }
     //         }
     //     })

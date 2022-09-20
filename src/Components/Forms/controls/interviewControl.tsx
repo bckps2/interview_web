@@ -21,7 +21,7 @@ export function InterviewControl({ idInterview, companyName }: props) {
                 setInformations(res);
             })
         }
-    }, [setInformations, idInterview]);
+    }, [informations, idInterview]);
 
     return (
         <div>
