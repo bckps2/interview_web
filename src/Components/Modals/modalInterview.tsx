@@ -3,14 +3,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import { InterviewForm } from "../Forms/views/interviewForm";
 
 interface propsProcess {
-    idInterview: number,
+    idProcess: number,
     submit: any
 }
 
-export const ModalInterview = ({ submit, idInterview }: propsProcess) => {
+export const ModalInterview = ({ submit, idProcess }: propsProcess) => {
 
     return (
-        <div className="modal fade" data-bs-toggle="modal" data-bs-backdrop="false" id={"interview"+ idInterview + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} >
+        <div className="modal fade" data-bs-toggle="modal" data-bs-backdrop="false" id={"interview"+ idProcess + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} >
             <div className="modal-dialog" >
                 <div className="modal-content">
                     <div className="modal-header">
@@ -21,6 +21,7 @@ export const ModalInterview = ({ submit, idInterview }: propsProcess) => {
                     <div className="modal-body">
                         <Form  onSubmit={submit}>
                             <InterviewForm />
+                            <input type="hidden" value={idProcess} name="idProcess" />
                             <Button type="submit">Añadir entrevista </Button>
                         </Form>
                     </div>

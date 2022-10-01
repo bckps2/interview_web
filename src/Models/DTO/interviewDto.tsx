@@ -5,13 +5,13 @@ export interface CompanyDto {
 }
 
 export interface InterviewDto {
-    interViewIdInterView: number,
+    idProcess: number,
     typeInterView: string,
     nameInterViewers: string[],
     dateInterView: Date,
     email: string,
     observations: string,
-    IdInterview:number
+    idInterview:number
 }
 
 export interface ProcessDto { 

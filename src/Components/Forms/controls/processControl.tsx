@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
-import { isNumberObject } from "util/types";
-import { Company, Process } from "../../../Models/InterviewModel";
+import { Process } from "../../../Models/InterviewModel";
 import { addProcess, GetAllProcessByCompany } from "../../../Services/RequestService";
-import { hideModal } from "../../../Utils/utilsModal";
 import { NewProcessSelection } from "../../Modals/modalProcess";
 import { ProcessForm } from "../views/processForm";
 import { InterviewControl } from "./interviewControl";
@@ -14,18 +12,21 @@ interface props {
 }
 
 export function ProcessControl({ idCompany, companyName }: props) {
-
-    const [process, setProcess] = useState({} as Process[]);
+    const [processes, setProcesses] = useState({} as Process[]);
+    let isLoaded = false;
+    const getDataProcess = useCallback(async () => {
+        const res = await GetAllProcessByCompany(idCompany);
+        
+        if (!isLoaded) {
+            setProcesses(res);
+        }
+        
+        isLoaded = true;
+    }, [idCompany, processes]);
 
     useEffect(() => {
-        if (idCompany !== undefined && idCompany !== null && !isNaN(idCompany)) {
-            GetAllProcessByCompany(idCompany)
-                .then((res: Process[]) => {
-                    setProcess(res);
-                })
-        }
-
-    }, [process, idCompany]);
+        getDataProcess();
+    }, [getDataProcess]);
 
     function submitProcess(e: React.FormEvent<HTMLFormElement>) {
         addProcess(e)
@@ -36,22 +37,22 @@ export function ProcessControl({ idCompany, companyName }: props) {
                     processEntity.push(res);
                     sessionStorage.setItem('process', JSON.stringify(process));
                 }
-                process.push(res);
-                setProcess(process);
+                processes.push(res);
+                setProcesses(processes);
             });
     }
-    
+
     return (
         <div>
-            {process?.length > 0 &&
-                process?.map((interview, index) => {
+            {processes?.length > 0 &&
+                processes?.map((process, index) => {
                     return (
                         <Accordion>
                             <Accordion.Item eventKey={index.toString()} >
                                 <Accordion.Header aria-expanded={false} >Proceso de selección {index + 1}</Accordion.Header>
                                 <Accordion.Body>
-                                    <ProcessForm companyName={companyName} idCompany={idCompany} process={interview} />
-                                    <InterviewControl companyName={companyName} idInterview={interview.idInterView} />
+                                    <ProcessForm companyName={companyName} idCompany={idCompany} process={process} />
+                                    <InterviewControl companyName={companyName} process={process} />
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>

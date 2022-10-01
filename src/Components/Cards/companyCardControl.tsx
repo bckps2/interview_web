@@ -1,5 +1,5 @@
 import React from "react";
-import { addCompany, deleteCompanyDb, GetAllICompanies } from "../../Services/RequestService";
+import { addCompany, deleteCompany, GetAllICompanies } from "../../Services/RequestService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";

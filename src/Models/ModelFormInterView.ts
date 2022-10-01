@@ -24,7 +24,7 @@ interface Interview {
   observations: { value: string };
 }
 
-export function createFormCompany(eventTarget: EventTarget | null): CompanyDto {
+export function createCompanyDto(eventTarget: EventTarget | null): CompanyDto {
   const target = eventTarget as typeof eventTarget & company
   let company = {} as CompanyDto;
   company.companyName = target.companyName.value;
@@ -41,7 +41,7 @@ export function createProcessDto(eventTarget: EventTarget | null): ProcessDto {
   return process;
 };
 
-export function createInformationDto(eventTarget: EventTarget | null): InterviewDto {
+export function createInterviewDto(eventTarget: EventTarget | null): InterviewDto {
 
   const target = eventTarget as typeof eventTarget & Interview;
   var interviewDto = {} as InterviewDto;
@@ -53,8 +53,8 @@ export function createInformationDto(eventTarget: EventTarget | null): Interview
   interviewDto.email = target.email.value;
   interviewDto.dateInterView = target.dateInterview.value;
   interviewDto.observations = target.observations.value;
-  interviewDto.IdInterview = target.idInterview.value.toString().length > 0 ?  target.idInterview.value : 0;
-  interviewDto.interViewIdInterView = target.idInterview?.value;
+  interviewDto.idInterview = target.idInterview.value.toString().length > 0 ?  target.idInterview.value : 0;
+  interviewDto.idProcess = target.idProcess?.value;
   interviewDto.typeInterView = target.typeInterView.value;
   return interviewDto;
 };

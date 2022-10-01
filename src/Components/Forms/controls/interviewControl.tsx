@@ -1,41 +1,48 @@
 import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Interview } from "../../../Models/InterviewModel";
-import { GetAllInterviewsByProcess } from "../../../Services/RequestService";
+import { Interview, Process } from "../../../Models/InterviewModel";
+import { addInterview } from "../../../Services/RequestService";
 import { ModalInterview } from "../../Modals/modalInterview";
 import { EditInterview } from "../views/editInterviewForm";
 
 interface props {
-    idInterview: number,
+    process: Process,
     companyName: string
 }
 
-export function InterviewControl({ idInterview, companyName }: props) {
+export function InterviewControl({ process, companyName }: props) {
 
-    const [informations, setInformations] = useState({} as Interview[]);
+    const initialValue = process;
+    const [processInterviews = initialValue, setState] = useState({} as Process);
 
-    useEffect(() => {
-        if(!isNaN(idInterview)){
-            GetAllInterviewsByProcess(idInterview)
-            .then((res: Interview[]) => {
-                setInformations(res);
-            })
-        }
-    }, [informations, idInterview]);
+    function submitInterview(e: React.FormEvent<HTMLFormElement>) {
+        addInterview(e)
+            .then((res: Interview) => {
+                var processStorage = sessionStorage.getItem('process');
+                if (processStorage) {
+                    var processEntity = JSON.parse(processStorage) as Interview[];
+                    processEntity.push(res);
+                    sessionStorage.setItem('process', JSON.stringify(process));
+                }
+
+                processInterviews.interviews.push(res);
+                setState(processInterviews);
+            });
+    }
 
     return (
         <div>
-            {informations?.length > 0 &&
-                informations?.map((information, index) => {
+            {processInterviews.interviews?.length > 0 &&
+                processInterviews.interviews?.map((interview, index) => {
                     return (
-                        <EditInterview information={information} showButton={true} deleteInformation={undefined} id={information.idInformation} />
+                        <EditInterview interview={interview} showButton={true} deleteInformation={undefined} id={interview.idInterview} />
                     )
                 })
             }
-            <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#interview" + idInterview + "Modal"} >
+            <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#interview" + process.idProcess + "Modal"} >
                 Añadir entrevista
             </Button>
-            <ModalInterview submit={null} idInterview={idInterview} />
+            <ModalInterview submit={submitInterview} idProcess={process.idProcess} />
         </div>
     )
 }

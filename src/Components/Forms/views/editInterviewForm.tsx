@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { TypeInterView } from "../../../Models/TypeInterView";
 
 interface props {
-    information: Interview | null,
+    interview: Interview | null,
     showButton: boolean,
     deleteInformation: any,
     id:number
@@ -14,9 +14,9 @@ interface props {
 
 var typeInterviews = Object.keys(TypeInterView);
 
-export function EditInterview({ information, showButton, deleteInformation, id }: props) {
+export function EditInterview({ interview, showButton, deleteInformation, id }: props) {
 
-    const [infor, setInformation] = useState(information);
+    const [infor, setInformation] = useState(interview);
     const [readOnly, setReadOnly] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
     const [valueName1, setValueName1] = useState(infor?.nameInterViewers[0]);
@@ -73,10 +73,10 @@ export function EditInterview({ information, showButton, deleteInformation, id }
                 <Form.Label>Email</Form.Label>
                 <Form.Control name="email" placeholder="Email" required={true} readOnly={readOnly} onChange={(e) => setEmail(e.target.value)} defaultValue={email} />
                 <Form.Label>Fecha entrevista</Form.Label>
-                <DatePicker value={information?.dateInterView.toString()} readOnly={readOnly} name="dateInterview" selected={startDate} onChange={(date) => { if (date) setStartDate(date) }} dateFormat="yyyy-MM-dd" />
+                <DatePicker value={interview?.dateInterView.toString()} readOnly={readOnly} name="dateInterview" selected={startDate} onChange={(date) => { if (date) setStartDate(date) }} dateFormat="yyyy-MM-dd" />
                 <Form.Label>Observaciones</Form.Label>
                 <Form.Control name="observations" onChange={(e) => setObservation(e.target.value)} placeholder="Observaciones" required={true} readOnly={readOnly} defaultValue={observation} />
-                <input type="hidden" value={information?.idInformation} name="idInformation" />
+                <input type="hidden" value={interview?.idInterview} name="idInformation" />
                 {showButton &&
                     <span>
                         <Button type="button" onClick={(e) => setReadOnly(false)} className="btn btn-outline-dark">
@@ -88,7 +88,7 @@ export function EditInterview({ information, showButton, deleteInformation, id }
                         <Button type="submit" className="btn btn-outline-dark">
                             Update information
                         </Button>
-                        <Button type="button" onClick={(e) => deleteInformation(e, information?.idInformation)} className="btn btn-outline-dark">
+                        <Button type="button" onClick={(e) => deleteInformation(e, interview?.idInterview)} className="btn btn-outline-dark">
                             Eliminar entrevista
                         </Button>
                     </span>

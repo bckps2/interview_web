@@ -28,7 +28,7 @@ export function InterviewForm() {
             <DatePicker name="dateInterview" selected={startDate} onChange={(date) => { if (date) setStartDate(date) }} dateFormat="yyyy-MM-dd" />
             <Form.Label>Observaciones</Form.Label>
             <Form.Control name="observations" placeholder="Observaciones" required={true} />
-            <input type="hidden" value={0} name="idInformation" />
+            <input type="hidden" value={0} name="idInterview" />
         </Col >
     )
 }
