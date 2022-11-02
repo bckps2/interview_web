@@ -1,58 +1,71 @@
-import { useCallback, useEffect, useState } from "react";
-import { Accordion, Button } from "react-bootstrap";
-import { Process } from "../../../Models/InterviewModel";
-import { addProcess, GetAllProcessByCompany } from "../../../Services/RequestService";
+import { useEffect } from "react";
+import { Accordion, Button, ListGroup } from "react-bootstrap";
+import { Company, Interview, Process } from "../../../Models/InterviewModel";
+import { addInterview, addProcess } from "../../../Services/RequestService";
 import { NewProcessSelection } from "../../Modals/modalProcess";
 import { ProcessForm } from "../views/processForm";
-import { InterviewControl } from "./interviewControl";
+import { RootState } from "../../../redux/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { addProcessState, processesState, addInterviewInProcess } from "../../../redux/reducers/processSlice";
+import { useLocation } from "react-router-dom";
+import { EditInterview } from "../views/editInterviewForm";
+import { ModalInterview } from "../../Modals/modalInterview";
 
-interface props {
-    idCompany: number,
-    companyName: string
-}
+export function ProcessControl() {
 
-export function ProcessControl({ idCompany, companyName }: props) {
-    const [processes, setProcesses] = useState({} as Process[]);
-    let isLoaded = false;
-    const getDataProcess = useCallback(async () => {
-        const res = await GetAllProcessByCompany(idCompany);
-        
-        if (!isLoaded) {
-            setProcesses(res);
-        }
-        
-        isLoaded = true;
-    }, [idCompany, processes]);
+    let location = useLocation();
+    let state = location.state as Company;
+
+    const processSlice = useSelector((state: RootState) => state.processInterview);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        getDataProcess();
-    }, [getDataProcess]);
+            dispatch(processesState(state.process));
+    }, [dispatch, state]);
 
     function submitProcess(e: React.FormEvent<HTMLFormElement>) {
         addProcess(e)
             .then((res: Process) => {
-                var processStorage = sessionStorage.getItem('process');
-                if (processStorage) {
-                    var processEntity = JSON.parse(processStorage) as Process[];
-                    processEntity.push(res);
-                    sessionStorage.setItem('process', JSON.stringify(process));
-                }
-                processes.push(res);
-                setProcesses(processes);
+                dispatch(addProcessState(res));
+            });
+    }
+
+    function submitInterview(e: React.FormEvent<HTMLFormElement>) {
+        addInterview(e)
+            .then((res: Interview) => {
+                dispatch(addInterviewInProcess(res));
             });
     }
 
     return (
-        <div>
-            {processes?.length > 0 &&
-                processes?.map((process, index) => {
+        <div id="groupInterview" className="subBody">
+            <ListGroup>
+                <p>Nombre de compañia</p>
+                <ListGroup.Item>{state.companyName}</ListGroup.Item>
+            </ListGroup>
+
+            {processSlice.processes?.length > 0 &&
+                processSlice.processes?.map((process, index) => {
                     return (
+
                         <Accordion>
                             <Accordion.Item eventKey={index.toString()} >
                                 <Accordion.Header aria-expanded={false} >Proceso de selección {index + 1}</Accordion.Header>
                                 <Accordion.Body>
-                                    <ProcessForm companyName={companyName} idCompany={idCompany} process={process} />
-                                    <InterviewControl companyName={companyName} process={process} />
+                                    <ProcessForm companyName={state.companyName} idCompany={state.idCompany} process={process} />
+                                    <div>
+                                        {process.interviews?.length > 0 &&
+                                            process.interviews?.map((interview, index) => {
+                                                return (
+                                                    <EditInterview interview={interview} showButton={true} deleteInformation={undefined} id={interview.idInterview} />
+                                                )
+                                            })
+                                        }
+                                        <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#interview" + process.idProcess + "Modal"} >
+                                            Añadir entrevista
+                                        </Button>
+                                        <ModalInterview submit={submitInterview} idProcess={process.idProcess} />
+                                    </div>
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
@@ -62,7 +75,8 @@ export function ProcessControl({ idCompany, companyName }: props) {
             <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"} >
                 Añadir nuevo proceso de selección
             </Button>
-            <NewProcessSelection submit={submitProcess} companyName={companyName} idCompany={idCompany} />
+            <NewProcessSelection submit={submitProcess} companyName={state.companyName} idCompany={state.idCompany} />
+
         </div>
     )
 }

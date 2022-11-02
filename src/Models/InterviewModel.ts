@@ -4,6 +4,7 @@ export interface Company {
     companyName : string,
     dateCreated : Date,
     idCompany: number
+    process:Process[]
 }
 
 export interface Process {
