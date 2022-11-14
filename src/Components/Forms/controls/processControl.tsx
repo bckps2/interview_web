@@ -1,27 +1,36 @@
 import { useEffect } from "react";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
 import { Company, Interview, Process } from "../../../Models/InterviewModel";
-import { addInterview, addProcess } from "../../../Services/RequestService";
+import { addInterview, addProcess, GetCompanyById } from "../../../Services/RequestService";
 import { NewProcessSelection } from "../../Modals/modalProcess";
 import { ProcessForm } from "../views/processForm";
 import { RootState } from "../../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { addProcessState, processesState, addInterviewInProcess } from "../../../redux/reducers/processSlice";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { EditInterview } from "../views/editInterviewForm";
 import { ModalInterview } from "../../Modals/modalInterview";
 
+let company  = {} as Company;
+let isLoading = false;
+let idParams = 0;
+
 export function ProcessControl() {
 
-    let location = useLocation();
-    let state = location.state as Company;
-
-    const processSlice = useSelector((state: RootState) => state.processInterview);
+    let {id} = useParams();
     const dispatch = useDispatch();
+    const processSlice = useSelector((state: RootState) => state.processInterview);
 
     useEffect(() => {
-            dispatch(processesState(state.process));
-    }, [dispatch, state]);
+        if(!isLoading || Number(id) !== idParams){
+            idParams = Number(id);
+            isLoading = true;
+            GetCompanyById(Number(id)).then((res: Company) => {
+                company = res;
+                dispatch(processesState(res.process));
+            });
+        }       
+    }, [dispatch, id, processSlice.processes]);
 
     function submitProcess(e: React.FormEvent<HTMLFormElement>) {
         addProcess(e)
@@ -41,7 +50,7 @@ export function ProcessControl() {
         <div id="groupInterview" className="subBody">
             <ListGroup>
                 <p>Nombre de compañia</p>
-                <ListGroup.Item>{state.companyName}</ListGroup.Item>
+                <ListGroup.Item>{company?.companyName ?? "No Company found"}</ListGroup.Item>
             </ListGroup>
 
             {processSlice.processes?.length > 0 &&
@@ -52,7 +61,7 @@ export function ProcessControl() {
                             <Accordion.Item eventKey={index.toString()} >
                                 <Accordion.Header aria-expanded={false} >Proceso de selección {index + 1}</Accordion.Header>
                                 <Accordion.Body>
-                                    <ProcessForm companyName={state.companyName} idCompany={state.idCompany} process={process} />
+                                    <ProcessForm companyName={company.companyName} idCompany={company.idCompany} process={process} />
                                     <div>
                                         {process.interviews?.length > 0 &&
                                             process.interviews?.map((interview, index) => {
@@ -72,11 +81,11 @@ export function ProcessControl() {
                     )
                 })
             }
-            <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"} >
-                Añadir nuevo proceso de selección
-            </Button>
-            <NewProcessSelection submit={submitProcess} companyName={state.companyName} idCompany={state.idCompany} />
-
+            {company?.companyName !== undefined && 
+                 <><Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"}>
+                    Añadir nuevo proceso de selección
+                </Button><NewProcessSelection submit={submitProcess} companyName={company?.companyName} idCompany={company?.idCompany} /></>
+            }
         </div>
     )
 }

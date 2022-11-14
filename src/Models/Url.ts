@@ -3,6 +3,7 @@ const urlBaseCompany = 'https://interview.apireport.com/api/Company/';
 const urlBaseProcess = 'https://interview.apireport.com/api/Process/';
 
 export const endpointsCompany = {
+   GetCompanyById: urlBaseCompany + 'GetCompanyById',
    GetAllCompanies: urlBaseCompany + 'GetAllCompanies',
    AddCompany: urlBaseCompany + 'AddCompany',
    DeleteCompany: urlBaseCompany + 'DeleteCompany'

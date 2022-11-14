@@ -8,6 +8,16 @@ import { HttpDelete, HttpGet, HttpPost, HttpPut } from "./HttpService";
 import { endpointsCompany, endpointsInterview, endpointsProcess } from "../Models/Url";
 import { Company, Process, Interview } from "../Models/InterviewModel";
 
+export async function GetCompanyById(idCompany:number): Promise<Company> {
+  return await HttpGet(endpointsCompany.GetCompanyById+'/'+idCompany).then((response) => {
+    if (response.ok) {
+      return response.json()
+    }
+  }).then((res: Company) => {
+    return res;
+  })
+} 
+
 export async function GetAllICompanies(): Promise<Company[]> {
   return await HttpGet(endpointsCompany.GetAllCompanies).then((response) => {
     if (response.ok) {
