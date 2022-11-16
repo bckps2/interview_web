@@ -18,15 +18,24 @@ var typeInterviews = Object.keys(TypeInterView);
 
 export function EditInterview({ interview, showButton, id }: props) {
 
-    const [infor, setInformation] = useState(interview);
     const [readOnly, setReadOnly] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
-    const [valueName1, setValueName1] = useState(infor?.nameInterViewers[0]);
-    const [valueName2, setValueName2] = useState(infor?.nameInterViewers[1]);
-    const [valueName3, setValueName3] = useState(infor?.nameInterViewers[2]);
-    const [observation, setObservation] = useState(infor?.observations);
-    const [email, setEmail] = useState(infor?.email);
-    const [typeInterView, setTypeInterview] = useState(infor?.typeInterView.toString());
+    
+    const [datos, setDatos] = useState({
+        name1: interview?.nameInterViewers[0],
+        name2: interview?.nameInterViewers[1],
+        name3:interview?.nameInterViewers[2],
+        observation:interview?.observations,
+        email:interview?.email,
+        typeInterView:interview?.typeInterView.toString()
+    });
+
+    const handleInputChange = (event: React.ChangeEvent<any>) => {
+        setDatos({
+            ...datos,
+            [event.target.name] : event.target.value
+        })
+    }
 
     const dispatch = useDispatch();
     
@@ -44,23 +53,23 @@ export function EditInterview({ interview, showButton, id }: props) {
         <Col xs={5}>
             <Form >
                 <Form.Label>Entrevistador 1</Form.Label>
-                <Form.Control name="entrevistador1" placeholder="Entrevistador 1" required={true} readOnly={readOnly} onChange={(e) => setValueName1(e.target.value)} defaultValue={valueName1} />
+                <Form.Control name="entrevistador1" placeholder="Entrevistador 1" required={true} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.name1} />
                 <Form.Label>Entrevistador 2</Form.Label>
-                <Form.Control name="entrevistador2" placeholder="Entrevistador 2" required={false} readOnly={readOnly} onChange={(e) => setValueName2(e.target.value)} defaultValue={valueName2} />
+                <Form.Control name="entrevistador2" placeholder="Entrevistador 2" required={false} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.name2} />
                 <Form.Label>Entrevistador 3</Form.Label>
-                <Form.Control name="entrevistador3" placeholder="Entrevistador 3" required={false} readOnly={readOnly} onChange={(e) => setValueName3(e.target.value)} defaultValue={valueName3} />
+                <Form.Control name="entrevistador3" placeholder="Entrevistador 3" required={false} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.name3} />
                 <Form.Label>Tipoe de entrevista</Form.Label>
-                <Form.Select disabled={readOnly} name="typeInterView" defaultValue={typeInterView} onChange={(e) => setTypeInterview(e.target.value)}>
+                <Form.Select disabled={readOnly} name="typeInterView" defaultValue={datos.typeInterView} onChange={(e) => handleInputChange(e)}>
                     {typeInterviews.filter((v) => isNaN(Number(v))).map((typeInterview, index) => {
-                        return <option selected={typeInterView === typeInterview ? true : false} value={typeInterview} key={index}>{typeInterview}</option>
+                        return <option selected={datos.typeInterView === typeInterview ? true : false} value={typeInterview} key={index}>{typeInterview}</option>
                     })}
                 </Form.Select>
                 <Form.Label>Email</Form.Label>
-                <Form.Control name="email" placeholder="Email" required={true} readOnly={readOnly} onChange={(e) => setEmail(e.target.value)} defaultValue={email} />
+                <Form.Control name="email" placeholder="Email" required={true} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.email} />
                 <Form.Label>Fecha entrevista</Form.Label>
                 <DatePicker value={interview?.dateInterView.toString()} readOnly={readOnly} name="dateInterview" selected={startDate} onChange={(date) => { if (date) setStartDate(date) }} dateFormat="yyyy-MM-dd" />
                 <Form.Label>Observaciones</Form.Label>
-                <Form.Control name="observations" onChange={(e) => setObservation(e.target.value)} placeholder="Observaciones" required={true} readOnly={readOnly} defaultValue={observation} />
+                <Form.Control name="observations" onChange={(e) => handleInputChange(e)} placeholder="Observaciones" required={true} readOnly={readOnly} defaultValue={datos.observation} />
                 <input type="hidden" value={interview?.idInterview} name="idInformation" />
                 {showButton &&
                     <span>
