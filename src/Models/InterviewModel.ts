@@ -3,22 +3,26 @@ import { TypeInterView } from "./TypeInterView";
 export interface Company {
     companyName : string,
     dateCreated : Date,
-    interViews : Interview[],
     idCompany: number
+    process:Process[]
+}
+
+export interface Process {
+    idProcess:number,
+    externalCompany:string,
+    idInterView : number,
+    idCompany: number,
+    rangeSalarial: string,
+    jobPosition: string
+    interviews : Interview[]
 }
 
 export interface Interview {
-    idInterView : number,
-    companyIdCompany: number,
-    informationInterViews: InformationInterview[],
-    rangeSalarial: string
-}
-
-export interface InformationInterview {
-    interViewIdInterView : number,
+    idProcess : number,
     typeInterView : TypeInterView,
     nameInterViewers: string[],
     dateInterView:Date,
     email:string,
-    observations:string
+    observations:string,
+    idInterview:number
 }

@@ -1,24 +1,23 @@
-import { TypeInterView } from "../TypeInterView";
-
 export interface CompanyDto {
-    companyName : string,
-    dateCreated : Date,
-    interView : InterviewDto,
+    companyName: string,
+    dateCreated: Date,
     idCompany: number
 }
 
 export interface InterviewDto {
-    idInterView : number,
-    companyIdCompany: number,
-    informationInterView: InformationInterviewDto,
-    rangeSalarial: string
+    idProcess: number,
+    typeInterView: string,
+    nameInterViewers: string[],
+    dateInterView: Date,
+    email: string,
+    observations: string,
+    idInterview:number
 }
 
-export interface InformationInterviewDto {
-    interViewIdInterView : number,
-    typeInterView : TypeInterView,
-    nameInterViewers: string[],
-    dateInterView:Date,
-    email:string,
-    observations:string
+export interface ProcessDto { 
+    externalCompany: string,
+    jobPosition: string;
+    idProcess: number,
+    idCompany: number,
+    rangeSalarial: string
 }

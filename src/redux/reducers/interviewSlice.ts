@@ -1,42 +1,28 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Company, InformationInterview, Interview } from "../../Models/InterviewModel";
+import { Interview } from "../../Models/InterviewModel";
 
-interface interviewState{
-    companies : Company[],
+interface interviewState {
     interview: Interview,
-    company:Company
+    interviews: Interview[],
 }
 
 const initialState: interviewState = {
-    companies: {} as Company[],
     interview: {} as Interview,
-    company: {} as Company
+    interviews: {} as Interview[]
 }
 
-const companyInterviewSlice = createSlice({
-    name:'interviews',
+const interviewSlice = createSlice({
+    name: 'interviews',
     initialState,
     reducers: {
-        addNewCompany:(state, action: PayloadAction<Company>) => {
-            state.companies.push(action.payload);
+        addNewInterview: (state, action: PayloadAction<Interview>) => {
+            state.interviews.push(action.payload);
         },
-        AllInterviews:(state, action: PayloadAction<Company[]>) => {
-            state.companies = action.payload;
-        },
-        AddInterView:(state, action:PayloadAction<Interview>) => {  
-            state.company.interViews.push(action.payload);      
-        },
-        setStateInformation:(state, action: PayloadAction<InformationInterview>)=>{
-            state.company.interViews.find((interview) => {
-                return interview.idInterView === action.payload.interViewIdInterView
-            })?.informationInterViews.push(action.payload);
-        },
-        setStateCompany:(state, action:PayloadAction<Company>) => {
-            state.company = action.payload;
+        AllInterviews: (state, action: PayloadAction<Interview[]>) => {
+            state.interviews = action.payload;
         }
     }
 })
 
-export const { AllInterviews, AddInterView, setStateCompany,setStateInformation,addNewCompany } = companyInterviewSlice.actions
-
-export default companyInterviewSlice.reducer
+export const { AllInterviews, addNewInterview } = interviewSlice.actions
+export default interviewSlice.reducer

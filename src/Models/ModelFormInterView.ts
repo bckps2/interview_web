@@ -1,69 +1,18 @@
-import { CompanyDto, InformationInterviewDto, InterviewDto } from "./DTO/interviewDto";
-
-export function createFormInterView(eventTarget: EventTarget | null): CompanyDto {
-
-  const target = eventTarget as typeof eventTarget & company & informationInterview & interview
-
-  let company = {} as CompanyDto;
-  company.interView = {} as InterviewDto;
-  company.interView.informationInterView = {} as InformationInterviewDto;
-  company.interView.informationInterView.nameInterViewers = [] as string[];
-
-  company.companyName = target.companyName.value;
-  company.interView.rangeSalarial = target.rangeSalarial.value;
-  company.interView.informationInterView.nameInterViewers.push(target.entrevistador1.value);
-  company.interView.informationInterView.nameInterViewers.push(target.entrevistador2.value);
-  company.interView.informationInterView.nameInterViewers.push(target.entrevistador3.value);
-  company.interView.informationInterView.email = target.email.value;
-  company.interView.informationInterView.observations = target.observations.value;
-  company.interView.informationInterView.dateInterView = target.dateInterview.value;
-
-  return company;
-};
-
-export function informationInterView(eventTarget: EventTarget | null): InformationInterviewDto {
-
-  const target = eventTarget as typeof eventTarget & informationInterview;
-  var informationInterView = {} as InformationInterviewDto;
-  informationInterView.nameInterViewers = [] as string[];
-
-  informationInterView.nameInterViewers.push(target.entrevistador1.value);
-  informationInterView.nameInterViewers.push(target.entrevistador2.value);
-  informationInterView.nameInterViewers.push(target.entrevistador3.value);
-  informationInterView.email = target.email.value;
-  informationInterView.dateInterView = target.dateInterview.value;
-  informationInterView.observations = target.observations.value;
-  informationInterView.interViewIdInterView = target.idInterview.value;
-  return informationInterView;
-};
-
-export function informationInterViewCompany(eventTarget: EventTarget | null): InterviewDto {
-  const target = eventTarget as typeof eventTarget & informationInterview & interview;
-  let interview = {} as InterviewDto;
-  interview.informationInterView = {} as InformationInterviewDto;
-  interview.informationInterView.nameInterViewers = [] as string[];
-  interview.rangeSalarial = target.rangeSalarial.value;
-  interview.companyIdCompany = target.idCompany.value;
-  interview.informationInterView.nameInterViewers.push(target.entrevistador1.value);
-  interview.informationInterView.nameInterViewers.push(target.entrevistador2.value);
-  interview.informationInterView.nameInterViewers.push(target.entrevistador3.value);
-  interview.informationInterView.dateInterView = target.dateInterview.value;
-  interview.informationInterView.email = target.email.value;
-  interview.informationInterView.observations = target.observations.value;
-  return interview;
-};
+import { CompanyDto, InterviewDto, ProcessDto } from "./DTO/interviewDto";
 
 interface company {
   companyName: { value: string };
 }
 
-interface interview {
+interface Process {
+  externalCompany: { value: string };
   rangeSalarial: { value: string };
   idCompany: { value: number };
   dateInterview: { value: Date };
+  jobPosition: { value: string };
 }
 
-interface informationInterview {
+interface Interview {
   entrevistador1: { value: string };
   entrevistador2: { value: string };
   entrevistador3: { value: string };
@@ -71,5 +20,41 @@ interface informationInterview {
   email: { value: string };
   dateInterview: { value: Date }
   idInterview: { value: number };
+  idProcess: { value: number };
   observations: { value: string };
 }
+
+export function createCompanyDto(eventTarget: EventTarget | null): CompanyDto {
+  const target = eventTarget as typeof eventTarget & company
+  let company = {} as CompanyDto;
+  company.companyName = target.companyName.value;
+  return company;
+};
+
+export function createProcessDto(eventTarget: EventTarget | null): ProcessDto {
+  const target = eventTarget as typeof eventTarget & Process;
+  let process = {} as ProcessDto;
+  process.externalCompany = target.externalCompany.value;
+  process.rangeSalarial = target.rangeSalarial.value;
+  process.idCompany = target.idCompany?.value;
+  process.jobPosition = target.jobPosition.value;
+  return process;
+};
+
+export function createInterviewDto(eventTarget: EventTarget | null): InterviewDto {
+
+  const target = eventTarget as typeof eventTarget & Interview;
+  var interviewDto = {} as InterviewDto;
+
+  interviewDto.nameInterViewers = [] as string[];
+  interviewDto.nameInterViewers.push(target.entrevistador1.value);
+  interviewDto.nameInterViewers.push(target.entrevistador2.value);
+  interviewDto.nameInterViewers.push(target.entrevistador3.value);
+  interviewDto.email = target.email.value;
+  interviewDto.dateInterView = target.dateInterview.value;
+  interviewDto.observations = target.observations.value;
+  interviewDto.idInterview = target.idInterview.value.toString().length > 0 ?  target.idInterview.value : 0;
+  interviewDto.idProcess = target.idProcess?.value;
+  interviewDto.typeInterView = target.typeInterView.value;
+  return interviewDto;
+};

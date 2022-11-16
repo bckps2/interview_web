@@ -1,31 +1,27 @@
-import { useId } from "react";
 import { Button, Form } from "react-bootstrap";
-import { FormInformation } from "../Forms/informationForm";
+import "react-datepicker/dist/react-datepicker.css";
+import { InterviewForm } from "../Forms/views/interviewForm";
 
 interface propsProcess {
-    companyName: string,
-    idInterview: number,
+    idProcess: number,
     submit: any
 }
 
-export const NewInterViewProcessSelection = ({ companyName, submit, idInterview }: propsProcess) => {
-    let id = useId();
+export const ModalInterview = ({ submit, idProcess }: propsProcess) => {
 
     return (
-        <div className="modal fade" data-bs-backdrop="false" id={"interview"+ idInterview + companyName + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
+        <div className="modal fade" data-bs-toggle="modal" data-bs-backdrop="false" id={"interview"+ idProcess + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} >
             <div className="modal-dialog" >
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Recuerda estas añadiendo una entrevista en este proceso de selección en la empresa {companyName}</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div className="modal-body">
-                        <Form key={id} onSubmit={submit}>
-                            <FormInformation />
-                            <input type="hidden" value={idInterview} name="idInterview"></input>
-                            <input type="hidden" value={companyName} name="companyName"></input>
+                        <Form  onSubmit={submit}>
+                            <InterviewForm />
+                            <input type="hidden" value={idProcess} name="idProcess" />
                             <Button type="submit">Añadir entrevista </Button>
                         </Form>
                     </div>

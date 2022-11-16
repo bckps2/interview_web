@@ -1,12 +1,11 @@
 import React, { useId } from "react";
 import { Button, Form } from "react-bootstrap";
-import { FormInterview } from "./interviewForm";
 
 interface props {
     action: any;
 }
 
-export const CompanyEmptyForm = ({action} : props) => {
+export const ModalCompanyform = ({ action }: props) => {
     let id = useId();
     return (
         <div> <div className="modal fade" data-bs-backdrop="false" id={"NewCompanyModal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
@@ -22,7 +21,6 @@ export const CompanyEmptyForm = ({action} : props) => {
                         <Form key={id} onSubmit={action}>
                             <Form.Label >Nombre Compañia</Form.Label>
                             <Form.Control name="companyName" placeholder="Nombre de compañia" required={true} />
-                            <FormInterview />
                             <Button type="submit">Añadir nueva entrevista</Button>
                         </Form>
                     </div>
@@ -35,4 +33,3 @@ export const CompanyEmptyForm = ({action} : props) => {
         </div>
     )
 }
-
