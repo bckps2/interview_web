@@ -25,9 +25,15 @@ const processSlice = createSlice({
         processesState: (state, action:PayloadAction<Process[]>) => {
             state.processes = action.payload;
         },
+        deleteInterviewState: (state, action: PayloadAction<Interview>) => {
+            state.processes.forEach(element => {
+               let index = element.interviews.findIndex(obj => obj.idInterview === action.payload.idInterview );
+                element.interviews.splice(index, 1);
+            });
+        },
         addInterviewInProcess:(state, action:PayloadAction<Interview>)=>{
             state.processes.forEach(c => {
-                if(c.idProcess == action.payload.idProcess){
+                if(c.idProcess === action.payload.idProcess){
                     c.interviews.push(action.payload);
                 }
             })
@@ -35,5 +41,5 @@ const processSlice = createSlice({
     }
 });
 
-export const { addProcessState, processState,processesState,addInterviewInProcess } = processSlice.actions;
+export const { addProcessState, processState,processesState,addInterviewInProcess,deleteInterviewState } = processSlice.actions;
 export default processSlice.reducer;

@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
 import { Company, Interview, Process } from "../../../Models/InterviewModel";
-import { addInterview, addProcess, GetCompanyById } from "../../../Services/RequestService";
+import { addInterview, addProcess, deleteInterview, GetCompanyById } from "../../../Services/RequestService";
 import { NewProcessSelection } from "../../Modals/modalProcess";
 import { ProcessForm } from "../views/processForm";
 import { RootState } from "../../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addProcessState, processesState, addInterviewInProcess } from "../../../redux/reducers/processSlice";
+import { addProcessState, processesState, addInterviewInProcess, deleteInterviewState } from "../../../redux/reducers/processSlice";
 import { useParams } from "react-router-dom";
 import { EditInterview } from "../views/editInterviewForm";
 import { ModalInterview } from "../../Modals/modalInterview";
@@ -22,14 +22,16 @@ export function ProcessControl() {
     const processSlice = useSelector((state: RootState) => state.processInterview);
 
     useEffect(() => {
-        if(!isLoading || Number(id) !== idParams){
-            idParams = Number(id);
-            isLoading = true;
-            GetCompanyById(Number(id)).then((res: Company) => {
-                company = res;
-                dispatch(processesState(res.process));
-            });
-        }       
+        if (!isNaN(Number(id))) {
+            if (!isLoading || Number(id) !== idParams) {
+                idParams = Number(id);
+                isLoading = true;
+                GetCompanyById(Number(id)).then((res: Company) => {
+                    company = res;
+                    dispatch(processesState(res.process));
+                });
+            }
+        }
     }, [dispatch, id, processSlice.processes]);
 
     function submitProcess(e: React.FormEvent<HTMLFormElement>) {
@@ -65,8 +67,9 @@ export function ProcessControl() {
                                     <div>
                                         {process.interviews?.length > 0 &&
                                             process.interviews?.map((interview, index) => {
+                                                console.log(interview.idInterview);
                                                 return (
-                                                    <EditInterview interview={interview} showButton={true} deleteInformation={undefined} id={interview.idInterview} />
+                                                    <EditInterview interview={interview} showButton={true} id={interview.idInterview} />
                                                 )
                                             })
                                         }

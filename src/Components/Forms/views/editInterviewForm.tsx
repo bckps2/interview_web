@@ -4,17 +4,19 @@ import { Interview } from "../../../Models/InterviewModel";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { TypeInterView } from "../../../Models/TypeInterView";
+import { deleteInterview } from "../../../Services/RequestService";
+import { useDispatch } from "react-redux";
+import { deleteInterviewState } from "../../../redux/reducers/processSlice";
 
 interface props {
     interview: Interview | null,
     showButton: boolean,
-    deleteInformation: any,
     id:number
 }
 
 var typeInterviews = Object.keys(TypeInterView);
 
-export function EditInterview({ interview, showButton, deleteInformation, id }: props) {
+export function EditInterview({ interview, showButton, id }: props) {
 
     const [infor, setInformation] = useState(interview);
     const [readOnly, setReadOnly] = useState(true);
@@ -26,38 +28,21 @@ export function EditInterview({ interview, showButton, deleteInformation, id }: 
     const [email, setEmail] = useState(infor?.email);
     const [typeInterView, setTypeInterview] = useState(infor?.typeInterView.toString());
 
-    // function updateInformation(event: any) {
-    //     updateInterviewInformation(event).then((response) => {
-    //         if (response.idInformation) {
-    //             let companySession = sessionStorage.getItem('company');
-    //             if (companySession) {
-    //                 let company = JSON.parse(companySession) as Company;
-
-    //                 company.interViews.forEach((interview) => {
-    //                     if (interview.idInterView === response.interViewIdInterView) {
-    //                         interview.informationInterViews.forEach((information) => {
-    //                             if (information.idInformation === response.idInformation) {
-    //                                 information.typeInterView = response.typeInterView;
-    //                                 information.email = response.email;
-    //                                 information.dateInterView = response.dateInterView;
-    //                                 information.nameInterViewers = response.nameInterViewers;
-    //                                 information.observations = response.observations;
-    //                             }
-    //                         })
-    //                     }
-    //                 });
-
-    //                 sessionStorage.setItem('company', JSON.stringify(company));
-    //                 setInformation(response);
-    //             }
-    //         }
-    //     }).finally(() => setReadOnly(true))
-    // }
+    const dispatch = useDispatch();
+    
+    function deleteInterviewProcess(event: any, idInterview: number | undefined) {
+        event.preventDefault();
+        if(idInterview){
+            deleteInterview(idInterview)
+            .then((res: Interview) => {
+                dispatch(deleteInterviewState(res));
+            });
+        }
+    }
 
     return (
         <Col xs={5}>
             <Form >
-                {/* <Form onSubmit={updateInformation}> */}
                 <Form.Label>Entrevistador 1</Form.Label>
                 <Form.Control name="entrevistador1" placeholder="Entrevistador 1" required={true} readOnly={readOnly} onChange={(e) => setValueName1(e.target.value)} defaultValue={valueName1} />
                 <Form.Label>Entrevistador 2</Form.Label>
@@ -88,8 +73,8 @@ export function EditInterview({ interview, showButton, deleteInformation, id }: 
                         <Button type="submit" className="btn btn-outline-dark">
                             Update information
                         </Button>
-                        <Button type="button" onClick={(e) => deleteInformation(e, interview?.idInterview)} className="btn btn-outline-dark">
-                            Eliminar entrevista
+                        <Button type="button" onClick={(e) => deleteInterviewProcess(e, interview?.idInterview)} className="btn btn-outline-dark">
+                            Eliminar entrevista numero  {interview?.idInterview}
                         </Button>
                     </span>
                 }

@@ -99,8 +99,7 @@ export async function deleteProcess(event: any , idInformation: number): Promise
     })
 }
 
-export async function deleteInterview(event: any , idInterview: number): Promise<Interview> {
-  event.preventDefault();
+export async function deleteInterview(idInterview: number): Promise<Interview> {
   return await HttpDelete(endpointsInterview.DeleteInterview, idInterview)
     .then((response) => response.json())
     .then((response: Process) => response)
