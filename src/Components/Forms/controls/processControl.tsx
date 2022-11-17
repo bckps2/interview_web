@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
 import { Company, Interview, Process } from "../../../Models/InterviewModel";
-import { addInterview, addProcess, deleteInterview, GetCompanyById } from "../../../Services/RequestService";
+import { addInterview, addProcess, GetCompanyById } from "../../../Services/RequestService";
 import { NewProcessSelection } from "../../Modals/modalProcess";
 import { ProcessForm } from "../views/processForm";
 import { RootState } from "../../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addProcessState, processesState, addInterviewInProcess, deleteInterviewState } from "../../../redux/reducers/processSlice";
-import { useParams } from "react-router-dom";
+import { addProcessState, processesState, addInterviewInProcess } from "../../../redux/reducers/processSlice";
+import { useNavigate, useParams } from "react-router-dom";
 import { EditInterview } from "../views/editInterviewForm";
 import { ModalInterview } from "../../Modals/modalInterview";
+import { hideModal } from "../../../Utils/utilsModal";
 
 let company  = {} as Company;
 let isLoading = false;
@@ -20,6 +21,7 @@ export function ProcessControl() {
     let {id} = useParams();
     const dispatch = useDispatch();
     const processSlice = useSelector((state: RootState) => state.processInterview);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!isNaN(Number(id))) {
@@ -38,6 +40,7 @@ export function ProcessControl() {
         addProcess(e)
             .then((res: Process) => {
                 dispatch(addProcessState(res));
+                hideModal("processSelectionModal");
             });
     }
 
@@ -45,11 +48,13 @@ export function ProcessControl() {
         addInterview(e)
             .then((res: Interview) => {
                 dispatch(addInterviewInProcess(res));
+                hideModal("interview"+ res.idProcess + "Modal");
             });
     }
 
     return (
         <div id="groupInterview" className="subBody">
+           <Button onClick={() => navigate(-1)}>Back to Companies</Button>
             <ListGroup>
                 <p>Nombre de compañia</p>
                 <ListGroup.Item>{company?.companyName ?? "No Company found"}</ListGroup.Item>
@@ -84,10 +89,11 @@ export function ProcessControl() {
                     )
                 })
             }
-            {company?.companyName !== undefined && 
-                 <><Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"}>
+            {company?.companyName !== undefined &&
+                <><Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"}>
                     Añadir nuevo proceso de selección
-                </Button><NewProcessSelection submit={submitProcess} companyName={company?.companyName} idCompany={company?.idCompany} /></>
+                </Button>
+                <NewProcessSelection submit={submitProcess} companyName={company?.companyName} idCompany={company?.idCompany} /></>
             }
         </div>
     )
