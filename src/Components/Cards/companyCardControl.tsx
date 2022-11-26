@@ -1,5 +1,5 @@
 import React from "react";
-import { addCompany, deleteCompany, GetAllICompanies } from "../../Services/RequestService";
+import { requestAdd, requestDelete, GetAll } from "../../Services/RequestService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";
@@ -7,6 +7,7 @@ import { AddNewCompany, AllCompanies, DeleteInterviewState } from "../../redux/r
 import { useEffect } from "react";
 import { CompanyCard } from "./companyCard";
 import { hideModal } from "../../Utils/utilsModal";
+import { endpointsCompany } from "../../Models/Url";
 
 export function CompanyCardControl() {
     return <Companies />
@@ -18,7 +19,7 @@ function Companies() {
 
     useEffect(() => {
         if (!companySlice.companies.length) {
-            GetAllICompanies()
+            GetAll(endpointsCompany.GetAllCompanies)
                 .then((res: Company[]) => {
                     dispatch(AllCompanies(res))
                 })
@@ -26,17 +27,21 @@ function Companies() {
     }, [dispatch,companySlice]);
 
     function submitCompany(e: React.FormEvent<HTMLFormElement>) {
-        addCompany(e)
+        requestAdd(endpointsCompany.AddCompany, 'company', e)
             .then((res: Company) => {
-                dispatch(AddNewCompany(res));
+                if(res){
+                    dispatch(AddNewCompany(res));
+                }
                 hideModal("NewCompanyModal");
-            });
+            })
     }
 
     function deleteCompanyInterview(e: React.FormEvent<HTMLFormElement>, idCompany:number){
-        deleteCompany(e, idCompany)
+        requestDelete(e, endpointsCompany.DeleteCompany, idCompany)
             .then((res: Company) => {
-                dispatch(DeleteInterviewState(res));
+                if(res){
+                    dispatch(DeleteInterviewState(res));
+                }
             });
     }
 

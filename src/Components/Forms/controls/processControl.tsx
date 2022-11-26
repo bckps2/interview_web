@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
-import { Company } from "../../../Models/InterviewModel";
-import { GetCompanyById } from "../../../Services/RequestService";
+import { Company, Process } from "../../../Models/InterviewModel";
+import { GetById } from "../../../Services/RequestService";
 import { NewProcessSelection } from "../../Modals/modalProcess";
 import { ProcessForm } from "../views/processForm";
 import { RootState } from "../../../redux/store/store";
@@ -10,6 +10,7 @@ import { processesState } from "../../../redux/reducers/processSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { EditInterview } from "../views/editInterviewForm";
 import { ModalInterview } from "../../Modals/modalInterview";
+import { endpointsCompany } from "../../../Models/Url";
 
 let company = {} as Company;
 let isLoading = false;
@@ -27,7 +28,8 @@ export function ProcessControl() {
             if (!isLoading || Number(id) !== idParams) {
                 idParams = Number(id);
                 isLoading = true;
-                GetCompanyById(Number(id)).then((res: Company) => {
+                GetById(endpointsCompany.GetCompanyById,Number(id))
+                .then((res:Company) => {
                     company = res;
                     dispatch(processesState(res.process));
                 });
@@ -55,7 +57,6 @@ export function ProcessControl() {
                                     <div>
                                         {process.interviews?.length > 0 &&
                                             process.interviews?.map((interview, index) => {
-                                                console.log(interview.idInterview);
                                                 return (
                                                     <EditInterview interview={interview} id={interview.idInterview} />
                                                 )

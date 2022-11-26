@@ -2,8 +2,9 @@ import { Button, Form } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from "react-redux";
 import { Interview } from "../../Models/InterviewModel";
+import { endpointsInterview } from "../../Models/Url";
 import { addInterviewInProcess } from "../../redux/reducers/processSlice";
-import { addInterview } from "../../Services/RequestService";
+import { requestAdd } from "../../Services/RequestService";
 import { hideModal } from "../../Utils/utilsModal";
 import { InterviewForm } from "../Forms/views/interviewForm";
 
@@ -11,20 +12,22 @@ interface propsProcess {
     idProcess: number
 }
 
-export const ModalInterview = ({idProcess }: propsProcess) => {
-    
+export const ModalInterview = ({ idProcess }: propsProcess) => {
+
     const dispatch = useDispatch();
 
     function submitInterview(e: React.FormEvent<HTMLFormElement>) {
-        addInterview(e)
+        requestAdd(endpointsInterview.AddInterview, 'interview', e)
             .then((res: Interview) => {
-                dispatch(addInterviewInProcess(res));
+                if (res) {
+                    dispatch(addInterviewInProcess(res));
+                }
                 hideModal("interview" + res.idProcess + "Modal");
             });
     }
 
     return (
-        <div className="modal fade" data-bs-toggle="modal" data-bs-backdrop="false" id={"interview"+ idProcess + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} >
+        <div className="modal fade" data-bs-toggle="modal" data-bs-backdrop="false" id={"interview" + idProcess + "Modal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} >
             <div className="modal-dialog" >
                 <div className="modal-content">
                     <div className="modal-header">
@@ -33,7 +36,7 @@ export const ModalInterview = ({idProcess }: propsProcess) => {
                         </button>
                     </div>
                     <div className="modal-body">
-                        <Form  onSubmit={submitInterview}>
+                        <Form onSubmit={submitInterview}>
                             <InterviewForm />
                             <input type="hidden" value={idProcess} name="idProcess" />
                             <Button type="submit">Añadir</Button>

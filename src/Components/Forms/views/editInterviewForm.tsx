@@ -4,9 +4,10 @@ import { Interview } from "../../../Models/InterviewModel";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { TypeInterView } from "../../../Models/TypeInterView";
-import { deleteInterview } from "../../../Services/RequestService";
+import { requestDelete } from "../../../Services/RequestService";
 import { useDispatch } from "react-redux";
 import { deleteInterviewState } from "../../../redux/reducers/processSlice";
+import { endpointsInterview } from "../../../Models/Url";
 
 interface props {
     interview: Interview | null,
@@ -39,11 +40,12 @@ export function EditInterview({ interview, id }: props) {
     const dispatch = useDispatch();
     
     function deleteInterviewProcess(event: any, idInterview: number | undefined) {
-        event.preventDefault();
         if(idInterview){
-            deleteInterview(idInterview)
+            requestDelete(event, endpointsInterview.DeleteInterview,idInterview)
             .then((res: Interview) => {
-                dispatch(deleteInterviewState(res));
+                if(res){
+                    dispatch(deleteInterviewState(res));
+                }
             });
         }
     }

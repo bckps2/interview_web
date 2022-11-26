@@ -1,8 +1,9 @@
 import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { Process } from "../../Models/InterviewModel";
+import { endpointsProcess } from "../../Models/Url";
 import { addProcessState } from "../../redux/reducers/processSlice";
-import { addProcess } from "../../Services/RequestService";
+import { requestAdd } from "../../Services/RequestService";
 import { hideModal } from "../../Utils/utilsModal";
 import { ProcessForm } from "../Forms/views/processForm";
 
@@ -14,11 +15,13 @@ interface propsProcess {
 export const NewProcessSelection = ({ companyName, idCompany }: propsProcess) => {
 
     let dispatch = useDispatch();
-    
+
     function submitProcess(e: React.FormEvent<HTMLFormElement>) {
-        addProcess(e)
+        requestAdd(endpointsProcess.AddProcess, 'process', e)
             .then((res: Process) => {
-                dispatch(addProcessState(res));
+                if (res) {
+                    dispatch(addProcessState(res));
+                }
                 hideModal("processSelectionModal");
             });
     }
@@ -47,7 +50,3 @@ export const NewProcessSelection = ({ companyName, idCompany }: propsProcess) =>
         </div>
     )
 }
-function dispatch(arg0: { payload: import("../../Models/InterviewModel").Process; type: string; }) {
-    throw new Error("Function not implemented.");
-}
-
