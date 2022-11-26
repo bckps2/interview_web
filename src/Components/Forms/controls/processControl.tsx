@@ -28,21 +28,23 @@ export function ProcessControl() {
             if (!isLoading || Number(id) !== idParams) {
                 idParams = Number(id);
                 isLoading = true;
-                GetById(endpointsCompany.GetCompanyById,Number(id))
-                .then((res:Company) => {
-                    company = res;
-                    dispatch(processesState(res.process));
-                });
+                GetById(endpointsCompany.GetCompanyById, Number(id))
+                    .then((res: Company) => {
+                        if (res) {
+                            company = res;
+                            dispatch(processesState(res.process));
+                        }
+                    });
             }
         }
     }, [dispatch, id, processSlice.processes]);
 
     return (
         <div id="groupInterview" className="subBody">
-            <Button onClick={() => navigate(-1)}>Back to Companies</Button>
+            <Button onClick={() => navigate('/InterViews')}>Back to Companies</Button>
             <ListGroup>
                 <p>Nombre de compañia</p>
-                <ListGroup.Item>{company?.companyName ?? "No Company found"}</ListGroup.Item>
+                <ListGroup.Item>{company?.companyName ?? "Not found process or company"}</ListGroup.Item>
             </ListGroup>
 
             {processSlice.processes?.length > 0 &&
