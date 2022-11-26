@@ -1,24 +1,23 @@
 import { useEffect } from "react";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
-import { Company, Interview, Process } from "../../../Models/InterviewModel";
-import { addInterview, addProcess, GetCompanyById } from "../../../Services/RequestService";
+import { Company } from "../../../Models/InterviewModel";
+import { GetCompanyById } from "../../../Services/RequestService";
 import { NewProcessSelection } from "../../Modals/modalProcess";
 import { ProcessForm } from "../views/processForm";
 import { RootState } from "../../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addProcessState, processesState, addInterviewInProcess } from "../../../redux/reducers/processSlice";
+import { processesState } from "../../../redux/reducers/processSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { EditInterview } from "../views/editInterviewForm";
 import { ModalInterview } from "../../Modals/modalInterview";
-import { hideModal } from "../../../Utils/utilsModal";
 
-let company  = {} as Company;
+let company = {} as Company;
 let isLoading = false;
 let idParams = 0;
 
 export function ProcessControl() {
 
-    let {id} = useParams();
+    let { id } = useParams();
     const dispatch = useDispatch();
     const processSlice = useSelector((state: RootState) => state.processInterview);
     const navigate = useNavigate();
@@ -36,25 +35,9 @@ export function ProcessControl() {
         }
     }, [dispatch, id, processSlice.processes]);
 
-    function submitProcess(e: React.FormEvent<HTMLFormElement>) {
-        addProcess(e)
-            .then((res: Process) => {
-                dispatch(addProcessState(res));
-                hideModal("processSelectionModal");
-            });
-    }
-
-    function submitInterview(e: React.FormEvent<HTMLFormElement>) {
-        addInterview(e)
-            .then((res: Interview) => {
-                dispatch(addInterviewInProcess(res));
-                hideModal("interview"+ res.idProcess + "Modal");
-            });
-    }
-
     return (
         <div id="groupInterview" className="subBody">
-           <Button onClick={() => navigate(-1)}>Back to Companies</Button>
+            <Button onClick={() => navigate(-1)}>Back to Companies</Button>
             <ListGroup>
                 <p>Nombre de compañia</p>
                 <ListGroup.Item>{company?.companyName ?? "No Company found"}</ListGroup.Item>
@@ -74,14 +57,14 @@ export function ProcessControl() {
                                             process.interviews?.map((interview, index) => {
                                                 console.log(interview.idInterview);
                                                 return (
-                                                    <EditInterview interview={interview} showButton={true} id={interview.idInterview} />
+                                                    <EditInterview interview={interview} id={interview.idInterview} />
                                                 )
                                             })
                                         }
                                         <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#interview" + process.idProcess + "Modal"} >
                                             Añadir entrevista
                                         </Button>
-                                        <ModalInterview submit={submitInterview} idProcess={process.idProcess} />
+                                        <ModalInterview idProcess={process.idProcess} />
                                     </div>
                                 </Accordion.Body>
                             </Accordion.Item>
@@ -90,10 +73,12 @@ export function ProcessControl() {
                 })
             }
             {company?.companyName !== undefined &&
-                <><Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"}>
-                    Añadir nuevo proceso de selección
-                </Button>
-                <NewProcessSelection submit={submitProcess} companyName={company?.companyName} idCompany={company?.idCompany} /></>
+                <>
+                    <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"}>
+                        Añadir nuevo proceso de selección
+                    </Button>
+                    <NewProcessSelection companyName={company?.companyName} idCompany={company?.idCompany} />
+                </>
             }
         </div>
     )

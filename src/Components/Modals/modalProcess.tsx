@@ -1,13 +1,28 @@
 import { Button, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { Process } from "../../Models/InterviewModel";
+import { addProcessState } from "../../redux/reducers/processSlice";
+import { addProcess } from "../../Services/RequestService";
+import { hideModal } from "../../Utils/utilsModal";
 import { ProcessForm } from "../Forms/views/processForm";
 
 interface propsProcess {
     companyName: string,
-    idCompany: number,
-    submit: any
+    idCompany: number
 }
 
-export const NewProcessSelection = ({ companyName, submit, idCompany }: propsProcess) => {
+export const NewProcessSelection = ({ companyName, idCompany }: propsProcess) => {
+
+    let dispatch = useDispatch();
+    
+    function submitProcess(e: React.FormEvent<HTMLFormElement>) {
+        addProcess(e)
+            .then((res: Process) => {
+                dispatch(addProcessState(res));
+                hideModal("processSelectionModal");
+            });
+    }
+
     return (
         <div className="modal fade" data-bs-toggle="modal" data-bs-backdrop="false" id={"processSelectionModal"} tabIndex={-1} aria-labelledby={"exampleModalLabel"} aria-hidden="true">
             <div className="modal-dialog" >
@@ -19,7 +34,7 @@ export const NewProcessSelection = ({ companyName, submit, idCompany }: propsPro
                         </button>
                     </div>
                     <div className="modal-body">
-                        <Form onSubmit={submit}>
+                        <Form onSubmit={submitProcess}>
                             <ProcessForm process={null} companyName={companyName} idCompany={idCompany} />
                             <Button type="submit">Añadir</Button>
                         </Form>
@@ -32,3 +47,7 @@ export const NewProcessSelection = ({ companyName, submit, idCompany }: propsPro
         </div>
     )
 }
+function dispatch(arg0: { payload: import("../../Models/InterviewModel").Process; type: string; }) {
+    throw new Error("Function not implemented.");
+}
+

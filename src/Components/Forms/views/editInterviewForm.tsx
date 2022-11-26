@@ -10,13 +10,12 @@ import { deleteInterviewState } from "../../../redux/reducers/processSlice";
 
 interface props {
     interview: Interview | null,
-    showButton: boolean,
     id:number
 }
 
 var typeInterviews = Object.keys(TypeInterView);
 
-export function EditInterview({ interview, showButton, id }: props) {
+export function EditInterview({ interview, id }: props) {
 
     const [readOnly, setReadOnly] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
@@ -51,7 +50,7 @@ export function EditInterview({ interview, showButton, id }: props) {
 
     return (
         <Col xs={5}>
-            <Form >
+            <Form>
                 <Form.Label>Entrevistador 1</Form.Label>
                 <Form.Control name="entrevistador1" placeholder="Entrevistador 1" required={true} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.name1} />
                 <Form.Label>Entrevistador 2</Form.Label>
@@ -71,7 +70,6 @@ export function EditInterview({ interview, showButton, id }: props) {
                 <Form.Label>Observaciones</Form.Label>
                 <Form.Control name="observations" onChange={(e) => handleInputChange(e)} placeholder="Observaciones" required={true} readOnly={readOnly} defaultValue={datos.observation} />
                 <input type="hidden" value={interview?.idInterview} name="idInformation" />
-                {showButton &&
                     <span>
                         <Button type="button" onClick={(e) => setReadOnly(false)} className="btn btn-outline-dark">
                             Editar entrevista
@@ -83,10 +81,9 @@ export function EditInterview({ interview, showButton, id }: props) {
                             Update information
                         </Button>
                         <Button type="button" onClick={(e) => deleteInterviewProcess(e, interview?.idInterview)} className="btn btn-outline-dark">
-                            Eliminar entrevista numero  {interview?.idInterview}
+                            Eliminar
                         </Button>
                     </span>
-                }
             </Form>
         </Col>
     )
