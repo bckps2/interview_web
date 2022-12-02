@@ -25,7 +25,7 @@ export function InterviewForm() {
             <Form.Label>Email</Form.Label>
             <Form.Control name="email" placeholder="Email" required={true} />
             <Form.Label>Fecha entrevista</Form.Label>
-            <DatePicker name="dateInterview" selected={startDate} onChange={(date) => { if (date) setStartDate(date) }} dateFormat="yyyy-MM-dd" />
+            <DatePicker name="dateInterview" selected={startDate} onChange={(date) => { if (date) setStartDate(date) }} dateFormat={"dd-MM-yyyy"}/>
             <Form.Label>Observaciones</Form.Label>
             <Form.Control name="observations" placeholder="Observaciones" required={true} />
             <input type="hidden" value={0} name="idInterview" />

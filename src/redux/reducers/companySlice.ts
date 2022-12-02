@@ -28,11 +28,11 @@ const companySlice = createSlice({
                 }
             });
         },
-        DeleteInterviewState: (state, action: PayloadAction<Company>) => {
-            state.companies = state.companies.filter((company) => { return company.idCompany !== action.payload.idCompany }) as Company[];
+        deleteCompany: (state, action: PayloadAction<Company>) => {
+            state.companies = state.companies.filter((company) => { return company.idCompany !== action.payload.idCompany });
         }
     }
 });
 
-export const { AllCompanies, AddNewCompany, FindingCompany, DeleteInterviewState } = companySlice.actions;
+export const { AllCompanies, AddNewCompany, FindingCompany, deleteCompany } = companySlice.actions;
 export default companySlice.reducer;

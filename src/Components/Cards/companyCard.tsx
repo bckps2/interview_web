@@ -32,7 +32,7 @@ export const CompanyCard = ({ companies, submit, deleteCompany }: props) => {
                                         <Card key={"modalcompany" + index}>
                                             <Card.Img variant="top" src="holder.js/100px180" />
                                             <Card.Body>
-                                                <Link to={'' + company.idCompany} state={company} >
+                                                <Link to={'' + company.idCompany}>
                                                     <Card.Title>{company.companyName}</Card.Title>
                                                 </Link>
                                                 <Card.Text>

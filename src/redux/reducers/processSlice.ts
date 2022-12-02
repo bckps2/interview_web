@@ -27,8 +27,7 @@ const processSlice = createSlice({
         },
         deleteInterviewState: (state, action: PayloadAction<Interview>) => {
             state.processes.forEach(element => {
-               let index = element.interviews.findIndex(obj => obj.idInterview === action.payload.idInterview );
-                element.interviews.splice(index, 1);
+                element.interviews = element.interviews.filter(obj => {return obj.idInterview !== action.payload.idInterview} );
             });
         },
         addInterviewInProcess:(state, action:PayloadAction<Interview>)=>{

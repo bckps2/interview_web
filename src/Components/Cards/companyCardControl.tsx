@@ -3,7 +3,7 @@ import { requestAdd, requestDelete, GetAll } from "../../Services/RequestService
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";
-import { AddNewCompany, AllCompanies, DeleteInterviewState } from "../../redux/reducers/companySlice";
+import { AddNewCompany, AllCompanies, deleteCompany } from "../../redux/reducers/companySlice";
 import { useEffect } from "react";
 import { CompanyCard } from "./companyCard";
 import { hideModal } from "../../Utils/utilsModal";
@@ -40,7 +40,7 @@ function Companies() {
         requestDelete(e, endpointsCompany.DeleteCompany, idCompany)
             .then((res: Company) => {
                 if(res){
-                    dispatch(DeleteInterviewState(res));
+                    dispatch(deleteCompany(res));
                 }
             });
     }

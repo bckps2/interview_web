@@ -11,61 +11,72 @@ import { endpointsInterview } from "../../../Models/Url";
 
 interface props {
     interview: Interview,
-    id:number
+    id: number
 }
 
 var typeInterviews = Object.keys(TypeInterView);
 
 export function EditInterview({ interview, id }: props) {
 
+    const dispatch = useDispatch();
     const [readOnly, setReadOnly] = useState(true);
     const [startDate, setStartDate] = useState(interview.dateInterView);
-
-    const [datos, setDatos] = useState({
-        name1: interview?.nameInterViewers[0],
-        name2: interview?.nameInterViewers[1],
-        name3: interview?.nameInterViewers[2],
-        observation: interview?.observations,
-        email: interview?.email,
-        typeInterView: interview?.typeInterView
-    });
-
+    
     const handleInputChange = (event: any) => {
+        event.preventDefault();
         setDatos({
             ...datos,
-            [event.target.name] : event.target.value
+            [event.target.name]: event.target.value
         })
     }
 
-    const dispatch = useDispatch();
-    
+    const [datos, setDatos] = useState({
+        entrevistador1: interview?.nameInterViewers[0],
+        entrevistador2: interview?.nameInterViewers[1],
+        entrevistador3: interview?.nameInterViewers[2],
+        observation: interview?.observations,
+        email: interview?.email,
+        typeInterView: interview?.typeInterView.toString(),
+        dateInterview: interview?.dateInterView
+    });
+
+    const setStateInterview = (interview : Interview) =>{
+        setDatos({
+            ...datos,
+            email: interview.email,
+            entrevistador1: interview.nameInterViewers[0],
+            entrevistador2: interview.nameInterViewers[1],
+            entrevistador3: interview.nameInterViewers[2],
+            observation: interview.observations,
+            typeInterView: interview.typeInterView.toString(),
+            dateInterview: interview.dateInterView
+        });
+    }
+
     function deleteInterview(event: any, idInterview: number | undefined) {
-        if(idInterview){
-            requestDelete(event, endpointsInterview.DeleteInterview,idInterview)
-            .then((res: Interview) => {
-                if(res){
-                    dispatch(deleteInterviewState(res));
-                }
-            });
+        if (idInterview) {
+            requestDelete(event, endpointsInterview.DeleteInterview, idInterview)
+                .then((res: Interview) => {
+                    if (res) {
+                        dispatch(deleteInterviewState(res));
+                    }
+                });
         }
     }
 
-    function updateInterview(event: any) {
-            requestUpdate(endpointsInterview.UpdateInterview, 'interview', event)
-            .then((res: Interview) => {
-                if(res){
-                    dispatch(updateStateInterview(res));
-                    
-                    setDatos({
-                        ...datos,
-                        email: res.email,
-                        name1: res.nameInterViewers[0],
-                        name2: res.nameInterViewers[1],
-                        name3: res.nameInterViewers[2],
-                        observation: res.observations,
-                        typeInterView: res.typeInterView
-                    });
+    function cancelUpdate(event: any) {
+        event.preventDefault();
+        setStateInterview(interview);
+        setStartDate(interview?.dateInterView);
+        setReadOnly(true);
+    }
 
+    function updateInterview(event: any) {
+        requestUpdate(endpointsInterview.UpdateInterview, 'interview', event)
+            .then((res: Interview) => {
+                if (res) {
+                    dispatch(updateStateInterview(res));
+                    setStateInterview(res);
                     setReadOnly(true);
                 }
             });
@@ -75,13 +86,13 @@ export function EditInterview({ interview, id }: props) {
         <Col xs={5}>
             <Form onSubmit={updateInterview}>
                 <Form.Label>Entrevistador 1</Form.Label>
-                <Form.Control name="entrevistador1" placeholder="Entrevistador 1" required={true} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.name1} />
+                <Form.Control name="entrevistador1" placeholder="Entrevistador 1" required={true} readOnly={readOnly} onChange={(e) => handleInputChange(e)} value={datos.entrevistador1} />
                 <Form.Label>Entrevistador 2</Form.Label>
-                <Form.Control name="entrevistador2" placeholder="Entrevistador 2" required={false} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.name2} />
+                <Form.Control name="entrevistador2" placeholder="Entrevistador 2" required={false} readOnly={readOnly} onChange={(e) => handleInputChange(e)} value={datos.entrevistador2} />
                 <Form.Label>Entrevistador 3</Form.Label>
-                <Form.Control name="entrevistador3" placeholder="Entrevistador 3" required={false} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.name3} />
+                <Form.Control name="entrevistador3" placeholder="Entrevistador 3" required={false} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.entrevistador3} />
                 <Form.Label>Tipoe de entrevista</Form.Label>
-                <Form.Select disabled={readOnly} name="typeInterView" defaultValue={datos.typeInterView} onChange={(e) => handleInputChange(e)}>
+                <Form.Select disabled={readOnly} name="typeInterView" value={datos.typeInterView} onChange={(e) => handleInputChange(e)}>
                     {typeInterviews.filter((v) => isNaN(Number(v))).map((typeInterview, index) => {
                         return <option value={typeInterview} key={index}>{typeInterview}</option>
                     })}
@@ -93,21 +104,21 @@ export function EditInterview({ interview, id }: props) {
                 <Form.Label>Observaciones</Form.Label>
                 <Form.Control name="observations" onChange={(e) => handleInputChange(e)} placeholder="Observaciones" required={true} readOnly={readOnly} defaultValue={datos.observation} />
                 <input type="hidden" value={interview?.idInterview} name="idInterview" />
-                <input type="hidden" value={interview?.idProcess} name="idProcess" /> 
-                    <span>
-                        <Button type="button" style={readOnly ? {display: "inline"} :{display:"none"}} onClick={(e) => setReadOnly(false)} className="btn btn-outline-dark">
-                            Editar entrevista
-                        </Button>
-                        <Button type="button" onClick={(e) => setReadOnly(true)} style={readOnly ? {display: "none"} :{display:"inline"}} className={"btn btn-outline-dark"}>
-                            Cancelar
-                        </Button>
-                        <Button type="submit" style={readOnly ? {display: "none"} :{display:"inline"}} className="btn btn-outline-dark">
-                            Update information
-                        </Button>
-                        <Button type="button" style={readOnly ? {display: "none"} :{display:"inline"}} onClick={(e) => deleteInterview(e, interview?.idInterview)} className="btn btn-outline-dark">
-                            Eliminar
-                        </Button>
-                    </span>
+                <input type="hidden" value={interview?.idProcess} name="idProcess" />
+                <span>
+                    <Button type="button" style={readOnly ? { display: "inline" } : { display: "none" }} onClick={(e) => setReadOnly(false)} className="btn btn-outline-dark">
+                        Editar entrevista
+                    </Button>
+                    <Button type="button" onClick={(e) => cancelUpdate(e)} style={readOnly ? { display: "none" } : { display: "inline" }} className={"btn btn-outline-dark"}>
+                        Cancelar
+                    </Button>
+                    <Button type="submit" style={readOnly ? { display: "none" } : { display: "inline" }} className="btn btn-outline-dark">
+                        Update information
+                    </Button>
+                    <Button type="button" style={readOnly ? { display: "none" } : { display: "inline" }} onClick={(e) => deleteInterview(e, interview?.idInterview)} className="btn btn-outline-dark">
+                        Eliminar
+                    </Button>
+                </span>
             </Form>
         </Col>
     )
