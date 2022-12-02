@@ -37,9 +37,20 @@ const processSlice = createSlice({
                     c.interviews.push(action.payload);
                 }
             })
+        },
+        updateStateInterview:(state, action:PayloadAction<Interview>)=>{
+            state.processes.forEach(c => {
+                if(c.idProcess === action.payload.idProcess){
+                    c.interviews.forEach(interview => {
+                        if(interview.idInterview === action.payload.idInterview){
+                            interview = action.payload;
+                        }
+                    });
+                }
+            })
         }
     }
 });
 
-export const { addProcessState, processState,processesState,addInterviewInProcess,deleteInterviewState } = processSlice.actions;
+export const { addProcessState, processState,processesState,addInterviewInProcess,deleteInterviewState,updateStateInterview } = processSlice.actions;
 export default processSlice.reducer;

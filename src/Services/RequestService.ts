@@ -53,6 +53,25 @@ export async function requestAdd(endpoint: string, type: string, event: React.Fo
     .finally(() => (event.target as HTMLFormElement).reset());
 }
 
+export async function requestUpdate(endpoint: string, type: string, event: React.FormEvent<HTMLFormElement>): Promise<any> {
+  event?.preventDefault();
+  let body = CreateBody(type, event);
+
+  return await HttpPut(endpoint, body)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        alert(response.status);
+      }
+    }).then((response: any) => response)
+    .catch((rsjx) => {
+      alert(rsjx);
+    })
+    .finally(() => (event.target as HTMLFormElement).reset());
+}
+
+
 export async function requestDelete(event: any, enpoint: string, idToDelete: number): Promise<any> {
   event.preventDefault();
   return await HttpDelete(enpoint, idToDelete)

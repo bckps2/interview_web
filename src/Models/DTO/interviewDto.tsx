@@ -8,7 +8,7 @@ export interface InterviewDto {
     idProcess: number,
     typeInterView: string,
     nameInterViewers: string[],
-    dateInterView: Date,
+    dateInterView: string,
     email: string,
     observations: string,
     idInterview:number
