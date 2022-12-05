@@ -19,6 +19,7 @@ export const endpointsProcess = {
 export const endpointsInterview = {
    GetAllInterviews: urlBaseInterView + 'GetInterviews',
    GetByIdProcess: urlBaseInterView + 'GetByIdProcess',
+   GetInterviewById:urlBaseInterView + 'GetInterviewById',
    AddInterview: urlBaseInterView + 'AddInterview',
    DeleteInterview: urlBaseInterView + 'DeleteInterview',
    UpdateInterview: urlBaseInterView + 'UpdateInterview'

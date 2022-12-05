@@ -1,16 +1,14 @@
 import { useEffect } from "react";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
-import { Company, Process } from "../../../Models/InterviewModel";
-import { GetById } from "../../../Services/RequestService";
-import { NewProcessSelection } from "../../Modals/modalProcess";
-import { ProcessForm } from "../views/processForm";
+import { Company, Interview, Process } from "../../../Models/InterviewModel";
+import { GetById, requestAdd } from "../../../Services/RequestService";
+import { ModalProcess, ProcessForm } from "../views/processForm";
 import { RootState } from "../../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { processesState } from "../../../redux/reducers/processSlice";
+import { addInterviewInProcess, addProcessState, processesState } from "../../../redux/reducers/processSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { EditInterview } from "../views/editInterviewForm";
-import { ModalInterview } from "../../Modals/modalInterview";
-import { endpointsCompany } from "../../../Models/Url";
+import { endpointsCompany, endpointsInterview, endpointsProcess } from "../../../Models/Url";
+import { EditInterview, ModalInterview } from "../views/interviewForm";
 
 let company = {} as Company;
 let isLoading = false;
@@ -39,6 +37,24 @@ export function ProcessControl() {
         }
     }, [dispatch, id, processSlice.processes]);
 
+    function submitInterview(e: React.FormEvent<HTMLFormElement>) {
+        requestAdd(endpointsInterview.AddInterview, 'interview', e)
+            .then((res: Interview) => {
+                if (res) {
+                    dispatch(addInterviewInProcess(res));
+                }
+            });
+    }
+    
+    function submitProcess(e: React.FormEvent<HTMLFormElement>) {
+        requestAdd(endpointsProcess.AddProcess, 'process', e)
+            .then((res: Process) => {
+                if (res) {
+                    dispatch(addProcessState(res));
+                }
+            });
+    }
+    
     return (
         <div id="groupInterview" className="subBody">
             <Button onClick={() => navigate('/InterViews')}>Back to Companies</Button>
@@ -60,14 +76,11 @@ export function ProcessControl() {
                                         {process.interviews?.length > 0 &&
                                             process.interviews?.map((interview, index) => {
                                                 return (
-                                                    <EditInterview interview={interview} id={interview.idInterview} />
+                                                    <EditInterview interview={interview} />
                                                 )
                                             })
                                         }
-                                        <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#interview" + process.idProcess + "Modal"} >
-                                            Añadir entrevista
-                                        </Button>
-                                        <ModalInterview idProcess={process.idProcess} />
+                                        <ModalInterview action={submitInterview} idProcess={process.idProcess} />
                                     </div>
                                 </Accordion.Body>
                             </Accordion.Item>
@@ -77,10 +90,7 @@ export function ProcessControl() {
             }
             {company?.companyName !== undefined &&
                 <>
-                    <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"}>
-                        Añadir nuevo proceso de selección
-                    </Button>
-                    <NewProcessSelection companyName={company?.companyName} idCompany={company?.idCompany} />
+                    <ModalProcess action={submitProcess} companyName={company?.companyName} idCompany={company?.idCompany} />
                 </>
             }
         </div>

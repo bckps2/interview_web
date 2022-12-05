@@ -1,12 +1,11 @@
 import React from "react";
-import { requestAdd, requestDelete, GetAll } from "../../Services/RequestService";
+import { requestDelete, GetAll, requestAdd } from "../../Services/RequestService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";
 import { AddNewCompany, AllCompanies, deleteCompany } from "../../redux/reducers/companySlice";
 import { useEffect } from "react";
 import { CompanyCard } from "./companyCard";
-import { hideModal } from "../../Utils/utilsModal";
 import { endpointsCompany } from "../../Models/Url";
 
 export function CompanyCardControl() {
@@ -25,17 +24,7 @@ function Companies() {
                 })
         }
     }, [dispatch,companySlice]);
-
-    function submitCompany(e: React.FormEvent<HTMLFormElement>) {
-        requestAdd(endpointsCompany.AddCompany, 'company', e)
-            .then((res: Company) => {
-                if(res){
-                    dispatch(AddNewCompany(res));
-                }
-                hideModal("NewCompanyModal");
-            })
-    }
-
+    
     function deleteCompanyInterview(e: React.FormEvent<HTMLFormElement>, idCompany:number){
         requestDelete(e, endpointsCompany.DeleteCompany, idCompany)
             .then((res: Company) => {
@@ -45,8 +34,17 @@ function Companies() {
             });
     }
 
+    function submitCompany(e: React.FormEvent<HTMLFormElement>) {
+        requestAdd(endpointsCompany.AddCompany, 'company', e)
+            .then((res: Company) => {
+                if (res) {
+                    dispatch(AddNewCompany(res));
+                }
+            })
+    }
+    
     return (
-        <CompanyCard deleteCompany={deleteCompanyInterview} companies={companySlice?.companies} submit={submitCompany} />
+        <CompanyCard addCompany={submitCompany} deleteCompany={deleteCompanyInterview} companies={companySlice?.companies} />
     )
 }
 

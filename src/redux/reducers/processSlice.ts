@@ -33,6 +33,10 @@ const processSlice = createSlice({
         addInterviewInProcess:(state, action:PayloadAction<Interview>)=>{
             state.processes.forEach(c => {
                 if(c.idProcess === action.payload.idProcess){
+                    if(c.interviews === null){
+                        c.interviews = [];
+                    }
+                    
                     c.interviews.push(action.payload);
                 }
             })
