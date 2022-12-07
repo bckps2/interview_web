@@ -1,58 +1,66 @@
 import { useEffect } from "react";
 import { Accordion, Button, ListGroup } from "react-bootstrap";
 import { Company, Interview, Process } from "../../../Models/InterviewModel";
-import { addInterview, addProcess, deleteInterview, GetCompanyById } from "../../../Services/RequestService";
-import { NewProcessSelection } from "../../Modals/modalProcess";
-import { ProcessForm } from "../views/processForm";
+import { GetById, requestAdd } from "../../../Services/RequestService";
+import { ModalProcess, ProcessForm } from "../views/processForm";
 import { RootState } from "../../../redux/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { addProcessState, processesState, addInterviewInProcess, deleteInterviewState } from "../../../redux/reducers/processSlice";
-import { useParams } from "react-router-dom";
-import { EditInterview } from "../views/editInterviewForm";
-import { ModalInterview } from "../../Modals/modalInterview";
+import { addInterviewInProcess, addProcessState, processesState } from "../../../redux/reducers/processSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { endpointsCompany, endpointsInterview, endpointsProcess } from "../../../Models/Url";
+import { EditInterview, ModalInterview } from "../views/interviewForm";
 
-let company  = {} as Company;
+let company = {} as Company;
 let isLoading = false;
 let idParams = 0;
 
 export function ProcessControl() {
 
-    let {id} = useParams();
+    let { id } = useParams();
     const dispatch = useDispatch();
     const processSlice = useSelector((state: RootState) => state.processInterview);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!isNaN(Number(id))) {
             if (!isLoading || Number(id) !== idParams) {
                 idParams = Number(id);
                 isLoading = true;
-                GetCompanyById(Number(id)).then((res: Company) => {
-                    company = res;
-                    dispatch(processesState(res.process));
-                });
+                GetById(endpointsCompany.GetCompanyById, Number(id))
+                    .then((res: Company) => {
+                        if (res) {
+                            company = res;
+                            dispatch(processesState(res.process));
+                        }
+                    });
             }
         }
     }, [dispatch, id, processSlice.processes]);
 
-    function submitProcess(e: React.FormEvent<HTMLFormElement>) {
-        addProcess(e)
-            .then((res: Process) => {
-                dispatch(addProcessState(res));
-            });
-    }
-
     function submitInterview(e: React.FormEvent<HTMLFormElement>) {
-        addInterview(e)
+        requestAdd(endpointsInterview.AddInterview, 'interview', e)
             .then((res: Interview) => {
-                dispatch(addInterviewInProcess(res));
+                if (res) {
+                    dispatch(addInterviewInProcess(res));
+                }
             });
     }
-
+    
+    function submitProcess(e: React.FormEvent<HTMLFormElement>) {
+        requestAdd(endpointsProcess.AddProcess, 'process', e)
+            .then((res: Process) => {
+                if (res) {
+                    dispatch(addProcessState(res));
+                }
+            });
+    }
+    
     return (
         <div id="groupInterview" className="subBody">
+            <Button onClick={() => navigate('/InterViews')}>Back to Companies</Button>
             <ListGroup>
                 <p>Nombre de compañia</p>
-                <ListGroup.Item>{company?.companyName ?? "No Company found"}</ListGroup.Item>
+                <ListGroup.Item>{company?.companyName ?? "Not found process or company"}</ListGroup.Item>
             </ListGroup>
 
             {processSlice.processes?.length > 0 &&
@@ -67,16 +75,12 @@ export function ProcessControl() {
                                     <div>
                                         {process.interviews?.length > 0 &&
                                             process.interviews?.map((interview, index) => {
-                                                console.log(interview.idInterview);
                                                 return (
-                                                    <EditInterview interview={interview} showButton={true} id={interview.idInterview} />
+                                                    <EditInterview interview={interview} />
                                                 )
                                             })
                                         }
-                                        <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#interview" + process.idProcess + "Modal"} >
-                                            Añadir entrevista
-                                        </Button>
-                                        <ModalInterview submit={submitInterview} idProcess={process.idProcess} />
+                                        <ModalInterview action={submitInterview} idProcess={process.idProcess} />
                                     </div>
                                 </Accordion.Body>
                             </Accordion.Item>
@@ -84,10 +88,10 @@ export function ProcessControl() {
                     )
                 })
             }
-            {company?.companyName !== undefined && 
-                 <><Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#processSelectionModal"}>
-                    Añadir nuevo proceso de selección
-                </Button><NewProcessSelection submit={submitProcess} companyName={company?.companyName} idCompany={company?.idCompany} /></>
+            {company?.companyName !== undefined &&
+                <>
+                    <ModalProcess action={submitProcess} companyName={company?.companyName} idCompany={company?.idCompany} />
+                </>
             }
         </div>
     )

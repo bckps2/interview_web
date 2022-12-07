@@ -51,10 +51,15 @@ export function createInterviewDto(eventTarget: EventTarget | null): InterviewDt
   interviewDto.nameInterViewers.push(target.entrevistador2.value);
   interviewDto.nameInterViewers.push(target.entrevistador3.value);
   interviewDto.email = target.email.value;
-  interviewDto.dateInterView = target.dateInterview.value;
+  interviewDto.dateInterView =  FormatDateToSave(target.dateInterview.value);
   interviewDto.observations = target.observations.value;
   interviewDto.idInterview = target.idInterview.value.toString().length > 0 ?  target.idInterview.value : 0;
   interviewDto.idProcess = target.idProcess?.value;
   interviewDto.typeInterView = target.typeInterView.value;
   return interviewDto;
 };
+
+function FormatDateToSave(date: Date) : string{
+  var dateParts = date.toString().substring(0,10).replace(',','').split('-');
+  return dateParts[2] + "-" + dateParts[1] + "-" + dateParts[0];
+}

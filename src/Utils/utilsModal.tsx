@@ -1,6 +1,6 @@
 
-export function hideModal(nameModal : string) {
-    const myModalAddProcess = document.getElementById(nameModal);
+export function hideModal(nameModalId : string) {
+    const myModalAddProcess = document.getElementById(nameModalId);
     if (myModalAddProcess) {
         document.getElementsByClassName('modal-backdrop')[0].remove();    
         myModalAddProcess.style.display = "none";

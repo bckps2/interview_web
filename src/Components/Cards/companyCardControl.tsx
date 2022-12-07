@@ -1,12 +1,12 @@
 import React from "react";
-import { addCompany, GetAllICompanies } from "../../Services/RequestService";
+import { requestDelete, GetAll, requestAdd } from "../../Services/RequestService";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { Company } from "../../Models/InterviewModel";
-import { addNewCompany, AllCompanies } from "../../redux/reducers/companySlice";
+import { AddNewCompany, AllCompanies, deleteCompany } from "../../redux/reducers/companySlice";
 import { useEffect } from "react";
 import { CompanyCard } from "./companyCard";
-import { hideModal } from "../../Utils/utilsModal";
+import { endpointsCompany } from "../../Models/Url";
 
 export function CompanyCardControl() {
     return <Companies />
@@ -16,39 +16,35 @@ function Companies() {
     const dispatch = useDispatch();
     const companySlice = useSelector((state: RootState) => state.companySlice);
 
-    function submitCompany(e: React.FormEvent<HTMLFormElement>) {
-        addCompany(e)
-            .then((res: Company) => {
-                dispatch(addNewCompany(res));
-            });
-        hideModal("NewCompanyModal");
-    }
-
     useEffect(() => {
         if (!companySlice.companies.length) {
-            GetAllICompanies()
+            GetAll(endpointsCompany.GetAllCompanies)
                 .then((res: Company[]) => {
                     dispatch(AllCompanies(res))
                 })
         }
     }, [dispatch,companySlice]);
+    
+    function deleteCompanyInterview(e: React.FormEvent<HTMLFormElement>, idCompany:number){
+        requestDelete(e, endpointsCompany.DeleteCompany, idCompany)
+            .then((res: Company) => {
+                if(res){
+                    dispatch(deleteCompany(res));
+                }
+            });
+    }
 
-    // function DeleteInterView(event: any, idCompany: number) {
-    //     deleteCompanyDb(event, idCompany).then((response) => {
-    //         if (response.idCompany) {
-    //             let companySession = sessionStorage.getItem('companies');
-    //             if (companySession) {
-    //                 let companies = JSON.parse(companySession) as Company[];
-    //                 companies = companies.filter((company) => company.idCompany !== response.idCompany);
-    //                 sessionStorage.setItem('companies', JSON.stringify(companies));
-    //                 dispatch(deleteCompanyDb(event, idCompany));
-    //             }
-    //         }
-    //     })
-    // }
-
+    function submitCompany(e: React.FormEvent<HTMLFormElement>) {
+        requestAdd(endpointsCompany.AddCompany, 'company', e)
+            .then((res: Company) => {
+                if (res) {
+                    dispatch(AddNewCompany(res));
+                }
+            })
+    }
+    
     return (
-        <CompanyCard deleteCompany={null} companies={companySlice?.companies} submit={submitCompany} />
+        <CompanyCard addCompany={submitCompany} deleteCompany={deleteCompanyInterview} companies={companySlice?.companies} />
     )
 }
 

@@ -1,24 +1,24 @@
 import React from 'react';
-import { Card, Row, Col, Button } from 'react-bootstrap';
+import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { Link, Outlet } from "react-router-dom";
 import { Company } from '../../Models/InterviewModel';
-import { ModalCompanyform } from '../Modals/modalCompany';
+import { GenericModal } from '../Modals/genericModal';
 import './interview.css';
 
 interface props {
     companies: Company[],
-    submit: any,
-    deleteCompany:any
+    deleteCompany:any,
+    addCompany:any
 }
 
-export const CompanyCard = ({ companies, submit, deleteCompany }: props) => {
+export const CompanyCard = ({ companies, deleteCompany,addCompany }: props) => {
+
 
     return (
         <div id="cardContainer" className='subBody'>
-            <Button type="button" className="btn btn-outline-dark" data-toggle="modal" data-target={"#NewCompanyModal"}>
-                Añade nueva entrevista con otra empresa
-            </Button>
-            <ModalCompanyform action={submit} />
+
+           <ModalCompany action={addCompany} />
+
             {companies?.length === undefined &&
                 <div><p>Not Found interviews</p></div>
             }
@@ -32,7 +32,7 @@ export const CompanyCard = ({ companies, submit, deleteCompany }: props) => {
                                         <Card key={"modalcompany" + index}>
                                             <Card.Img variant="top" src="holder.js/100px180" />
                                             <Card.Body>
-                                                <Link to={'' + company.idCompany} state={company} >
+                                                <Link to={'' + company.idCompany}>
                                                     <Card.Title>{company.companyName}</Card.Title>
                                                 </Link>
                                                 <Card.Text>
@@ -50,6 +50,27 @@ export const CompanyCard = ({ companies, submit, deleteCompany }: props) => {
                     }
                 </Row>
             }
+        </div>
+    )
+}
+
+interface propsCompany {
+    action: any
+}
+
+export const ModalCompany = ({ action }: propsCompany) => {
+    const FormInputs = () => {
+        return (
+            <span>
+                <Form.Label >Nombre Compañia</Form.Label>
+                <Form.Control name="companyName" placeholder="Nombre de compañia" required={true} />
+            </span>
+        )
+    }
+
+    return (
+        <div>
+            <GenericModal action={action} FormInputs={FormInputs} headerModal="Nueva compañia" titleButton="Añadir nueva compañia" />
         </div>
     )
 }
