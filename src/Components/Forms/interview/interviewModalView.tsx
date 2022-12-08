@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Interview } from "../../../Models/InterviewModel";
 import { endpointsInterview } from "../../../Models/Url";
@@ -13,6 +14,7 @@ interface propsInterviewModal {
 export const ModalInterview = ({ idProcess }: propsInterviewModal) => {
 
     const dispatch = useDispatch();
+    const [readOnly, setReadOnly] = useState(false);
 
     function submitInterview(e: React.FormEvent<HTMLFormElement>) {
         requestAdd(endpointsInterview.AddInterview, 'interview', e)
@@ -26,7 +28,7 @@ export const ModalInterview = ({ idProcess }: propsInterviewModal) => {
     const FormInputs = () => {
         return (
             <span>
-                <InterviewForm interview={null} showEdiButtons={false} readonly={false} />
+                <InterviewForm interview={null} showEdiButtons={false} readOnly={readOnly} setReadOnly={setReadOnly}/>
                 <input type="hidden" value={idProcess} name="idProcess" />
             </span>
         )

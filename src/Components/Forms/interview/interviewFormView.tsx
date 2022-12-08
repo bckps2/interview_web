@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { useDispatch } from "react-redux";
 import { Button, Form } from "react-bootstrap";
@@ -9,18 +9,17 @@ import { requestDelete, requestUpdate } from "../../../Services/RequestService";
 import { deleteInterviewState, updateStateInterview } from "../../../redux/reducers/processSlice";
 import "react-datepicker/dist/react-datepicker.css";
 
-interface props {
+interface propsEdit {
     interview: Interview | null,
-    showEdiButtons: boolean,
-    readonly: boolean
+    showEdiButtons: boolean
 }
 
 var typeInterviews = Object.keys(TypeInterView);
 
-export function InterviewEdit({ interview, showEdiButtons, readonly }: props) {
+export function InterviewEdit({ interview, showEdiButtons }: propsEdit) {
 
-    const [readOnly, setReadOnly] = useState(readonly);
     const dispatch = useDispatch();
+    const [readOnly, setReadOnly] = useState(true);
 
     const setStateInterview = (interview: Interview | null) => {
         setDatos({
@@ -49,9 +48,9 @@ export function InterviewEdit({ interview, showEdiButtons, readonly }: props) {
         requestUpdate(endpointsInterview.UpdateInterview, 'interview', event)
             .then((res: Interview) => {
                 if (res) {
+                    setReadOnly(true);
                     dispatch(updateStateInterview(res));
                     setStateInterview(res);
-                    setReadOnly(true);
                 }
             });
     }
@@ -59,15 +58,21 @@ export function InterviewEdit({ interview, showEdiButtons, readonly }: props) {
     return (
         <div>
             <Form onSubmit={updateInterview}>
-                <InterviewForm interview={interview} readonly={readOnly} showEdiButtons={showEdiButtons} />
+                <InterviewForm setReadOnly={setReadOnly} interview={interview} readOnly={readOnly} showEdiButtons={showEdiButtons} />
             </Form>
         </div>
     )
 }
 
-export function InterviewForm({ interview, showEdiButtons, readonly }: props) {
+interface propsForm {
+    interview: Interview | null,
+    showEdiButtons: boolean,
+    readOnly: boolean,
+    setReadOnly:any
+}
 
-    const [readOnly, setReadOnly] = useState(readonly);
+export function InterviewForm({ interview, showEdiButtons, readOnly, setReadOnly }: propsForm) {
+
     const [startDate, setStartDate] = useState(interview?.dateInterView ?? new Date());
     const dispatch = useDispatch();
 

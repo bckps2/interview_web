@@ -5,9 +5,13 @@ import { ModalInterview } from "./../Forms/interview/interviewModalView";
 import { ProcessForm } from "../Forms/process/processFormView";
 import { ModalProcess } from "../Forms/process/processModalView";
 import { InterviewEdit } from "../Forms/interview/interviewFormView";
+import { useState } from "react";
 
 export function ProcessView(props : PropsProcessView) {
     const navigate = useNavigate();
+
+ 
+
     return (
         <div id="groupInterview" className="subBody">
             <Button onClick={() => navigate('/InterViews')}>Back to Companies</Button>
@@ -28,7 +32,7 @@ export function ProcessView(props : PropsProcessView) {
                                         {process.interviews?.length > 0 &&
                                             process.interviews?.map((interview, index) => {
                                                 return (
-                                                    <InterviewEdit showEdiButtons={true} interview={interview} readonly={true} key={index}/>
+                                                    <InterviewEdit showEdiButtons={true} interview={interview} key={index} />
                                                 )
                                             })
                                         }
