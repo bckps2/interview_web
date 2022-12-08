@@ -5,12 +5,9 @@ import { ModalInterview } from "./../Forms/interview/interviewModalView";
 import { ProcessForm } from "../Forms/process/processFormView";
 import { ModalProcess } from "../Forms/process/processModalView";
 import { InterviewEdit } from "../Forms/interview/interviewFormView";
-import { useState } from "react";
 
 export function ProcessView(props : PropsProcessView) {
     const navigate = useNavigate();
-
- 
 
     return (
         <div id="groupInterview" className="subBody">
