@@ -1,7 +1,5 @@
-import React from 'react';
-import { Form } from 'react-bootstrap';
-import { Process } from '../../../Models/InterviewModel';
-import { GenericModal } from '../../Modals/genericModal';
+import { Form } from "react-bootstrap";
+import { Process } from "../../../Models/InterviewModel";
 
 interface props {
     process: Process | null,
@@ -25,22 +23,3 @@ export const ProcessForm = ({ process, companyName, idCompany }: props) => {
         </>
     )
 }
-
-interface propsProcess {
-    companyName: string,
-    idCompany: number,
-    action: any
-}
-
-export const ModalProcess = ({ companyName, idCompany, action }: propsProcess) => {
-    const FormInputs = () => {
-        return (
-            <ProcessForm process={null} companyName={companyName} idCompany={idCompany} />
-        )
-    }
-
-    return (
-        <GenericModal action={action} FormInputs={FormInputs} headerModal="Proceso de selección" titleButton="Añadir nueva proceso de selccion" />
-    )
-}
-

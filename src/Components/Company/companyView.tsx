@@ -2,30 +2,59 @@ import React from 'react';
 import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { Link, Outlet } from "react-router-dom";
 import { Company } from '../../Models/InterviewModel';
-import { GenericModal } from '../Modals/genericModal';
-import './interview.css';
+import { GenericModal } from '../Modals/genericFormModal';
+import { AddNewCompany, AllCompanies, deleteCompany } from "../../redux/reducers/companySlice";
+import { useEffect } from "react";
+import { endpointsCompany } from "../../Models/Url";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from '../../redux/store/store';
+import { GetAll, requestAdd, requestDelete } from '../../Services/RequestService';
+import './company.css';
 
-interface props {
-    companies: Company[],
-    deleteCompany:any,
-    addCompany:any
-}
+export const CompanyView = () => {
 
-export const CompanyCard = ({ companies, deleteCompany,addCompany }: props) => {
+    const dispatch = useDispatch();
+    const companySlice = useSelector((state: RootState) => state.companySlice);
 
+    useEffect(() => {
+        if (!companySlice.companies.length) {
+            GetAll(endpointsCompany.GetAllCompanies)
+                .then((res: Company[]) => {
+                    dispatch(AllCompanies(res))
+                })
+        }
+    }, [dispatch,companySlice]);
+    
+    function deleteCompanyInterview(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, idCompany:number){
+        requestDelete(e, endpointsCompany.DeleteCompany, idCompany)
+            .then((res: Company) => {
+                if(res){
+                    dispatch(deleteCompany(res));
+                }
+            });
+    }
+
+    function submitCompany(e: React.FormEvent<HTMLFormElement>) {
+        requestAdd(endpointsCompany.AddCompany, 'company', e)
+            .then((res: Company) => {
+                if (res) {
+                    dispatch(AddNewCompany(res));
+                }
+            })
+    }
 
     return (
         <div id="cardContainer" className='subBody'>
 
-           <ModalCompany action={addCompany} />
+           <ModalCompany action={submitCompany} />
 
-            {companies?.length === undefined &&
+            {companySlice.companies?.length === undefined &&
                 <div><p>Not Found interviews</p></div>
             }
-            {companies?.length > 0 &&
+            {companySlice.companies?.length > 0 &&
                 <Row xs={1} md={2} xl={3} className="g-4">
                     {
-                        companies?.map((company: Company, index: number) => {
+                        companySlice.companies?.map((company: Company, index: number) => {
                             return (
                                 <div key={"modaldivcompany" + index}>
                                     <Col>
@@ -40,7 +69,7 @@ export const CompanyCard = ({ companies, deleteCompany,addCompany }: props) => {
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
-                                        <Button type="button" onClick={(e) => deleteCompany(e, company.idCompany)}>
+                                        <Button type="button" onClick={(e) => deleteCompanyInterview(e, company?.idCompany)}>
                                            Eliminar company
                                         </Button>
                                     </Col>
