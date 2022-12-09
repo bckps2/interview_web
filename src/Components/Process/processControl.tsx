@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Company, Interview, Process } from "../../Models/InterviewModel";
-import { endpointsCompany, endpointsInterview, endpointsProcess } from "../../Models/Url";
-import { addInterviewInProcess, addProcessState, processesState } from "../../redux/reducers/processSlice";
+import { Company, Process } from "../../Models/InterviewModel";
+import { endpointsCompany, endpointsProcess } from "../../Models/Url";
+import { addProcessState, processesState } from "../../redux/reducers/processSlice";
 import { RootState } from "../../redux/store/store";
 import { GetById, requestAdd } from "../../Services/RequestService";
 import { ProcessView } from "./processView";
