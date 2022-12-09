@@ -8,6 +8,7 @@ interface props {
 }
 
 export const ProcessForm = ({ process, companyName, idCompany }: props) => {
+    
     const readOnly = process !== null;
 
     return (
@@ -20,6 +21,7 @@ export const ProcessForm = ({ process, companyName, idCompany }: props) => {
             <Form.Control name="jobPosition" placeholder="Ej: Administrativo, programador.." required={true} readOnly={readOnly} value={process?.jobPosition} />
             <input type="hidden" value={idCompany} name="idCompany"></input>
             <input type="hidden" value={companyName} name="companyName"></input>
+          
         </>
     )
 }
