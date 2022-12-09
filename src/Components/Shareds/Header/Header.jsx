@@ -1,4 +1,4 @@
-import NavView from './../Nav/NavView';
+import NavView from '../../Nav/NavView';
 
 const Header = () => {
     return(

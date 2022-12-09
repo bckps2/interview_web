@@ -25,6 +25,9 @@ const processSlice = createSlice({
         processesState: (state, action:PayloadAction<Process[]>) => {
             state.processes = action.payload;
         },
+        deleteProcessState: (state, action: PayloadAction<Process>) => {
+            state.processes = state.processes.filter(obj => {return obj.idProcess !== action.payload.idProcess} );
+        },
         deleteInterviewState: (state, action: PayloadAction<Interview>) => {
             state.processes.forEach(element => {
                 element.interviews = element.interviews.filter(obj => {return obj.idInterview !== action.payload.idInterview} );
@@ -36,7 +39,7 @@ const processSlice = createSlice({
                     if(c.interviews === null){
                         c.interviews = [];
                     }
-                    
+
                     c.interviews.push(action.payload);
                 }
             })
@@ -55,5 +58,5 @@ const processSlice = createSlice({
     }
 });
 
-export const { addProcessState, processState,processesState,addInterviewInProcess,deleteInterviewState,updateStateInterview } = processSlice.actions;
+export const { addProcessState, processState,processesState,addInterviewInProcess,deleteInterviewState,updateStateInterview,deleteProcessState } = processSlice.actions;
 export default processSlice.reducer;

@@ -1,18 +1,19 @@
-import React, { useId, useState } from "react";
+import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+
 interface props {
     titleButton: string,
     headerModal: string,
     FormInputs: any,
     action: any
 }
+
 export const GenericModal = ({ action, FormInputs, titleButton, headerModal }: props) => {
 
-    let id = useId();
     const [showModal, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    
+
     return (
         <div>
             <Button className="btn btn-outline-dark" variant="primary" onClick={handleShow}>
@@ -23,9 +24,9 @@ export const GenericModal = ({ action, FormInputs, titleButton, headerModal }: p
                     <Modal.Title>{headerModal}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form key={id} onSubmit={action}>
+                    <Form onSubmit={action}>
                         <FormInputs />
-                        <Button className="btn btn-outline-dark" type="submit" onClick={(e) => setShow(false)}>Añadir</Button>
+                        <Button className="btn btn-outline-dark" type="submit" onClick={() => setShow(false)}>Añadir</Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
