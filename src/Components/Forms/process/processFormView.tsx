@@ -1,14 +1,32 @@
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { Process } from "../../../Models/InterviewModel";
+import { endpointsProcess } from "../../../Models/Url";
+import { deleteProcessState } from "../../../redux/reducers/processSlice";
+import { requestDelete } from "../../../Services/RequestService";
 
 interface props {
     process: Process | null,
     idCompany: number,
-    companyName: string
+    companyName: string,
+    showButtonDelete: boolean
 }
 
-export const ProcessForm = ({ process, companyName, idCompany }: props) => {
+export const ProcessForm = ({ showButtonDelete, process, companyName, idCompany }: props) => {
     
+    const dispatch = useDispatch();
+
+    function deleteProcess(event: any, idProcess: number | undefined) {
+        if (idProcess) {
+            requestDelete(event, endpointsProcess.DeleteProcess, idProcess)
+                .then((res: Process) => {
+                    if (res) {
+                        dispatch(deleteProcessState(res));
+                    }
+                });
+        }
+    }
+
     const readOnly = process !== null;
 
     return (
@@ -21,7 +39,11 @@ export const ProcessForm = ({ process, companyName, idCompany }: props) => {
             <Form.Control name="jobPosition" placeholder="Ej: Administrativo, programador.." required={true} readOnly={readOnly} value={process?.jobPosition} />
             <input type="hidden" value={idCompany} name="idCompany"></input>
             <input type="hidden" value={companyName} name="companyName"></input>
-          
+            {showButtonDelete &&
+                <Button style={{ marginTop: "10px", lineHeight: "20px", marginBottom: "30px" }} type="button" onClick={(e) => deleteProcess(e, process?.idProcess)} className="btn btn-outline-dark">
+                Eliminar proceso de selección
+            </Button>
+            }
         </>
     )
 }

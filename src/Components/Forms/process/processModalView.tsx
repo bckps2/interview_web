@@ -11,7 +11,7 @@ export const ModalProcess = ({ companyName, idCompany, action }: propsProcess<an
 
     const FormInputs = () => {
         return (
-            <ProcessForm process={null} companyName={companyName} idCompany={idCompany} />
+            <ProcessForm showButtonDelete={false} process={null} companyName={companyName} idCompany={idCompany} />
         )
     }
 
