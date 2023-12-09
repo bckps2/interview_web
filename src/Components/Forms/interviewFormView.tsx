@@ -2,21 +2,22 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useDispatch } from "react-redux";
 import { Button, Form } from "react-bootstrap";
-import { endpointsInterview } from "../../../Models/Url";
-import { Interview } from "../../../Models/InterviewModel";
-import { TypeInterView } from "../../../Models/TypeInterView";
-import { requestDelete, requestUpdate } from "../../../Services/RequestService";
-import { deleteInterviewState, updateStateInterview } from "../../../redux/reducers/processSlice";
+import { endpointsInterview } from "../../Models/Url";
+import { Interview, ValueResponse } from "../../Models/InterviewModel";
+import { TypeInterView } from "../../Models/TypeInterView";
+import { requestDelete, requestUpdate } from "../../Services/RequestService";
+import { deleteInterviewState, updateStateInterview } from "../../redux/reducers/processSlice";
 import "react-datepicker/dist/react-datepicker.css";
 
 interface propsEdit {
     interview: Interview | null,
-    showEdiButtons: boolean
+    showEdiButtons: boolean,
+    idProcess: number
 }
 
 var typeInterviews = Object.keys(TypeInterView);
 
-export function InterviewEdit({ interview, showEdiButtons }: propsEdit) {
+export function InterviewEdit({ interview, showEdiButtons, idProcess }: propsEdit) {
 
     const dispatch = useDispatch();
     const [readOnly, setReadOnly] = useState(true);
@@ -46,11 +47,11 @@ export function InterviewEdit({ interview, showEdiButtons }: propsEdit) {
 
     function updateInterview(event: any) {
         requestUpdate(endpointsInterview.UpdateInterview, 'interview', event)
-            .then((res: Interview) => {
+            .then((res: ValueResponse<Interview>) => {
                 if (res) {
                     setReadOnly(true);
-                    dispatch(updateStateInterview(res));
-                    setStateInterview(res);
+                    dispatch(updateStateInterview(res.value));
+                    setStateInterview(res.value);
                 }
             });
     }
@@ -58,7 +59,7 @@ export function InterviewEdit({ interview, showEdiButtons }: propsEdit) {
     return (
         <div>
             <Form onSubmit={updateInterview}>
-                <InterviewForm setReadOnly={setReadOnly} interview={interview} readOnly={readOnly} showEdiButtons={showEdiButtons} />
+                <InterviewForm idProcess={idProcess} setReadOnly={setReadOnly} interview={interview} readOnly={readOnly} showEdiButtons={showEdiButtons} />
             </Form>
         </div>
     )
@@ -68,10 +69,11 @@ interface propsForm {
     interview: Interview | null,
     showEdiButtons: boolean,
     readOnly: boolean,
-    setReadOnly:any
+    setReadOnly:any,
+    idProcess: number
 }
 
-export function InterviewForm({ interview, showEdiButtons, readOnly, setReadOnly }: propsForm) {
+export function InterviewForm({ interview, showEdiButtons, readOnly, setReadOnly, idProcess }: propsForm) {
 
     const [startDate, setStartDate] = useState(interview?.dateInterView ?? new Date());
     const dispatch = useDispatch();
@@ -117,9 +119,9 @@ export function InterviewForm({ interview, showEdiButtons, readOnly, setReadOnly
     function deleteInterview(event: any, idInterview: number | undefined) {
         if (idInterview) {
             requestDelete(event, endpointsInterview.DeleteInterview, idInterview)
-                .then((res: Interview) => {
+                .then((res: ValueResponse<Interview>) => {
                     if (res) {
-                        dispatch(deleteInterviewState(res));
+                        dispatch(deleteInterviewState(res.value));
                         setReadOnly(true);
                     }
                 });
@@ -145,8 +147,9 @@ export function InterviewForm({ interview, showEdiButtons, readOnly, setReadOnly
             <Form.Label>Fecha entrevista</Form.Label>
             <DatePicker dateFormat={"dd-MM-yyyy"} readOnly={readOnly} selected={new Date(startDate)} onSelect={(date) => setStartDate(date)} name="dateInterview" onChange={(date) => { if (date) setStartDate(date) }} />
             <Form.Label>Observaciones</Form.Label>
-            <Form.Control name="observations" onChange={(e) => handleInputChange(e)} placeholder="Observaciones" required={true} readOnly={readOnly} defaultValue={datos.observation || ''} />
+            <Form.Control name="observations" onChange={(e) => handleInputChange(e)} placeholder="Observaciones" required={false} readOnly={readOnly} defaultValue={datos.observation || ''} />
             <input type="hidden" value={interview?.idInterview ?? 0} name="idInterview" />
+            <input type="hidden" value={idProcess ?? 0} name="idProcess" />
             {
                 showEdiButtons &&
                 <span>

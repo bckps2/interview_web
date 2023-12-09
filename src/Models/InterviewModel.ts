@@ -26,3 +26,9 @@ export interface Interview {
     observations:string,
     idInterview:number
 }
+
+export interface ValueResponse<T>{
+    value : T,
+    statusCode : number,
+    contentType : null
+}

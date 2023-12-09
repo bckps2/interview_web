@@ -1,15 +1,17 @@
 import React from 'react';
-import { Card, Row, Col, Button, Form } from 'react-bootstrap';
+import { Card, Row, Col, Button } from 'react-bootstrap';
 import { Link, Outlet } from "react-router-dom";
-import { Company } from '../../Models/InterviewModel';
-import { GenericModal } from '../Modals/genericFormModal';
+import { Company, ValueResponse } from '../../Models/InterviewModel';
 import { AddNewCompany, AllCompanies, deleteCompany } from "../../redux/reducers/companySlice";
 import { useEffect } from "react";
 import { endpointsCompany } from "../../Models/Url";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from '../../redux/store/store';
 import { GetAll, requestAdd, requestDelete } from '../../Services/RequestService';
-import './company.css';
+import './Styles/company.css';
+import { ModalCompany } from '../Modals/companyModalView';
+
+let isLoading = false;
 
 export const CompanyView = () => {
 
@@ -17,28 +19,29 @@ export const CompanyView = () => {
     const companySlice = useSelector((state: RootState) => state.companySlice);
 
     useEffect(() => {
-        if (!companySlice.companies.length) {
+        if (!isLoading){
             GetAll(endpointsCompany.GetAllCompanies)
-                .then((res: Company[]) => {
-                    dispatch(AllCompanies(res))
-                })
+            .then((res: ValueResponse<Company[]>) => {
+                dispatch(AllCompanies(res.value))
+                isLoading = true;
+            })
         }
     }, [dispatch,companySlice]);
     
     function deleteCompanyInterview(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, idCompany:number){
         requestDelete(e, endpointsCompany.DeleteCompany, idCompany)
-            .then((res: Company) => {
+            .then((res: ValueResponse<Company>) => {
                 if(res){
-                    dispatch(deleteCompany(res));
+                    dispatch(deleteCompany(res.value));
                 }
             });
     }
 
     function submitCompany(e: React.FormEvent<HTMLFormElement>) {
         requestAdd(endpointsCompany.AddCompany, 'company', e)
-            .then((res: Company) => {
+            .then((res: ValueResponse<Company>) => {
                 if (res) {
-                    dispatch(AddNewCompany(res));
+                    dispatch(AddNewCompany(res.value));
                 }
             })
     }
@@ -61,7 +64,7 @@ export const CompanyView = () => {
                                         <Card key={"modalcompany" + index}>
                                             <Card.Img variant="top" src="holder.js/100px180" />
                                             <Card.Body>
-                                                <Link to={'' + company.idCompany}>
+                                                <Link to={'/Process/' +company.companyName +"/"+ company.idCompany}>
                                                     <Card.Title>{company.companyName}</Card.Title>
                                                 </Link>
                                                 <Card.Text>
@@ -79,27 +82,6 @@ export const CompanyView = () => {
                     }
                 </Row>
             }
-        </div>
-    )
-}
-
-interface propsCompany {
-    action: any
-}
-
-export const ModalCompany = ({ action }: propsCompany) => {
-    const FormInputs = () => {
-        return (
-            <span>
-                <Form.Label >Nombre Compañia</Form.Label>
-                <Form.Control name="companyName" placeholder="Nombre de compañia" required={true} />
-            </span>
-        )
-    }
-
-    return (
-        <div>
-            <GenericModal action={action} FormInputs={FormInputs} headerModal="Nueva compañia" titleButton="Añadir nueva compañia" />
         </div>
     )
 }
