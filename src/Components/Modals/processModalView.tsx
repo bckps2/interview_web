@@ -6,12 +6,12 @@ import { Process, ValueResponse } from "../../Models/InterviewModel";
 import { addProcessState } from "../../redux/reducers/processSlice";
 import { useDispatch } from "react-redux";
 
-interface propsProcess<T> {
+interface propsProcess {
     companyName: string,
     idCompany: number
 }
 
-export const ModalProcess = ({ companyName, idCompany }: propsProcess<any>) => {
+export const ModalProcess = ({ companyName, idCompany }: propsProcess) => {
 
     const dispatch = useDispatch();
 

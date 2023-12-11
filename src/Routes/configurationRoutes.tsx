@@ -8,7 +8,7 @@ const ConfigRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/InterViews" element={<CompanyView  />} />
+      <Route path="/Companies" element={<CompanyView  />} />
       <Route path="/Process/:companyName/:id" element={<ProcessView />} />
     </Routes>
   );
