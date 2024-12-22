@@ -3,10 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
-import Routes from "./Routes/configurationRoutes";
 import Header from './Components/Shareds/Header/Header';
 import { Provider } from "react-redux";
-import { store } from "./redux/store/store";
+import Routing from "./Core/Routing/configurationRoutes";
+import { store } from "./Core/Redux/Store/store";
+import { AuthProvider } from "./Core/Auth/AuthContext";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,12 +16,15 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Router>
-      <Provider store={store}>
-        <Header />
-        <Routes />
-      </Provider>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Provider store={store}>
+          <Header />
+          <Routing />
+        </Provider>
+      </Router>
+    </AuthProvider>
+
   </React.StrictMode>
 );
 

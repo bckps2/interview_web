@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Interview, Process } from "../../Models/InterviewModel";
+import { Interview, Process } from "../../../Models/InterviewModel";
 
 interface interviewState {
     process: Process,
@@ -11,7 +11,7 @@ const initialState: interviewState = {
     processes: {} as Process[]
 }
 
-const processSlice = createSlice({
+const ProcessSlice = createSlice({
 
     name: 'process',
     initialState,
@@ -58,5 +58,5 @@ const processSlice = createSlice({
     }
 });
 
-export const { addProcessState, processState,processesState,addInterviewInProcess,deleteInterviewState,updateStateInterview,deleteProcessState } = processSlice.actions;
-export default processSlice.reducer;
+export const { addProcessState, processState,processesState,addInterviewInProcess,deleteInterviewState,updateStateInterview,deleteProcessState } = ProcessSlice.actions;
+export default ProcessSlice.reducer;

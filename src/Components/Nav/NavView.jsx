@@ -10,10 +10,10 @@ const Navigation = () => {
                 onSelect={(selectedKey) => alert(`selected ${selectedKey}`)}
                 className="header">
                 <Nav.Item>
-                    <Link to="/" className="nav-link">Home</Link>
+                    <Link to="/Profile" className="nav-link">Profile</Link>
                 </Nav.Item>
                 <Nav.Item>
-                    <Link to="/InterViews" className="nav-link">Tus Entrevistas</Link>
+                    <Link to="/Companies" className="nav-link">Tus Entrevistas</Link>
                 </Nav.Item>
             </Nav>
         </div>

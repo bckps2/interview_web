@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Company } from "../../Models/InterviewModel"
+import { Company } from "../../../Models/InterviewModel";
 
 interface companyState {
     company: Company,
@@ -11,7 +11,7 @@ const initialState: companyState = {
     companies: {} as Company[]
 }
 
-const companySlice = createSlice({
+const CompanySlice = createSlice({
     name: 'companies',
     initialState,
     reducers: {
@@ -22,7 +22,7 @@ const companySlice = createSlice({
             state.companies = action.payload;
         },
         FindingCompany: (state, action: PayloadAction<number>) => {
-            state.companies.forEach(company => {
+            state.companies.forEach((company) => {
                 if (company.idCompany === action.payload) {
                     state.company = company;
                 }
@@ -34,5 +34,5 @@ const companySlice = createSlice({
     }
 });
 
-export const { AllCompanies, AddNewCompany, FindingCompany, deleteCompany } = companySlice.actions;
-export default companySlice.reducer;
+export const { AllCompanies, AddNewCompany, FindingCompany, deleteCompany } = CompanySlice.actions;
+export default CompanySlice.reducer;

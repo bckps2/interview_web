@@ -3,13 +3,13 @@ import { Card, Row, Col, Button, Form } from 'react-bootstrap';
 import { Link, Outlet } from "react-router-dom";
 import { Company } from '../../Models/InterviewModel';
 import { GenericModal } from '../Modals/genericFormModal';
-import { AddNewCompany, AllCompanies, deleteCompany } from "../../redux/reducers/companySlice";
 import { useEffect } from "react";
 import { endpointsCompany } from "../../Models/Url";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from '../../redux/store/store';
 import { GetAll, requestAdd, requestDelete } from '../../Services/RequestService';
 import './company.css';
+import { RootState } from '../../Core/Redux/Store/store';
+import { AddNewCompany, AllCompanies, deleteCompany } from '../../Core/Redux/Reducers/CompanySlice';
 
 export const CompanyView = () => {
 
