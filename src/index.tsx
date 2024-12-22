@@ -7,6 +7,7 @@ import Header from './Components/Shareds/Header/Header';
 import { Provider } from "react-redux";
 import Routing from "./Core/Routing/configurationRoutes";
 import { store } from "./Core/Redux/Store/store";
+import { AuthProvider } from "./Core/Auth/AuthContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,12 +15,15 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <Router>
-      <Provider store={store}>
-        <Header />
-        <Routing />
-      </Provider>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Provider store={store}>
+          <Header />
+          <Routing />
+        </Provider>
+      </Router>
+    </AuthProvider>
+
   </React.StrictMode>
 );
 
