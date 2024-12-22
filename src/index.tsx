@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
-import Routes from "./Routes/configurationRoutes";
 import Header from './Components/Shareds/Header/Header';
 import { Provider } from "react-redux";
-import { store } from "./redux/store/store";
+import Routing from "./Core/Routing/configurationRoutes";
+import { store } from "./Core/Redux/Store/store";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,7 +17,7 @@ root.render(
     <Router>
       <Provider store={store}>
         <Header />
-        <Routes />
+        <Routing />
       </Provider>
     </Router>
   </React.StrictMode>

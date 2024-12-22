@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import companySlice from "../reducers/companySlice";
-import interviewSlice from "../reducers/interviewSlice";
-import processSlice from "../reducers/processSlice";
+import InterviewSlice from "../Reducers/InterviewSlice";
+import ProcessSlice from "../Reducers/ProcessSlice";
+import CompanySlice from "../Reducers/CompanySlice";
 
 export const store = configureStore({
     reducer:{
-        interviewSlice: interviewSlice,
-        processInterview: processSlice,
-        companySlice: companySlice
+        interviewSlice: InterviewSlice,
+        processInterview: ProcessSlice,
+        companySlice: CompanySlice
     }
 })
 

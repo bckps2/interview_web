@@ -6,8 +6,8 @@ import { endpointsInterview } from "../../../Models/Url";
 import { Interview } from "../../../Models/InterviewModel";
 import { TypeInterView } from "../../../Models/TypeInterView";
 import { requestDelete, requestUpdate } from "../../../Services/RequestService";
-import { deleteInterviewState, updateStateInterview } from "../../../redux/reducers/processSlice";
 import "react-datepicker/dist/react-datepicker.css";
+import { deleteInterviewState, updateStateInterview } from "../../../Core/Redux/Reducers/ProcessSlice";
 
 interface propsEdit {
     interview: Interview | null,
@@ -143,7 +143,7 @@ export function InterviewForm({ interview, showEdiButtons, readOnly, setReadOnly
             <Form.Label>Email</Form.Label>
             <Form.Control name="email" placeholder="Email" required={true} readOnly={readOnly} onChange={(e) => handleInputChange(e)} defaultValue={datos.email || ''} />
             <Form.Label>Fecha entrevista</Form.Label>
-            <DatePicker dateFormat={"dd-MM-yyyy"} readOnly={readOnly} selected={new Date(startDate)} onSelect={(date) => setStartDate(date)} name="dateInterview" onChange={(date) => { if (date) setStartDate(date) }} />
+            <DatePicker dateFormat={"dd-MM-yyyy"} readOnly={readOnly} selected={new Date(startDate)} onSelect={(date) => setStartDate(date!)} name="dateInterview" onChange={(date) => { if (date) setStartDate(date) }} />
             <Form.Label>Observaciones</Form.Label>
             <Form.Control name="observations" onChange={(e) => handleInputChange(e)} placeholder="Observaciones" required={true} readOnly={readOnly} defaultValue={datos.observation || ''} />
             <input type="hidden" value={interview?.idInterview ?? 0} name="idInterview" />

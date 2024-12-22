@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Interview } from "../../../Models/InterviewModel";
 import { endpointsInterview } from "../../../Models/Url";
-import { addInterviewInProcess } from "../../../redux/reducers/processSlice";
 import { requestAdd } from "../../../Services/RequestService";
 import { GenericModal } from "../../Modals/genericFormModal";
 import { InterviewForm } from "./interviewFormView";
+import { addInterviewInProcess } from "../../../Core/Redux/Reducers/ProcessSlice";
 
 interface propsInterviewModal {
     idProcess: number

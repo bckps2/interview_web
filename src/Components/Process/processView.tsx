@@ -9,7 +9,7 @@ import { requestDelete } from "../../Services/RequestService";
 import { endpointsProcess } from "../../Models/Url";
 import { Process } from "../../Models/InterviewModel";
 import { useDispatch } from "react-redux";
-import { deleteProcessState } from "../../redux/reducers/processSlice";
+import { deleteProcessState } from "../../Core/Redux/Reducers/ProcessSlice";
 
 export function ProcessView(props: PropsProcessView) {
 

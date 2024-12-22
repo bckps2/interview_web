@@ -35,7 +35,7 @@ export async function GetById(endpoint: string, id: number): Promise<any> {
   })
 }
 
-export async function requestAdd(endpoint: string, type: string, event: React.FormEvent<HTMLFormElement>): Promise<any> {
+export async function requestAdd(endpoint: string, type: string, event: React.FormEvent<HTMLFormElement>):Promise<any> {
   event?.preventDefault();
   let body = CreateBody(type, event);
 

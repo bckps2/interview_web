@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Company, Process } from "../../Models/InterviewModel";
 import { endpointsCompany, endpointsProcess } from "../../Models/Url";
-import { addProcessState, processesState } from "../../redux/reducers/processSlice";
-import { RootState } from "../../redux/store/store";
 import { GetById, requestAdd } from "../../Services/RequestService";
 import { ProcessView } from "./processView";
+import { RootState } from "../../Core/Redux/Store/store";
+import { addProcessState, processesState } from "../../Core/Redux/Reducers/ProcessSlice";
 
 let idParams = 0;
 let isLoading = false;
