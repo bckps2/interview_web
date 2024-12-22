@@ -20,7 +20,7 @@ export const UserProfile: React.FC = () => {
                     setAuthenticated(false);
                 }
             });
-    }, [setUserProfileModel, setLoading]);
+    }, [setUserProfileModel, setLoading, setAuthenticated]);
 
     if (isLoading) {
         return <div>Loading...</div>;

@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import Routing from "./Core/Routing/configurationRoutes";
 import { store } from "./Core/Redux/Store/store";
 import { AuthProvider } from "./Core/Auth/AuthContext";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
