@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 
 interface AuthContextType {
@@ -7,17 +9,18 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
-  setAuthenticated: () => {},
+  setAuthenticated: () => { },
 });
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setAuthenticated] = useState(() => {
-    return localStorage.getItem('isAuthenticated') === 'true';
-  });
+  
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    const isAuthenticatedValue = localStorage.getItem('isAuthenticated') === 'true';
-    setAuthenticated(isAuthenticatedValue);
+    if (typeof window !== 'undefined') {
+      const isAuthenticatedValue = localStorage.getItem('isAuthenticated') === 'true';
+      setAuthenticated(isAuthenticatedValue);
+    }
   }, []);
 
   return (
@@ -25,6 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       {children}
     </AuthContext.Provider>
   );
+
 };
 
 export const useAuth = () => useContext(AuthContext);

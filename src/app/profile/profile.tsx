@@ -2,7 +2,7 @@ import { AuthContext } from '@/context/AuthContext';
 import ProtectedRoute from '@/context/ProtectedRoute';
 import { UserProfileModel } from '@/models/UserProfileModel';
 import { GetAccount } from '@/services/AccountManagerService';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import useSWR from 'swr';
 
 export const UserProfile: React.FC = () => {

@@ -1,12 +1,12 @@
-import { AuthProvider } from "@/context/AuthContext";
-import { AppProps } from "next/app";
+"use client";
 
-const App = ({ Component, pageProps }: AppProps) => {
-  return (
-    <AuthProvider>
-      <Component {...pageProps} />
-    </AuthProvider>
-  );
-};
+import { useAuth } from "@/context/AuthContext";
 
-export default App;
+export default function Home() {
+  const { isAuthenticated } = useAuth();
+  if(isAuthenticated){
+    return (<p>Authenticated</p>);
+  }else{
+    return (<p>NO Authenticated</p>);
+  }
+}
