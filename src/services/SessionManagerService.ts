@@ -1,9 +1,9 @@
 import { LoginModel } from "@/models/LoginModel";
 
-const urlBase = 'https://dev-appinterview.com/sessionmanager/'
+const apiUrlBase = `${process.env.NEXT_PUBLIC_API_URL_SESSIONMANAGER}`;
 
 export async function Login(loginModel: LoginModel ): Promise<boolean>{
-    const url = `${urlBase}api/Login/login`;
+    const url = `${apiUrlBase}api/Login/login`;
 
     const response = await fetch(url, {
         method: "POST",
@@ -22,7 +22,7 @@ export async function Login(loginModel: LoginModel ): Promise<boolean>{
 }
 
 export async function LogOut() {
-    const url = `${urlBase}api/Login/logout`;
+    const url = `${apiUrlBase}api/Login/logout`;
 
     const response = await fetch(url, {
         method: "DELETE",

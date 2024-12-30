@@ -3,7 +3,7 @@
 import { AuthContext } from '@/context/AuthContext';
 import { LoginModel } from '@/models/LoginModel';
 import { Login } from '@/services/SessionManagerService';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react';
 
 export const LoginForm: React.FC = () => {
@@ -47,14 +47,11 @@ export const LoginForm: React.FC = () => {
             setError("");
 
             Login(formState)
-                .then(response => {
+                .then((response: boolean) => {
                     setAuthenticated(response);
-                    localStorage.setItem('isAuthenticated', `${response}`);
-                    if (!response) {
-                        localStorage.removeItem('isAuthenticated');
-                        setAuthenticated(false);
-                    }else{
-                        router.push('/profile')
+                    localStorage.setItem('isAuthenticated', response.toString());
+                    if (response) {
+                        redirect('/profile');
                     }
                 });
         }

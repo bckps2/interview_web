@@ -1,14 +1,14 @@
+"use client"
+
 import React from 'react';
-import { useRouter } from 'next/router';
 import { useAuth } from './AuthContext';
+import { redirect } from 'next/navigation';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isAuthenticated } = useAuth();
-  const router = useRouter();
 
-  if (typeof window !== 'undefined' && !isAuthenticated) {
-    router.push('/'); // Redirige al usuario a la página principal
-    return null; // Evita que se rendericen componentes protegidos antes de la redirección
+  if (!isAuthenticated) {
+    redirect('/login'); // Redirige al usuario a la página principal
   }
 
   return <>{children}</>;
