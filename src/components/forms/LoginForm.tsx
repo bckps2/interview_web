@@ -5,11 +5,11 @@ import { LoginModel } from '@/models/LoginModel';
 import { Login } from '@/services/SessionManagerService';
 import { redirect, useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react';
+import { Alert, Button, Container, Form } from 'react-bootstrap';
 
 export const LoginForm: React.FC = () => {
 
     const { isAuthenticated, setAuthenticated } = useContext(AuthContext);
-  const router = useRouter();
 
     const [formState, setFormState] = useState<LoginModel>({
         email: '',
@@ -57,40 +57,34 @@ export const LoginForm: React.FC = () => {
         }
     };
 
-    if (isAuthenticated) {
-        return null; // O un spinner/cargando si esperas datos de autenticación
-    }
-
     return (
-        <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+        <Container style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>
             <h2>Iniciar sesión</h2>
-            {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
-            <form onSubmit={handleSubmit}>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="email" style={{ display: 'block' }}>Nombre de usuario</label>
-                    <input
+            {error && <Alert variant="danger">{error}</Alert>}
+            <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="email" style={{ marginBottom: '15px' }}>
+                    <Form.Label>Nombre de usuario</Form.Label>
+                    <Form.Control
                         type="text"
-                        id="email"
                         value={formState.email}
                         onChange={handleInputChange}
-                        style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                        placeholder="Introduce tu nombre de usuario"
                     />
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="password" style={{ display: 'block' }}>Contraseña</label>
-                    <input
+                </Form.Group>
+                <Form.Group controlId="password" style={{ marginBottom: '15px' }}>
+                    <Form.Label>Contraseña</Form.Label>
+                    <Form.Control
                         type="password"
-                        id="password"
                         value={formState.password}
                         onChange={handleInputChange}
-                        style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+                        placeholder="Introduce tu contraseña"
                     />
-                </div>
-                <button type="submit" style={{ width: '100%', padding: '10px', borderRadius: '4px', backgroundColor: '#4CAF50', color: '#fff', border: 'none' }}>
+                </Form.Group>
+                <Button type="submit" variant="success" style={{ width: '100%' }}>
                     Iniciar sesión
-                </button>
-            </form>
-        </div>
+                </Button>
+            </Form>
+        </Container>
     );
 };
 
