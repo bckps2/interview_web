@@ -12,7 +12,11 @@ export async function GetAccount(): Promise<UserProfileModel>{
             },
             credentials: 'include'
         });
-    
+        
+        if(!response.ok){
+            throw new Error('Error: ' + response.status);
+        }
+
         const data: UserProfileModel = await response.json();
         
         return data;

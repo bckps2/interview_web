@@ -3,13 +3,17 @@
 import { AuthContext } from '@/context/AuthContext';
 import { LoginModel } from '@/models/LoginModel';
 import { Login } from '@/services/SessionManagerService';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import React, { useContext, useState } from 'react';
 import { Alert, Button, Container, Form } from 'react-bootstrap';
 
 export const LoginForm: React.FC = () => {
 
     const { isAuthenticated, setAuthenticated } = useContext(AuthContext);
+
+    if(isAuthenticated) {
+        redirect('/profile');
+    }
 
     const [formState, setFormState] = useState<LoginModel>({
         email: '',
@@ -48,8 +52,8 @@ export const LoginForm: React.FC = () => {
 
             Login(formState)
                 .then((response: boolean) => {
-                    setAuthenticated(response);
                     localStorage.setItem('isAuthenticated', response.toString());
+                    setAuthenticated(response);
                     if (response) {
                         redirect('/profile');
                     }

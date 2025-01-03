@@ -1,6 +1,5 @@
 "use client"
 
-import ProtectedRoute from '@/context/ProtectedRoute';
 import { UserProfileModel } from '@/models/UserProfileModel';
 import { GetAccount } from '@/services/AccountManagerService';
 import { useEffect, useState } from 'react';
@@ -18,6 +17,7 @@ export default function UserProfilePage() {
             })
             .catch((error: any) => {
                 if (error.message === '401') {
+                    localStorage.setItem('isAuthenticated', 'false');
                     redirect('/login');
                 }
             }).finally(() => {
@@ -34,12 +34,10 @@ export default function UserProfilePage() {
     }
 
     return (
-        <ProtectedRoute>
-            <div id="home" className="subBody">
-                <h1>Bienvenido, {userProfile.email}</h1>
-                <h2>Herramienta diseñada para hacer un seguimiento de las entrevistas</h2>
-                <p>Utilízala sabiamente. ¡Buena suerte!</p>
-            </div>
-        </ProtectedRoute>
+        <div id="home" className="subBody">
+            <h1>Bienvenido, {userProfile.email}</h1>
+            <h2>Herramienta diseñada para hacer un seguimiento de las entrevistas</h2>
+            <p>Utilízala sabiamente. ¡Buena suerte!</p>
+        </div>
     );
 }
